@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.palette.busi.project.tms.business.basic.login.mapper.login">
+	<!-- Define map -->
+	<resultMap id="loginUserJudgeVo" type="com.palette.busi.project.tms.business.basic.login.vo.LoginUserJudgeVo">
+		<result column="CD_USER_ID" property="cdUserId"/>
+		<result column="USER_NAME" property="userName"/>
+		<result column="SALT" property="salt"/>
+		<result column="PWD" property="pwd"/>
+		<association column="CD_USER_ID" property="cdRoleList" select="queryUserRoleInfo"></association>
+		<association column="CD_USER_ID" property="cdWarehouseList" select="queryUserWarehouseInfo"></association>
+		<association column="CD_USER_ID" property="cdCountryList" select="queryUserCountryInfo"></association>
+	</resultMap>
+	<resultMap id="menuResultVo" type="com.palette.busi.project.tms.business.basic.login.vo.MenuResultVo">
+		<result column="MENU_CATE" property="menuCate"/>
+		<result column="CATEGORY" property="category"/>
+		<association column="{menuCate=MENU_CATE, userName=USER_NAME}" property="menuSubList" select="queryUserSubMenu"></association>
+	</resultMap>
+	<resultMap id="menuSubResultVo" type="com.palette.busi.project.tms.business.basic.login.vo.MenuSubResultVo"></resultMap>
+	<!-- End define map -->
+	
+	<!-- Define sql -->
+	<select id="queryLoadUserDetailsInfo" parameterType="string" resultMap="loginUserJudgeVo">
+		SELECT
+			cu.CD_USER_ID,
+			cu.USER_NAME,
+			cup.SALT,
+			cup.PWD
+		FROM
+			cd_user cu
+			LEFT JOIN cd_user_pwd cup ON cup.CD_USER_ID = cu.CD_USER_ID
+		WHERE
+			cu.USER_NAME = #{userName};
+	</select>
+	<select id="queryUserRoleInfo" parameterType="int" resultMap="common.cdRoleEntity">
+		SELECT
+			cr.*
+		FROM
+			cd_user_role cur
+			LEFT JOIN cd_role cr ON cr.cd_role_ID = cur.cd_role_ID
+		WHERE
+			cur.CD_USER_ID = #{cdUserId}
+	</select>
+	<select id="queryUserWarehouseInfo" parameterType="int" resultMap="common.cdWarehouseEntity">
+		SELECT
+			cw.*
+		FROM
+			cd_user cu
+			LEFT JOIN cd_user_warehouse cuw ON cuw.CD_USER_ID = cu.cd_user_ID
+			LEFT JOIN cd_warehouse cw ON cw.CD_WAREHOUSE_ID = cuw.CD_WAREHOUSE_ID
+		WHERE
+			cu.CD_USER_ID = #{cdUserId}
+			AND cw.IS_ACTIVE = 1
+	</select>
+	<select id="queryUserCountryInfo" parameterType="int" resultMap="common.cdCountryEntity">
+		SELECT
+			cc.*
+		FROM
+			cd_user cu
+			LEFT JOIN cd_user_warehouse cuw ON cuw.CD_USER_ID = cu.CD_USER_ID
+			LEFT JOIN cd_warehouse cw ON cw.CD_WAREHOUSE_ID = cuw.CD_WAREHOUSE_ID
+			LEFT JOIN cd_country cc ON cc.COUNTRY_CODE = cw.COUNTRY_CODE
+		WHERE
+			cu.CD_USER_ID = #{cdUserId}
+		GROUP BY cc.COUNTRY_CODE
+	</select>
+	<select id="queryUserMenu" parameterType="string" resultMap="menuResultVo">
+		SELECT
+			cr.MENU_CATE,
+			cr.CATEGORY,
+			cu.USER_NAME
+		FROM
+			cd_user cu
+			LEFT JOIN cd_user_role cur ON cur.CD_USER_ID = cu.CD_USER_ID
+			LEFT JOIN cd_res_role crr ON crr.CD_ROLE_ID = cur.CD_ROLE_ID
+			LEFT JOIN cd_resource cr ON cr.CD_RESOURCE_ID = crr.CD_RESOURCE_ID
+		WHERE
+			cr.IS_ACTIVE = 1
+			AND cr.MENU_CATE != 0
+			AND cr.DESCPT = 'SYSTEM_MENU'
+			AND cu.USER_NAME = #{userName}
+		GROUP BY cr.CATEGORY
+		ORDER BY cr.MENU_CATE
+	</select>
+	<select id="queryUserSubMenu" parameterMap="common.hashMap" resultMap="menuSubResultVo">
+		SELECT
+			cr.RESOURCE_NAME,
+			cr.RESOURCE_URL,
+			cr.MENU_ORDER
+		FROM
+			cd_user cu
+			LEFT JOIN cd_user_role cur ON cur.CD_USER_ID = cu.CD_USER_ID
+			LEFT JOIN cd_res_role crr ON crr.CD_ROLE_ID = cur.CD_ROLE_ID
+			LEFT JOIN cd_resource cr ON cr.CD_RESOURCE_ID = crr.CD_RESOURCE_ID
+		WHERE
+			cr.IS_ACTIVE = 1
+			AND cr.DESCPT = 'SYSTEM_MENU'
+			AND cr.MENU_CATE = #{menuCate}
+			AND cu.USER_NAME = #{userName}
+		GROUP BY RESOURCE_NAME
+		ORDER BY MENU_ORDER;
+	</select>
+	<!-- End define sql -->
+	
+</mapper>

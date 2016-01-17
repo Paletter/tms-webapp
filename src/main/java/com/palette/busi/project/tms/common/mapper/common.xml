@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="common">
+	<parameterMap id="hashMap" type="java.util.HashMap"></parameterMap>
+	<parameterMap id="arrayList" type="java.util.ArrayList"></parameterMap>
+	<parameterMap id="integer" type="java.lang.Integer"></parameterMap>
+
+	<resultMap id="hashMap" type="java.util.HashMap"></resultMap>
+	<resultMap id="string" type="java.lang.String"></resultMap>
+	<resultMap id="integer" type="java.lang.Integer"></resultMap>	
+<!-- 	<resultMap id="tmConsignmentEntity" type="com.udfexpress.entity.TmConsignment"></resultMap> -->
+<!-- 	<resultMap id="tmConsignmentHistoryEntity" type="com.udfexpress.entity.TmConsignmentHistory"></resultMap> -->
+<!-- 	<resultMap id="tmConsignmentNoteEntity" type="com.udfexpress.entity.TmConsignmentNote" autoMapping="true"></resultMap> -->
+	<resultMap id="tmPiecesEntity" type="com.palette.busi.project.tms.core.entity.TmPieces"></resultMap>
+	<resultMap id="tmPiecesItemEntity" type="com.palette.busi.project.tms.core.entity.TmPiecesItem"></resultMap>
+	<resultMap id="tmUnitEntity" type="com.palette.busi.project.tms.core.entity.TmUnit" autoMapping="true"></resultMap>
+<!-- 	<resultMap id="tmServiceLinePartyEntity" type="com.palette.busi.project.tms.core.entity.TmServiceLineParty" autoMapping="true"></resultMap> -->
+	<resultMap id="cdRoleEntity" type="com.palette.busi.project.tms.core.entity.CdRole" autoMapping="true"></resultMap>
+	<resultMap id="cdWarehouseEntity" type="com.palette.busi.project.tms.core.entity.CdWarehouse" autoMapping="true"></resultMap>
+	<resultMap id="wmCheckPickHistoryEntity" type="com.palette.busi.project.tms.core.entity.WmCheckPickHistory" autoMapping="true"></resultMap>
+	<resultMap id="cdCountryEntity" type="com.palette.busi.project.tms.core.entity.CdCountry" autoMapping="true"></resultMap>
+<!-- 	<resultMap id="cdCategoryCustomEntity" type="com.palette.busi.project.tms.core.entity.CdCategoryCustom" autoMapping="true"></resultMap> -->
+	
+<!-- 	<resultMap id="stSurfaceExcelVo" type="com.udfexpress.oso.excel.vo.STSurfaceExcelVo"></resultMap> -->
+<!-- 	<resultMap id="zhyzSurfaceExcelVo" type="com.udfexpress.oso.excel.vo.ZHYZSurfaceExcelVo"></resultMap> -->
+</mapper>

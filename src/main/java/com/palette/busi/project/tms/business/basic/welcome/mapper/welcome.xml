@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.palette.busi.project.tms.business.basic.welcome.mapper.welcome">
+	<!-- Define map -->
+	<resultMap id="daylyStockInPiecesResultVo" type="com.palette.busi.project.tms.business.basic.welcome.vo.DaylyStockInPiecesResultVo"></resultMap>
+	<!-- End define map -->
+	
+	<!-- Define sql -->
+	<select id="queryUSDaylyStockInPieces" parameterMap="common.hashMap" resultMap="daylyStockInPiecesResultVo">
+		SELECT 
+			tp.PIECES_NO,
+			tp.LOGISTICS_NO,
+			wlc.LOCATION_CODE,
+			DATE_ADD(tp.CHECK_DATE,INTERVAL -5 HOUR) AS stockInDate
+		FROM
+			tm_pieces tp
+			LEFT JOIN wm_location_current wlc ON wlc.PIECES_NO = tp.PIECES_NO
+			LEFT JOIN tm_consignment_current tcc ON tcc.CONSIGNMENT_NO = tp.CONSIGNMENT_NO
+			LEFT JOIN tm_consignment_action tca ON tca.ACTION_CODE = tcc.ACTION_CODE
+		WHERE
+			DATE_ADD(tp.CHECK_DATE,INTERVAL -5 HOUR) >= #{day}
+			AND DATE_ADD(tp.CHECK_DATE,INTERVAL -5 HOUR) &lt; DATE_ADD(#{day}, INTERVAL 1 DAY)
+			AND (tp.TM_CONSIGNMENT_ID IS NULL OR tcc.ACTION_CODE != 'CL')
+			AND tp.WAREHOUSE_CODE = #{warehouseCode}
+			AND (tca.USER_VIEW_NO IS NULL OR tca.USER_VIEW_NO &lt; 300)
+			AND (tp.TM_CONSIGNMENT_ID IS NULL OR tcc.COMBINATION_STATUS = 0 OR tcc.COMBINATION_STATUS = 2)
+	</select>
+	<select id="queryDEDaylyStockInPieces" parameterMap="common.hashMap" resultMap="daylyStockInPiecesResultVo">
+		SELECT 
+			tp.PIECES_NO,
+			tp.LOGISTICS_NO,
+			wlc.LOCATION_CODE,
+			DATE_ADD(tp.CHECK_DATE,INTERVAL -5 HOUR) AS stockInDate
+		FROM
+			tm_pieces tp
+			LEFT JOIN wm_location_current wlc ON wlc.PIECES_NO = tp.PIECES_NO
+			LEFT JOIN tm_consignment_current tcc ON tcc.CONSIGNMENT_NO = tp.CONSIGNMENT_NO
+			LEFT JOIN tm_consignment_action tca ON tca.ACTION_CODE = tcc.ACTION_CODE
+		WHERE
+			DATE_ADD(tp.CHECK_DATE,INTERVAL 1 HOUR) >= #{day}
+			AND DATE_ADD(tp.CHECK_DATE,INTERVAL -5 HOUR) &lt; DATE_ADD(#{day}, INTERVAL 1 DAY)
+			AND (tp.TM_CONSIGNMENT_ID IS NULL OR tcc.ACTION_CODE != 'CL')
+			AND tp.WAREHOUSE_CODE = #{warehouseCode}
+			AND (tca.USER_VIEW_NO IS NULL OR tca.USER_VIEW_NO &lt; 300)
+			AND (tp.TM_CONSIGNMENT_ID IS NULL OR tcc.COMBINATION_STATUS = 0 OR tcc.COMBINATION_STATUS = 2)
+	</select>
+	<!-- End define sql -->
+	
+</mapper>

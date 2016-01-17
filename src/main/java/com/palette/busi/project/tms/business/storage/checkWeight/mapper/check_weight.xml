@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.palette.busi.project.tms.business.storage.checkWeight.mapper.check_weight">
+	<!-- Define map -->
+	<resultMap id="piecesInfoResultVo" type="com.palette.busi.project.tms.business.storage.checkWeight.vo.CWPiecesInfoResultVo" />
+	<!-- End define map -->
+	
+	<!-- Define sql -->
+	<select id="queryCheckWeightPieces" parameterType="string" resultMap="piecesInfoResultVo">
+		SELECT
+			tp.*,
+			tpa.USER_VIEW_NO,
+			tpa.ACTION_DESC AS currentActionDesc
+		FROM
+			tm_pieces tp
+			LEFT JOIN tm_pieces_current tpc ON tpc.TM_PIECES_ID = tp.TM_PIECES_ID
+			LEFT JOIN tm_pieces_action tpa ON tpa.ACTION_CODE = tpc.ACTION_CODE
+		WHERE
+			(tp.PIECES_NO = #{queryNo} || tp.CONSIGNMENT_NO = #{queryNo})
+	</select>
+	<!-- End define sql -->
+	
+</mapper>
