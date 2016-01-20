@@ -1,5 +1,9 @@
 package com.palette.busi.project.tms.core.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +23,20 @@ import com.palette.busi.project.tms.core.page.PageModel;
 @Component
 public class CdCityDao extends BaseDaoImpl {
 	
-	public CdCity updateCdCity(CdCity cdCity) throws BaseException {
+	public CdCity updateCdCity(CdCity cdCity, String user, String programId) throws BaseException {
 		CdCityIntf mapper = this.getSqlSessionTemplate().getMapper(CdCityIntf.class);
+		cdCity.setUpdateDateTime(getCurrentGMTDate());
+		cdCity.setUpdateUserCode(user);
 		mapper.updateCdCity(cdCity);
 		return cdCity;
 	}
 	
-	public CdCity insertCdCity(CdCity cdCity) throws BaseException {
+	public CdCity insertCdCity(CdCity cdCity, String user, String programId) throws BaseException {
 		CdCityIntf mapper = this.getSqlSessionTemplate().getMapper(CdCityIntf.class);
+		cdCity.setCreateDateTime(getCurrentGMTDate());
+		cdCity.setCreateUserCode(user);
+		cdCity.setUpdateDateTime(getCurrentGMTDate());
+		cdCity.setUpdateUserCode(user);
 		mapper.insertCdCity(cdCity);
 		if(cdCity.getCdCityId() == null){
 			cdCity.setCdCityId(getLastPk());
@@ -75,15 +85,23 @@ public class CdCityDao extends BaseDaoImpl {
 		}
 	}
 	
-	public CdCity saveCdCity(CdCity cdCity) throws BaseException {
-		CdCityIntf mapper = this.getSqlSessionTemplate().getMapper(CdCityIntf.class);
+	public CdCity saveCdCity(CdCity cdCity, String user, String programId) throws BaseException {
 		if(cdCity.getCdCityId() == null){
-			mapper.insertCdCity(cdCity);
-			cdCity = selectCdCityById(getLastPk());
+			cdCity = insertCdCity(cdCity, user, programId);
 		}else{
-			mapper.updateCdCity(cdCity);
-			cdCity = mapper.selectCdCityById(cdCity.getCdCityId());
+			cdCity = updateCdCity(cdCity, user, programId);
 		}
 		return cdCity;
 	}
+	
+	private Date getCurrentGMTDate() {
+		try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
+	        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        return dateTimeFormat.parse(dateFormat.format(new Date()));
+		} catch (Exception e) {
+			throw new BaseException(e.getMessage());
+		}
+    }
 }

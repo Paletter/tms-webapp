@@ -1,5 +1,9 @@
 package com.palette.busi.project.tms.core.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +23,20 @@ import com.palette.busi.project.tms.core.page.PageModel;
 @Component
 public class WmDeliveryOrderDao extends BaseDaoImpl {
 	
-	public WmDeliveryOrder updateWmDeliveryOrder(WmDeliveryOrder wmDeliveryOrder) throws BaseException {
+	public WmDeliveryOrder updateWmDeliveryOrder(WmDeliveryOrder wmDeliveryOrder, String user, String programId) throws BaseException {
 		WmDeliveryOrderIntf mapper = this.getSqlSessionTemplate().getMapper(WmDeliveryOrderIntf.class);
+		wmDeliveryOrder.setUpdateDateTime(getCurrentGMTDate());
+		wmDeliveryOrder.setUpdateUserCode(user);
 		mapper.updateWmDeliveryOrder(wmDeliveryOrder);
 		return wmDeliveryOrder;
 	}
 	
-	public WmDeliveryOrder insertWmDeliveryOrder(WmDeliveryOrder wmDeliveryOrder) throws BaseException {
+	public WmDeliveryOrder insertWmDeliveryOrder(WmDeliveryOrder wmDeliveryOrder, String user, String programId) throws BaseException {
 		WmDeliveryOrderIntf mapper = this.getSqlSessionTemplate().getMapper(WmDeliveryOrderIntf.class);
+		wmDeliveryOrder.setCreateDateTime(getCurrentGMTDate());
+		wmDeliveryOrder.setCreateUserCode(user);
+		wmDeliveryOrder.setUpdateDateTime(getCurrentGMTDate());
+		wmDeliveryOrder.setUpdateUserCode(user);
 		mapper.insertWmDeliveryOrder(wmDeliveryOrder);
 		if(wmDeliveryOrder.getWmDeliveryOrderId() == null){
 			wmDeliveryOrder.setWmDeliveryOrderId(getLastPk());
@@ -75,15 +85,23 @@ public class WmDeliveryOrderDao extends BaseDaoImpl {
 		}
 	}
 	
-	public WmDeliveryOrder saveWmDeliveryOrder(WmDeliveryOrder wmDeliveryOrder) throws BaseException {
-		WmDeliveryOrderIntf mapper = this.getSqlSessionTemplate().getMapper(WmDeliveryOrderIntf.class);
+	public WmDeliveryOrder saveWmDeliveryOrder(WmDeliveryOrder wmDeliveryOrder, String user, String programId) throws BaseException {
 		if(wmDeliveryOrder.getWmDeliveryOrderId() == null){
-			mapper.insertWmDeliveryOrder(wmDeliveryOrder);
-			wmDeliveryOrder = selectWmDeliveryOrderById(getLastPk());
+			wmDeliveryOrder = insertWmDeliveryOrder(wmDeliveryOrder, user, programId);
 		}else{
-			mapper.updateWmDeliveryOrder(wmDeliveryOrder);
-			wmDeliveryOrder = mapper.selectWmDeliveryOrderById(wmDeliveryOrder.getWmDeliveryOrderId());
+			wmDeliveryOrder = updateWmDeliveryOrder(wmDeliveryOrder, user, programId);
 		}
 		return wmDeliveryOrder;
 	}
+	
+	private Date getCurrentGMTDate() {
+		try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
+	        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        return dateTimeFormat.parse(dateFormat.format(new Date()));
+		} catch (Exception e) {
+			throw new BaseException(e.getMessage());
+		}
+    }
 }

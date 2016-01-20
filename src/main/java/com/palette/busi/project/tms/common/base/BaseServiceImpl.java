@@ -1,6 +1,7 @@
 package com.palette.busi.project.tms.common.base;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.palette.busi.project.tms.common.provider.CommonServiceProvider;
+import com.palette.busi.project.tms.core.base.BasePo;
 import com.palette.busi.project.tms.core.base.dao.BaseDao;
+import com.palette.busi.project.tms.core.page.PageInfo;
 import com.palette.busi.project.tms.core.service.EntityGeneralQuerier;
 import com.palette.busi.project.tms.web.exception.BusinessException;
 
@@ -45,4 +48,11 @@ public class BaseServiceImpl {
 		return list == null || list.size() == 0 ? null : list.get(0);
 	}
 	
+	protected <T extends BasePo> PageInfo selectPageInfo(String sql, T param) {
+		return baseDao.selectPageInfo(sql, param);
+	}
+	
+	public int delete(String sqlMapId, Object param) {
+		return baseDao.delete(sqlMapId, param);
+	}
 }

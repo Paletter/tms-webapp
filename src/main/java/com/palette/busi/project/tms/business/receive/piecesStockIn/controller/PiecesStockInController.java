@@ -18,11 +18,15 @@ import com.palette.busi.project.tms.business.receive.piecesStockIn.vo.StockedPie
 import com.palette.busi.project.tms.common.base.BaseController;
 import com.palette.busi.project.tms.common.util.BeanUtilsExt;
 import com.palette.busi.project.tms.common.util.PrintUtils;
+import com.palette.busi.project.tms.common.util.StringUtils;
+import com.palette.busi.project.tms.common.util.ThrowExp;
 import com.palette.busi.project.tms.core.entity.TmPieces;
 
 @RestController
 public class PiecesStockInController extends BaseController {
 
+	public static String CONTROLLER_ID = "PIECES_STOCK_IN";
+	
 	@Autowired
 	private PiecesStockInService piecesStockInService;
 	@Autowired
@@ -33,10 +37,12 @@ public class PiecesStockInController extends BaseController {
 	@RequestMapping(value="/PiecesStockInController/queryStockedPiecesInfo")
 	public StockedPiecesResultVo queryStockedPiecesInfo(@RequestBody StockedPiecesQueryParamVo queryParamVo) {
 
-		String logisticsNo = queryParamVo.getLogisticsNo().toUpperCase().replaceAll(" ", "");
+		ThrowExp.isNullOrEmpty(queryParamVo.getLogisticsNo(), "操作失败。物流号不能为空");
+		
+		queryParamVo.setLogisticsNo(StringUtils.toUpperAndTrim(queryParamVo.getLogisticsNo()));
 		
 		// Business
-		TmPieces tmPieces = piecesStockInService.queryCanStockInPiecesInfoByLogisticNo(logisticsNo);
+		TmPieces tmPieces = piecesStockInService.queryCanStockInPiecesInfoByLogisticNo(queryParamVo.getLogisticsNo());
 		
 		// Encapsulation result
 		StockedPiecesResultVo resultVo = new StockedPiecesResultVo();

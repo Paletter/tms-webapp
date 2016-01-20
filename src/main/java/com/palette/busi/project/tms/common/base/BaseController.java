@@ -12,11 +12,14 @@ import com.palette.busi.project.tms.business.basic.login.vo.LoginUserResultVo;
 import com.palette.busi.project.tms.common.provider.CommonServiceProvider;
 import com.palette.busi.project.tms.common.util.SessionUtils;
 import com.palette.busi.project.tms.common.vo.ServiceOptParamLinkerVo;
+import com.palette.busi.project.tms.core.base.BasePo;
 import com.palette.busi.project.tms.core.base.dao.BaseDao;
 import com.palette.busi.project.tms.core.entity.CdCountry;
 import com.palette.busi.project.tms.core.entity.CdCountryRef;
 import com.palette.busi.project.tms.core.entity.CdWarehouse;
+import com.palette.busi.project.tms.core.page.PageInfo;
 import com.palette.busi.project.tms.core.service.EntityGeneralQuerier;
+import com.palette.busi.project.tms.web.exception.BusinessException;
 
 public class BaseController {
 
@@ -180,11 +183,21 @@ public class BaseController {
 	// ============================================================
 	// Commonly used db method
 	
-	protected <T> List<T> selectList(String sql, Object param) throws Exception {
+	protected <T> List<T> selectList(String sql, Object param) {
 		return (List<T>) baseDao.selectList(sql, param);
 	}
 	
-	protected <T> T selectOne(String sql, Object param) throws Exception {
+	protected <T> T selectOne(String sql, Object param) {
 		return (T) baseDao.selectOne(sql, param);
+	}
+
+	protected <T> T selectOneWithEx(String sql, Object param) {
+		List<T> list = (List<T>) baseDao.selectList(sql, param);
+		if(list != null && list.size() > 1) throw new BusinessException("操作失败。查询单条数据返回多条结果集错误");
+		return list == null || list.size() == 0 ? null : list.get(0);
+	}
+	
+	protected <T extends BasePo> PageInfo selectPageInfo(String sql, T param) {
+		return baseDao.selectPageInfo(sql, param);
 	}
 }

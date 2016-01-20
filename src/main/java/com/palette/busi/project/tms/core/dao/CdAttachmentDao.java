@@ -1,5 +1,9 @@
 package com.palette.busi.project.tms.core.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +23,20 @@ import com.palette.busi.project.tms.core.page.PageModel;
 @Component
 public class CdAttachmentDao extends BaseDaoImpl {
 	
-	public CdAttachment updateCdAttachment(CdAttachment cdAttachment) throws BaseException {
+	public CdAttachment updateCdAttachment(CdAttachment cdAttachment, String user, String programId) throws BaseException {
 		CdAttachmentIntf mapper = this.getSqlSessionTemplate().getMapper(CdAttachmentIntf.class);
+		cdAttachment.setUpdateDateTime(getCurrentGMTDate());
+		cdAttachment.setUpdateUserCode(user);
 		mapper.updateCdAttachment(cdAttachment);
 		return cdAttachment;
 	}
 	
-	public CdAttachment insertCdAttachment(CdAttachment cdAttachment) throws BaseException {
+	public CdAttachment insertCdAttachment(CdAttachment cdAttachment, String user, String programId) throws BaseException {
 		CdAttachmentIntf mapper = this.getSqlSessionTemplate().getMapper(CdAttachmentIntf.class);
+		cdAttachment.setCreateDateTime(getCurrentGMTDate());
+		cdAttachment.setCreateUserCode(user);
+		cdAttachment.setUpdateDateTime(getCurrentGMTDate());
+		cdAttachment.setUpdateUserCode(user);
 		mapper.insertCdAttachment(cdAttachment);
 		if(cdAttachment.getCdAttachmentId() == null){
 			cdAttachment.setCdAttachmentId(getLastPk());
@@ -75,15 +85,23 @@ public class CdAttachmentDao extends BaseDaoImpl {
 		}
 	}
 	
-	public CdAttachment saveCdAttachment(CdAttachment cdAttachment) throws BaseException {
-		CdAttachmentIntf mapper = this.getSqlSessionTemplate().getMapper(CdAttachmentIntf.class);
+	public CdAttachment saveCdAttachment(CdAttachment cdAttachment, String user, String programId) throws BaseException {
 		if(cdAttachment.getCdAttachmentId() == null){
-			mapper.insertCdAttachment(cdAttachment);
-			cdAttachment = selectCdAttachmentById(getLastPk());
+			cdAttachment = insertCdAttachment(cdAttachment, user, programId);
 		}else{
-			mapper.updateCdAttachment(cdAttachment);
-			cdAttachment = mapper.selectCdAttachmentById(cdAttachment.getCdAttachmentId());
+			cdAttachment = updateCdAttachment(cdAttachment, user, programId);
 		}
 		return cdAttachment;
 	}
+	
+	private Date getCurrentGMTDate() {
+		try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
+	        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        return dateTimeFormat.parse(dateFormat.format(new Date()));
+		} catch (Exception e) {
+			throw new BaseException(e.getMessage());
+		}
+    }
 }

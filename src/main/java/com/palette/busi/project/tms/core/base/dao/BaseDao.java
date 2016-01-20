@@ -101,7 +101,7 @@ public interface BaseDao {
 	 * @param map
 	 * @return
 	 */
-	public int update(String sqlMapId,Map<String,Object> map) throws Exception;
+	public int update(String sqlMapId,Map<String,Object> map) throws BaseException;
 	
 	/**
 	 * 根据Map更新
@@ -109,7 +109,7 @@ public interface BaseDao {
 	 * @param map
 	 * @return
 	 */
-	public int update(String sqlMapId,Object object) throws Exception;
+	public int update(String sqlMapId,Object object) throws BaseException;
 	
 	/**
 	 * 根据Map更新
@@ -117,7 +117,7 @@ public interface BaseDao {
 	 * @param map
 	 * @return
 	 */
-	public int delete(String sqlMapId,Map<String,Object> map) throws Exception;
+	public int delete(String sqlMapId,Map<String,Object> map) throws BaseException;
 	
 	/**
 	 * 根据Object更新
@@ -125,7 +125,7 @@ public interface BaseDao {
 	 * @param object
 	 * @return
 	 */
-	public int delete(String sqlMapId,Object model) throws Exception;
+	public int delete(String sqlMapId,Object model) throws BaseException;
 	
 	/**
 	 * 根据Object新增
@@ -133,7 +133,7 @@ public interface BaseDao {
 	 * @param object
 	 * @return
 	 */
-	public int insert(String sqlMapId,Object model) throws Exception;
+	public int insert(String sqlMapId,Object model) throws BaseException;
 	
 	/**
 	 * 根据Map新增
@@ -141,11 +141,11 @@ public interface BaseDao {
 	 * @param map
 	 * @return
 	 */
-	public int insert(String sqlMapId,Map<String,Object> map) throws Exception;
+	public int insert(String sqlMapId,Map<String,Object> map) throws BaseException;
 	
 	/**
 	 * 获取最后一次插入的主键
 	 * @return
 	 */
-	public int getLastPk() throws Exception;
+	public int getLastPk() throws BaseException;
 }

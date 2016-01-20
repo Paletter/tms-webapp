@@ -2,9 +2,10 @@ package com.palette.busi.project.tms.common.constant;
 
 public class SqlMapperConstants {
 
-	// Sequence number generate
-	public static final String SEQ_NUMBER_NAMSPACE = "com.palette.busi.project.tms.business.common.mapper.seq_number.";
-	public static final String SEQ_NUMBER_GET_SEQ_NEXTVAL = SEQ_NUMBER_NAMSPACE + "querySeqNextval";
+	// Business common
+	public static final String BUSINESS_COMMON_NAMSPACE = "com.palette.busi.project.tms.business.common.mapper.seq_number.";
+	public static final String BUSINESS_COMMON_QUERY_SEQ_NEXTVAL = BUSINESS_COMMON_NAMSPACE + "querySeqNextval";
+	public static final String BUSINESS_COMMON_DELETE_PIECES_NO_LOCATION_CURRENT = BUSINESS_COMMON_NAMSPACE + "deletePiecesNoLocationCurrent";
 	
 	// Login
 	public static final String LOGIN_NAMESPACE = "com.palette.busi.project.tms.business.basic.login.mapper.login.";
@@ -23,4 +24,14 @@ public class SqlMapperConstants {
 	// Check weight
 	public static final String CHECK_WEIGHT_NAMESPACE = "com.palette.busi.project.tms.business.storage.checkWeight.mapper.check_weight.";
 	public static final String CHECK_WEIGHT_QUERY_CHECK_WEIGHT_PIECES = CHECK_WEIGHT_NAMESPACE + "queryCheckWeightPieces";
+	
+	// Pieces manage
+	public static final String PIECES_MANAGE_NAMESPACE = "com.palette.busi.project.tms.business.storage.piecesManage.mapper.pieces_manage.";
+	public static final String PIECES_MANAGE_QUERY_PIECES_LIST = PIECES_MANAGE_NAMESPACE + "queryPiecesList";
+	public static final String PIECES_MANAGE_GET_PIECES_DETAIL_SP = PIECES_MANAGE_NAMESPACE + "callGetPiecesDetailSp";
+	
+	// Pieces put up
+	public static final String PIECES_PUT_UP_NAMESPACE = "com.udfexpress.oso.business.inventory.piecesPutUp.mapper.pieces_put_up.";
+	public static final String PIECES_PUT_UP_DELETE_PIECES_NO_LOCATION_CURRENT = PIECES_PUT_UP_NAMESPACE + "deletePiecesNoLocationCurrent";
+	public static final String PIECES_PUT_UP_DELETE_CSM_NO_LOCATION_CURRENT = PIECES_PUT_UP_NAMESPACE + "deleteCsmNoLocationCurrent";
 }

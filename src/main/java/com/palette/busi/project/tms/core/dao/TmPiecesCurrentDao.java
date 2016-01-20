@@ -1,5 +1,9 @@
 package com.palette.busi.project.tms.core.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +23,20 @@ import com.palette.busi.project.tms.core.page.PageModel;
 @Component
 public class TmPiecesCurrentDao extends BaseDaoImpl {
 	
-	public TmPiecesCurrent updateTmPiecesCurrent(TmPiecesCurrent tmPiecesCurrent) throws BaseException {
+	public TmPiecesCurrent updateTmPiecesCurrent(TmPiecesCurrent tmPiecesCurrent, String user, String programId) throws BaseException {
 		TmPiecesCurrentIntf mapper = this.getSqlSessionTemplate().getMapper(TmPiecesCurrentIntf.class);
+		tmPiecesCurrent.setUpdateDateTime(getCurrentGMTDate());
+		tmPiecesCurrent.setUpdateUserCode(user);
 		mapper.updateTmPiecesCurrent(tmPiecesCurrent);
 		return tmPiecesCurrent;
 	}
 	
-	public TmPiecesCurrent insertTmPiecesCurrent(TmPiecesCurrent tmPiecesCurrent) throws BaseException {
+	public TmPiecesCurrent insertTmPiecesCurrent(TmPiecesCurrent tmPiecesCurrent, String user, String programId) throws BaseException {
 		TmPiecesCurrentIntf mapper = this.getSqlSessionTemplate().getMapper(TmPiecesCurrentIntf.class);
+		tmPiecesCurrent.setCreateDateTime(getCurrentGMTDate());
+		tmPiecesCurrent.setCreateUserCode(user);
+		tmPiecesCurrent.setUpdateDateTime(getCurrentGMTDate());
+		tmPiecesCurrent.setUpdateUserCode(user);
 		mapper.insertTmPiecesCurrent(tmPiecesCurrent);
 		if(tmPiecesCurrent.getTmPiecesCurrentId() == null){
 			tmPiecesCurrent.setTmPiecesCurrentId(getLastPk());
@@ -75,15 +85,23 @@ public class TmPiecesCurrentDao extends BaseDaoImpl {
 		}
 	}
 	
-	public TmPiecesCurrent saveTmPiecesCurrent(TmPiecesCurrent tmPiecesCurrent) throws BaseException {
-		TmPiecesCurrentIntf mapper = this.getSqlSessionTemplate().getMapper(TmPiecesCurrentIntf.class);
+	public TmPiecesCurrent saveTmPiecesCurrent(TmPiecesCurrent tmPiecesCurrent, String user, String programId) throws BaseException {
 		if(tmPiecesCurrent.getTmPiecesCurrentId() == null){
-			mapper.insertTmPiecesCurrent(tmPiecesCurrent);
-			tmPiecesCurrent = selectTmPiecesCurrentById(getLastPk());
+			tmPiecesCurrent = insertTmPiecesCurrent(tmPiecesCurrent, user, programId);
 		}else{
-			mapper.updateTmPiecesCurrent(tmPiecesCurrent);
-			tmPiecesCurrent = mapper.selectTmPiecesCurrentById(tmPiecesCurrent.getTmPiecesCurrentId());
+			tmPiecesCurrent = updateTmPiecesCurrent(tmPiecesCurrent, user, programId);
 		}
 		return tmPiecesCurrent;
 	}
+	
+	private Date getCurrentGMTDate() {
+		try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
+	        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        return dateTimeFormat.parse(dateFormat.format(new Date()));
+		} catch (Exception e) {
+			throw new BaseException(e.getMessage());
+		}
+    }
 }

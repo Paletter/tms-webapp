@@ -1,5 +1,9 @@
 package com.palette.busi.project.tms.core.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +23,20 @@ import com.palette.busi.project.tms.core.page.PageModel;
 @Component
 public class CdUserPwdDao extends BaseDaoImpl {
 	
-	public CdUserPwd updateCdUserPwd(CdUserPwd cdUserPwd) throws BaseException {
+	public CdUserPwd updateCdUserPwd(CdUserPwd cdUserPwd, String user, String programId) throws BaseException {
 		CdUserPwdIntf mapper = this.getSqlSessionTemplate().getMapper(CdUserPwdIntf.class);
+		cdUserPwd.setUpdateDateTime(getCurrentGMTDate());
+		cdUserPwd.setUpdateUserCode(user);
 		mapper.updateCdUserPwd(cdUserPwd);
 		return cdUserPwd;
 	}
 	
-	public CdUserPwd insertCdUserPwd(CdUserPwd cdUserPwd) throws BaseException {
+	public CdUserPwd insertCdUserPwd(CdUserPwd cdUserPwd, String user, String programId) throws BaseException {
 		CdUserPwdIntf mapper = this.getSqlSessionTemplate().getMapper(CdUserPwdIntf.class);
+		cdUserPwd.setCreateDateTime(getCurrentGMTDate());
+		cdUserPwd.setCreateUserCode(user);
+		cdUserPwd.setUpdateDateTime(getCurrentGMTDate());
+		cdUserPwd.setUpdateUserCode(user);
 		mapper.insertCdUserPwd(cdUserPwd);
 		if(cdUserPwd.getCdUserPwdId() == null){
 			cdUserPwd.setCdUserPwdId(getLastPk());
@@ -75,15 +85,23 @@ public class CdUserPwdDao extends BaseDaoImpl {
 		}
 	}
 	
-	public CdUserPwd saveCdUserPwd(CdUserPwd cdUserPwd) throws BaseException {
-		CdUserPwdIntf mapper = this.getSqlSessionTemplate().getMapper(CdUserPwdIntf.class);
+	public CdUserPwd saveCdUserPwd(CdUserPwd cdUserPwd, String user, String programId) throws BaseException {
 		if(cdUserPwd.getCdUserPwdId() == null){
-			mapper.insertCdUserPwd(cdUserPwd);
-			cdUserPwd = selectCdUserPwdById(getLastPk());
+			cdUserPwd = insertCdUserPwd(cdUserPwd, user, programId);
 		}else{
-			mapper.updateCdUserPwd(cdUserPwd);
-			cdUserPwd = mapper.selectCdUserPwdById(cdUserPwd.getCdUserPwdId());
+			cdUserPwd = updateCdUserPwd(cdUserPwd, user, programId);
 		}
 		return cdUserPwd;
 	}
+	
+	private Date getCurrentGMTDate() {
+		try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
+	        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        return dateTimeFormat.parse(dateFormat.format(new Date()));
+		} catch (Exception e) {
+			throw new BaseException(e.getMessage());
+		}
+    }
 }

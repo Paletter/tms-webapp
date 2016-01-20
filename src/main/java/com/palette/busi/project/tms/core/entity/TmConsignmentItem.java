@@ -9,11 +9,13 @@ import com.palette.busi.project.tms.core.base.BasePo;
 
 @Component
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class TmPiecesItem extends BasePo {
+public class TmConsignmentItem extends BasePo {
 
 	private static final long serialVersionUID = 1L;
 	
-    private Integer tmPiecesItemId;
+    private Integer tmConsignmentItemId;
+    private Integer tmConsignmentId;
+    private String consignmentNo;
     private Integer seq;
     private String goodsCode;
     private String goodsDescription;
@@ -28,25 +30,36 @@ public class TmPiecesItem extends BasePo {
     private String currency;
     private String spec;
     private BigDecimal tariff;
-    private String consignmentNo;
-    private Integer tmPiecesId;
-    private Integer tmConsignmentId;
     private String goodsUrl;
     private String tariffNumber;
     private Integer recordVersion;
     private String createUserCode;
     private Date createDateTime;
-    private String createTimeZone;
     private String updateUserCode;
     private Date updateDateTime;
-    private String updateTimeZone;
     
-    public Integer getTmPiecesItemId() {
-        return tmPiecesItemId;
+    public Integer getTmConsignmentItemId() {
+        return tmConsignmentItemId;
     }
         
-    public void setTmPiecesItemId(Integer tmPiecesItemId) {
-        this.tmPiecesItemId = tmPiecesItemId;
+    public void setTmConsignmentItemId(Integer tmConsignmentItemId) {
+        this.tmConsignmentItemId = tmConsignmentItemId;
+    }
+        
+    public Integer getTmConsignmentId() {
+        return tmConsignmentId;
+    }
+        
+    public void setTmConsignmentId(Integer tmConsignmentId) {
+        this.tmConsignmentId = tmConsignmentId;
+    }
+        
+    public String getConsignmentNo() {
+        return consignmentNo;
+    }
+        
+    public void setConsignmentNo(String consignmentNo) {
+        this.consignmentNo = consignmentNo;
     }
         
     public Integer getSeq() {
@@ -161,30 +174,6 @@ public class TmPiecesItem extends BasePo {
         this.tariff = tariff;
     }
         
-    public String getConsignmentNo() {
-        return consignmentNo;
-    }
-        
-    public void setConsignmentNo(String consignmentNo) {
-        this.consignmentNo = consignmentNo;
-    }
-        
-    public Integer getTmPiecesId() {
-        return tmPiecesId;
-    }
-        
-    public void setTmPiecesId(Integer tmPiecesId) {
-        this.tmPiecesId = tmPiecesId;
-    }
-        
-    public Integer getTmConsignmentId() {
-        return tmConsignmentId;
-    }
-        
-    public void setTmConsignmentId(Integer tmConsignmentId) {
-        this.tmConsignmentId = tmConsignmentId;
-    }
-        
     public String getGoodsUrl() {
         return goodsUrl;
     }
@@ -225,14 +214,6 @@ public class TmPiecesItem extends BasePo {
         this.createDateTime = createDateTime;
     }
         
-    public String getCreateTimeZone() {
-        return createTimeZone;
-    }
-        
-    public void setCreateTimeZone(String createTimeZone) {
-        this.createTimeZone = createTimeZone;
-    }
-        
     public String getUpdateUserCode() {
         return updateUserCode;
     }
@@ -247,14 +228,6 @@ public class TmPiecesItem extends BasePo {
         
     public void setUpdateDateTime(Date updateDateTime) {
         this.updateDateTime = updateDateTime;
-    }
-        
-    public String getUpdateTimeZone() {
-        return updateTimeZone;
-    }
-        
-    public void setUpdateTimeZone(String updateTimeZone) {
-        this.updateTimeZone = updateTimeZone;
     }
         
 }

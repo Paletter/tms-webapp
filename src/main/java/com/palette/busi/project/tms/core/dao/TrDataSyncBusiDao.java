@@ -1,5 +1,9 @@
 package com.palette.busi.project.tms.core.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +23,20 @@ import com.palette.busi.project.tms.core.page.PageModel;
 @Component
 public class TrDataSyncBusiDao extends BaseDaoImpl {
 	
-	public TrDataSyncBusi updateTrDataSyncBusi(TrDataSyncBusi trDataSyncBusi) throws BaseException {
+	public TrDataSyncBusi updateTrDataSyncBusi(TrDataSyncBusi trDataSyncBusi, String user, String programId) throws BaseException {
 		TrDataSyncBusiIntf mapper = this.getSqlSessionTemplate().getMapper(TrDataSyncBusiIntf.class);
+		trDataSyncBusi.setUpdateDateTime(getCurrentGMTDate());
+		trDataSyncBusi.setUpdateUserCode(user);
 		mapper.updateTrDataSyncBusi(trDataSyncBusi);
 		return trDataSyncBusi;
 	}
 	
-	public TrDataSyncBusi insertTrDataSyncBusi(TrDataSyncBusi trDataSyncBusi) throws BaseException {
+	public TrDataSyncBusi insertTrDataSyncBusi(TrDataSyncBusi trDataSyncBusi, String user, String programId) throws BaseException {
 		TrDataSyncBusiIntf mapper = this.getSqlSessionTemplate().getMapper(TrDataSyncBusiIntf.class);
+		trDataSyncBusi.setCreateDateTime(getCurrentGMTDate());
+		trDataSyncBusi.setCreateUserCode(user);
+		trDataSyncBusi.setUpdateDateTime(getCurrentGMTDate());
+		trDataSyncBusi.setUpdateUserCode(user);
 		mapper.insertTrDataSyncBusi(trDataSyncBusi);
 		if(trDataSyncBusi.getTrDataSyncBusiId() == null){
 			trDataSyncBusi.setTrDataSyncBusiId(getLastPk());
@@ -75,15 +85,23 @@ public class TrDataSyncBusiDao extends BaseDaoImpl {
 		}
 	}
 	
-	public TrDataSyncBusi saveTrDataSyncBusi(TrDataSyncBusi trDataSyncBusi) throws BaseException {
-		TrDataSyncBusiIntf mapper = this.getSqlSessionTemplate().getMapper(TrDataSyncBusiIntf.class);
+	public TrDataSyncBusi saveTrDataSyncBusi(TrDataSyncBusi trDataSyncBusi, String user, String programId) throws BaseException {
 		if(trDataSyncBusi.getTrDataSyncBusiId() == null){
-			mapper.insertTrDataSyncBusi(trDataSyncBusi);
-			trDataSyncBusi = selectTrDataSyncBusiById(getLastPk());
+			trDataSyncBusi = insertTrDataSyncBusi(trDataSyncBusi, user, programId);
 		}else{
-			mapper.updateTrDataSyncBusi(trDataSyncBusi);
-			trDataSyncBusi = mapper.selectTrDataSyncBusiById(trDataSyncBusi.getTrDataSyncBusiId());
+			trDataSyncBusi = updateTrDataSyncBusi(trDataSyncBusi, user, programId);
 		}
 		return trDataSyncBusi;
 	}
+	
+	private Date getCurrentGMTDate() {
+		try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
+	        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        return dateTimeFormat.parse(dateFormat.format(new Date()));
+		} catch (Exception e) {
+			throw new BaseException(e.getMessage());
+		}
+    }
 }

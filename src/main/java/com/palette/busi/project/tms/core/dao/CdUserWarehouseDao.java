@@ -1,5 +1,9 @@
 package com.palette.busi.project.tms.core.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +23,20 @@ import com.palette.busi.project.tms.core.page.PageModel;
 @Component
 public class CdUserWarehouseDao extends BaseDaoImpl {
 	
-	public CdUserWarehouse updateCdUserWarehouse(CdUserWarehouse cdUserWarehouse) throws BaseException {
+	public CdUserWarehouse updateCdUserWarehouse(CdUserWarehouse cdUserWarehouse, String user, String programId) throws BaseException {
 		CdUserWarehouseIntf mapper = this.getSqlSessionTemplate().getMapper(CdUserWarehouseIntf.class);
+		cdUserWarehouse.setUpdateDateTime(getCurrentGMTDate());
+		cdUserWarehouse.setUpdateUserCode(user);
 		mapper.updateCdUserWarehouse(cdUserWarehouse);
 		return cdUserWarehouse;
 	}
 	
-	public CdUserWarehouse insertCdUserWarehouse(CdUserWarehouse cdUserWarehouse) throws BaseException {
+	public CdUserWarehouse insertCdUserWarehouse(CdUserWarehouse cdUserWarehouse, String user, String programId) throws BaseException {
 		CdUserWarehouseIntf mapper = this.getSqlSessionTemplate().getMapper(CdUserWarehouseIntf.class);
+		cdUserWarehouse.setCreateDateTime(getCurrentGMTDate());
+		cdUserWarehouse.setCreateUserCode(user);
+		cdUserWarehouse.setUpdateDateTime(getCurrentGMTDate());
+		cdUserWarehouse.setUpdateUserCode(user);
 		mapper.insertCdUserWarehouse(cdUserWarehouse);
 		if(cdUserWarehouse.getCdUserWarehouseId() == null){
 			cdUserWarehouse.setCdUserWarehouseId(getLastPk());
@@ -75,15 +85,23 @@ public class CdUserWarehouseDao extends BaseDaoImpl {
 		}
 	}
 	
-	public CdUserWarehouse saveCdUserWarehouse(CdUserWarehouse cdUserWarehouse) throws BaseException {
-		CdUserWarehouseIntf mapper = this.getSqlSessionTemplate().getMapper(CdUserWarehouseIntf.class);
+	public CdUserWarehouse saveCdUserWarehouse(CdUserWarehouse cdUserWarehouse, String user, String programId) throws BaseException {
 		if(cdUserWarehouse.getCdUserWarehouseId() == null){
-			mapper.insertCdUserWarehouse(cdUserWarehouse);
-			cdUserWarehouse = selectCdUserWarehouseById(getLastPk());
+			cdUserWarehouse = insertCdUserWarehouse(cdUserWarehouse, user, programId);
 		}else{
-			mapper.updateCdUserWarehouse(cdUserWarehouse);
-			cdUserWarehouse = mapper.selectCdUserWarehouseById(cdUserWarehouse.getCdUserWarehouseId());
+			cdUserWarehouse = updateCdUserWarehouse(cdUserWarehouse, user, programId);
 		}
 		return cdUserWarehouse;
 	}
+	
+	private Date getCurrentGMTDate() {
+		try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
+	        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        return dateTimeFormat.parse(dateFormat.format(new Date()));
+		} catch (Exception e) {
+			throw new BaseException(e.getMessage());
+		}
+    }
 }

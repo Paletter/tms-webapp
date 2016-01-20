@@ -15,6 +15,8 @@ public class TmPieces extends BasePo {
 	
     private Integer tmPiecesId;
     private Integer seq;
+    private String warehouseCode;
+    private String countryCode;
     private String memberCode;
     private String piecesNo;
     private String logisticsNo;
@@ -24,14 +26,18 @@ public class TmPieces extends BasePo {
     private BigDecimal width;
     private BigDecimal height;
     private Date checkDate;
-    private String warehouseCode;
+    private String memo;
+    private Date deliveryDate;
+    private Integer isBindDelivery;
     private Integer tmConsignmentId;
     private String consignmentNo;
+    private String serviceProductCode;
     private String unitNo;
     private Integer tmUnitId;
-    private Date deliveryDate;
-    private String memo;
-    private Integer isBindDelivery;
+    private String sectorNo;
+    private Integer tmSectorId;
+    private String deliveryVendorCode;
+    private String deliveryNo;
     private Integer recordVersion;
     private String createUserCode;
     private Date createDateTime;
@@ -52,6 +58,22 @@ public class TmPieces extends BasePo {
         
     public void setSeq(Integer seq) {
         this.seq = seq;
+    }
+        
+    public String getWarehouseCode() {
+        return warehouseCode;
+    }
+        
+    public void setWarehouseCode(String warehouseCode) {
+        this.warehouseCode = warehouseCode;
+    }
+        
+    public String getCountryCode() {
+        return countryCode;
+    }
+        
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
         
     public String getMemberCode() {
@@ -126,12 +148,28 @@ public class TmPieces extends BasePo {
         this.checkDate = checkDate;
     }
         
-    public String getWarehouseCode() {
-        return warehouseCode;
+    public String getMemo() {
+        return memo;
     }
         
-    public void setWarehouseCode(String warehouseCode) {
-        this.warehouseCode = warehouseCode;
+    public void setMemo(String memo) {
+        this.memo = memo;
+    }
+        
+    public Date getDeliveryDate() {
+        return deliveryDate;
+    }
+        
+    public void setDeliveryDate(Date deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+        
+    public Integer getIsBindDelivery() {
+        return isBindDelivery;
+    }
+        
+    public void setIsBindDelivery(Integer isBindDelivery) {
+        this.isBindDelivery = isBindDelivery;
     }
         
     public Integer getTmConsignmentId() {
@@ -150,6 +188,14 @@ public class TmPieces extends BasePo {
         this.consignmentNo = consignmentNo;
     }
         
+    public String getServiceProductCode() {
+        return serviceProductCode;
+    }
+        
+    public void setServiceProductCode(String serviceProductCode) {
+        this.serviceProductCode = serviceProductCode;
+    }
+        
     public String getUnitNo() {
         return unitNo;
     }
@@ -166,28 +212,36 @@ public class TmPieces extends BasePo {
         this.tmUnitId = tmUnitId;
     }
         
-    public Date getDeliveryDate() {
-        return deliveryDate;
+    public String getSectorNo() {
+        return sectorNo;
     }
         
-    public void setDeliveryDate(Date deliveryDate) {
-        this.deliveryDate = deliveryDate;
+    public void setSectorNo(String sectorNo) {
+        this.sectorNo = sectorNo;
     }
         
-    public String getMemo() {
-        return memo;
+    public Integer getTmSectorId() {
+        return tmSectorId;
     }
         
-    public void setMemo(String memo) {
-        this.memo = memo;
+    public void setTmSectorId(Integer tmSectorId) {
+        this.tmSectorId = tmSectorId;
     }
         
-    public Integer getIsBindDelivery() {
-        return isBindDelivery;
+    public String getDeliveryVendorCode() {
+        return deliveryVendorCode;
     }
         
-    public void setIsBindDelivery(Integer isBindDelivery) {
-        this.isBindDelivery = isBindDelivery;
+    public void setDeliveryVendorCode(String deliveryVendorCode) {
+        this.deliveryVendorCode = deliveryVendorCode;
+    }
+        
+    public String getDeliveryNo() {
+        return deliveryNo;
+    }
+        
+    public void setDeliveryNo(String deliveryNo) {
+        this.deliveryNo = deliveryNo;
     }
         
     public Integer getRecordVersion() {

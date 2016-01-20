@@ -2,7 +2,9 @@ package com.palette.busi.project.tms.business.common.vo;
 
 import java.util.Date;
 
-public class UpdatePiecesStatusVo {
+import com.palette.busi.project.tms.common.base.BaseUpdateVo;
+
+public class ComPiecesStatusUpdateVo extends BaseUpdateVo {
 
 	private Integer tmPiecesId;
 	private String piecesNo;
@@ -10,8 +12,11 @@ public class UpdatePiecesStatusVo {
     private String memo;
     private String actionUserName;
     private Date actionDateTime;
-    private String userName;
 
+    public ComPiecesStatusUpdateVo(String userName, String controllerId) {
+		super(userName, controllerId);
+	}
+    
 	public Integer getTmPiecesId() {
 		return tmPiecesId;
 	}
@@ -58,14 +63,6 @@ public class UpdatePiecesStatusVo {
 
 	public void setActionDateTime(Date actionDateTime) {
 		this.actionDateTime = actionDateTime;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
 	}
     
 }

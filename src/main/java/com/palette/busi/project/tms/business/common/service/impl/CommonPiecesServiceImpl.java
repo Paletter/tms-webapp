@@ -6,10 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.palette.busi.project.tms.business.common.service.CommonPiecesService;
-import com.palette.busi.project.tms.business.common.vo.UpdatePiecesStatusVo;
+import com.palette.busi.project.tms.business.common.vo.ComPiecesRefUpdateVo;
+import com.palette.busi.project.tms.business.common.vo.ComPiecesStatusUpdateVo;
 import com.palette.busi.project.tms.common.base.BaseServiceImpl;
 import com.palette.busi.project.tms.common.util.BigDecimalUtils;
-import com.palette.busi.project.tms.common.util.EntityUtils;
+import com.palette.busi.project.tms.common.util.ThrowExp;
 import com.palette.busi.project.tms.core.dao.TmPiecesCurrentDao;
 import com.palette.busi.project.tms.core.dao.TmPiecesHistoryDao;
 import com.palette.busi.project.tms.core.dao.TmPiecesRefDao;
@@ -18,7 +19,6 @@ import com.palette.busi.project.tms.core.entity.TmPiecesAction;
 import com.palette.busi.project.tms.core.entity.TmPiecesCurrent;
 import com.palette.busi.project.tms.core.entity.TmPiecesHistory;
 import com.palette.busi.project.tms.core.entity.TmPiecesRef;
-import com.palette.busi.project.tms.web.exception.BusinessException;
 
 @Service
 public class CommonPiecesServiceImpl extends BaseServiceImpl implements CommonPiecesService {
@@ -31,69 +31,67 @@ public class CommonPiecesServiceImpl extends BaseServiceImpl implements CommonPi
 	private TmPiecesRefDao tmPiecesRefDao;
 	
 	@Override
-	public void updatePiecesStatus(UpdatePiecesStatusVo updatePiecesStatusVo) {
+	public void updatePiecesStatus(ComPiecesStatusUpdateVo updateVo) {
 		
 		// Query pieces action
 		TmPiecesAction tmPiecesActionQuery = new TmPiecesAction();
-		tmPiecesActionQuery.setActionCode(updatePiecesStatusVo.getActionCode());
+		tmPiecesActionQuery.setActionCode(updateVo.getActionCode());
 		tmPiecesActionQuery.setIsActivity(1);
 		TmPiecesAction tmPiecesAction = querier.selectTmPiecesActionOneByRecord(tmPiecesActionQuery);
-		if(tmPiecesAction == null) throw new BusinessException("操作失败。更新包裹状态，查询不到TmPiecesAction数据");
+		ThrowExp.isNull(tmPiecesAction, "操作失败。更新包裹状态，查询不到TmPiecesAction数据");
 		boolean isLogisticsAction = tmPiecesAction.getIsLogistics() == 1;
 		
 		// Insert or Update pieces current
 		if(isLogisticsAction) {
 			TmPiecesCurrent tmPiecesCurrentQuery = new TmPiecesCurrent();
-			tmPiecesCurrentQuery.setTmPiecesId(updatePiecesStatusVo.getTmPiecesId());
+			tmPiecesCurrentQuery.setTmPiecesId(updateVo.getTmPiecesId());
 			TmPiecesCurrent tmPiecesCurrent = querier.selectTmPiecesCurrentOneByRecord(tmPiecesCurrentQuery);
 			if(tmPiecesCurrent == null) {
 				tmPiecesCurrent = new TmPiecesCurrent();
 				
-				tmPiecesCurrent.setTmPiecesId(updatePiecesStatusVo.getTmPiecesId());
-				tmPiecesCurrent.setPiecesNo(updatePiecesStatusVo.getPiecesNo());
-				EntityUtils.setBasicDataForCreateEntity(tmPiecesCurrent, updatePiecesStatusVo.getUserName());
+				tmPiecesCurrent.setTmPiecesId(updateVo.getTmPiecesId());
+				tmPiecesCurrent.setPiecesNo(updateVo.getPiecesNo());
 			}
 			
-			tmPiecesCurrent.setActionCode(updatePiecesStatusVo.getActionCode());
-			tmPiecesCurrent.setMemo(updatePiecesStatusVo.getMemo());
-			tmPiecesCurrent.setActionUserName(updatePiecesStatusVo.getActionUserName());
-			tmPiecesCurrent.setActionDateTime(updatePiecesStatusVo.getActionDateTime());
-			EntityUtils.setBasicDataForUpdateEntity(tmPiecesCurrent, updatePiecesStatusVo.getUserName());
+			tmPiecesCurrent.setActionCode(updateVo.getActionCode());
+			tmPiecesCurrent.setMemo(updateVo.getMemo());
+			tmPiecesCurrent.setActionUserName(updateVo.getActionUserName());
+			tmPiecesCurrent.setActionDateTime(updateVo.getActionDateTime());
 			
-			tmPiecesCurrentDao.saveTmPiecesCurrent(tmPiecesCurrent);
+			tmPiecesCurrentDao.saveTmPiecesCurrent(tmPiecesCurrent, updateVo.getUserName(), updateVo.getControllerId());
 		}
 		
 		// Insert pieces history
 		TmPiecesHistory tmPiecesHistory = new TmPiecesHistory();
-		tmPiecesHistory.setPiecesNo(updatePiecesStatusVo.getPiecesNo());
-		tmPiecesHistory.setTmPiecesId(updatePiecesStatusVo.getTmPiecesId());
-		tmPiecesHistory.setActionCode(updatePiecesStatusVo.getActionCode());
-		tmPiecesHistory.setMemo(updatePiecesStatusVo.getMemo());
-		tmPiecesHistory.setActionUserName(updatePiecesStatusVo.getActionUserName());
-		tmPiecesHistory.setActionDateTime(updatePiecesStatusVo.getActionDateTime());
-		EntityUtils.setBasicDataForCreateEntity(tmPiecesHistory, updatePiecesStatusVo.getUserName());
+		tmPiecesHistory.setPiecesNo(updateVo.getPiecesNo());
+		tmPiecesHistory.setTmPiecesId(updateVo.getTmPiecesId());
+		tmPiecesHistory.setActionCode(updateVo.getActionCode());
+		tmPiecesHistory.setMemo(updateVo.getMemo());
+		tmPiecesHistory.setActionUserName(updateVo.getActionUserName());
+		tmPiecesHistory.setActionDateTime(updateVo.getActionDateTime());
 		
-		tmPiecesHistoryDao.insertTmPiecesHistory(tmPiecesHistory);
+		tmPiecesHistoryDao.insertTmPiecesHistory(tmPiecesHistory, updateVo.getUserName(), updateVo.getControllerId());
 	}
 	
 	@Override
-	public void updatePiecesRefInfo(TmPieces tmPieces, String refType, String refCode) {
+	public void updatePiecesRefInfo(ComPiecesRefUpdateVo updateVo) {
 		
 		TmPiecesRef tmPiecesRefQuery = new TmPiecesRef();
-		tmPiecesRefQuery.setTmPiecesId(tmPieces.getTmPiecesId());
-		tmPiecesRefQuery.setRefType(refType);
+		tmPiecesRefQuery.setTmPiecesId(updateVo.getTmPiecesId());
+		tmPiecesRefQuery.setRefType(updateVo.getRefType());
 		TmPiecesRef tmPiecesRef = querier.selectTmPiecesRefOneByRecord(tmPiecesRefQuery);
 		if(tmPiecesRef == null) {
 			tmPiecesRef = new TmPiecesRef();
 			
-			tmPiecesRef.setTmPiecesId(tmPieces.getTmPiecesId());
-			tmPiecesRef.setPiecesNo(tmPieces.getPiecesNo());
-			tmPiecesRef.setRefType(refType);
+			tmPiecesRef.setTmPiecesId(updateVo.getTmPiecesId());
+			tmPiecesRef.setPiecesNo(updateVo.getPiecesNo());
+			tmPiecesRef.setRefType(updateVo.getRefType());
 		}
 		
-		tmPiecesRef.setRefCode(refCode);
+		tmPiecesRef.setRefCode(updateVo.getRefCode());
+		tmPiecesRef.setRefId(updateVo.getRefId());
 		
-		tmPiecesRefDao.saveTmPiecesRef(tmPiecesRef);
+		tmPiecesRefDao.saveTmPiecesRef(tmPiecesRef, updateVo.getUserName(), updateVo.getControllerId());
 	}
 
 	@Override

@@ -27,6 +27,12 @@ public class TmPiecesSqlProvider extends BaseSqlProvider {
         if (record.getSeq() != null) {
             SET("SEQ = #{seq}");
         }
+        if (record.getWarehouseCode() != null) {
+            SET("WAREHOUSE_CODE = #{warehouseCode}");
+        }
+        if (record.getCountryCode() != null) {
+            SET("COUNTRY_CODE = #{countryCode}");
+        }
         if (record.getMemberCode() != null) {
             SET("MEMBER_CODE = #{memberCode}");
         }
@@ -54,8 +60,14 @@ public class TmPiecesSqlProvider extends BaseSqlProvider {
         if (record.getCheckDate() != null) {
             SET("CHECK_DATE = #{checkDate}");
         }
-        if (record.getWarehouseCode() != null) {
-            SET("WAREHOUSE_CODE = #{warehouseCode}");
+        if (record.getMemo() != null) {
+            SET("MEMO = #{memo}");
+        }
+        if (record.getDeliveryDate() != null) {
+            SET("DELIVERY_DATE = #{deliveryDate}");
+        }
+        if (record.getIsBindDelivery() != null) {
+            SET("IS_BIND_DELIVERY = #{isBindDelivery}");
         }
         if (record.getTmConsignmentId() != null) {
             SET("TM_CONSIGNMENT_ID = #{tmConsignmentId}");
@@ -63,20 +75,26 @@ public class TmPiecesSqlProvider extends BaseSqlProvider {
         if (record.getConsignmentNo() != null) {
             SET("CONSIGNMENT_NO = #{consignmentNo}");
         }
+        if (record.getServiceProductCode() != null) {
+            SET("SERVICE_PRODUCT_CODE = #{serviceProductCode}");
+        }
         if (record.getUnitNo() != null) {
             SET("UNIT_NO = #{unitNo}");
         }
         if (record.getTmUnitId() != null) {
             SET("TM_UNIT_ID = #{tmUnitId}");
         }
-        if (record.getDeliveryDate() != null) {
-            SET("DELIVERY_DATE = #{deliveryDate}");
+        if (record.getSectorNo() != null) {
+            SET("SECTOR_NO = #{sectorNo}");
         }
-        if (record.getMemo() != null) {
-            SET("MEMO = #{memo}");
+        if (record.getTmSectorId() != null) {
+            SET("TM_SECTOR_ID = #{tmSectorId}");
         }
-        if (record.getIsBindDelivery() != null) {
-            SET("IS_BIND_DELIVERY = #{isBindDelivery}");
+        if (record.getDeliveryVendorCode() != null) {
+            SET("DELIVERY_VENDOR_CODE = #{deliveryVendorCode}");
+        }
+        if (record.getDeliveryNo() != null) {
+            SET("DELIVERY_NO = #{deliveryNo}");
         }
         if (record.getRecordVersion() != null) {
             SET("RECORD_VERSION = #{recordVersion}");
@@ -111,6 +129,12 @@ public class TmPiecesSqlProvider extends BaseSqlProvider {
         if (record.getSeq() != null) {
             stringBuffer.append(" AND SEQ = #{seq}");
         }
+        if (record.getWarehouseCode() != null) {
+            stringBuffer.append(" AND WAREHOUSE_CODE = #{warehouseCode}");
+        }
+        if (record.getCountryCode() != null) {
+            stringBuffer.append(" AND COUNTRY_CODE = #{countryCode}");
+        }
         if (record.getMemberCode() != null) {
             stringBuffer.append(" AND MEMBER_CODE = #{memberCode}");
         }
@@ -138,8 +162,14 @@ public class TmPiecesSqlProvider extends BaseSqlProvider {
         if (record.getCheckDate() != null) {
             stringBuffer.append(" AND CHECK_DATE = #{checkDate}");
         }
-        if (record.getWarehouseCode() != null) {
-            stringBuffer.append(" AND WAREHOUSE_CODE = #{warehouseCode}");
+        if (record.getMemo() != null) {
+            stringBuffer.append(" AND MEMO = #{memo}");
+        }
+        if (record.getDeliveryDate() != null) {
+            stringBuffer.append(" AND DELIVERY_DATE = #{deliveryDate}");
+        }
+        if (record.getIsBindDelivery() != null) {
+            stringBuffer.append(" AND IS_BIND_DELIVERY = #{isBindDelivery}");
         }
         if (record.getTmConsignmentId() != null) {
             stringBuffer.append(" AND TM_CONSIGNMENT_ID = #{tmConsignmentId}");
@@ -147,20 +177,26 @@ public class TmPiecesSqlProvider extends BaseSqlProvider {
         if (record.getConsignmentNo() != null) {
             stringBuffer.append(" AND CONSIGNMENT_NO = #{consignmentNo}");
         }
+        if (record.getServiceProductCode() != null) {
+            stringBuffer.append(" AND SERVICE_PRODUCT_CODE = #{serviceProductCode}");
+        }
         if (record.getUnitNo() != null) {
             stringBuffer.append(" AND UNIT_NO = #{unitNo}");
         }
         if (record.getTmUnitId() != null) {
             stringBuffer.append(" AND TM_UNIT_ID = #{tmUnitId}");
         }
-        if (record.getDeliveryDate() != null) {
-            stringBuffer.append(" AND DELIVERY_DATE = #{deliveryDate}");
+        if (record.getSectorNo() != null) {
+            stringBuffer.append(" AND SECTOR_NO = #{sectorNo}");
         }
-        if (record.getMemo() != null) {
-            stringBuffer.append(" AND MEMO = #{memo}");
+        if (record.getTmSectorId() != null) {
+            stringBuffer.append(" AND TM_SECTOR_ID = #{tmSectorId}");
         }
-        if (record.getIsBindDelivery() != null) {
-            stringBuffer.append(" AND IS_BIND_DELIVERY = #{isBindDelivery}");
+        if (record.getDeliveryVendorCode() != null) {
+            stringBuffer.append(" AND DELIVERY_VENDOR_CODE = #{deliveryVendorCode}");
+        }
+        if (record.getDeliveryNo() != null) {
+            stringBuffer.append(" AND DELIVERY_NO = #{deliveryNo}");
         }
         if (record.getRecordVersion() != null) {
             stringBuffer.append(" AND RECORD_VERSION = #{recordVersion}");

@@ -15,6 +15,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.palette.busi.project.tms.business.basic.login.vo.LoginUserResultVo;
 import com.palette.busi.project.tms.common.util.DateUtils;
 import com.palette.busi.project.tms.common.util.SessionUtils;
+import com.palette.busi.project.tms.common.util.StringUtils;
 import com.palette.busi.project.tms.core.dao.SysLogDao;
 import com.palette.busi.project.tms.core.entity.SysLog;
 
@@ -64,13 +65,15 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
 					sysLog.setSeesionId(sessionId);
 					sysLog.setIp(request.getRemoteAddr());
 					LoginUserResultVo user = SessionUtils.getLoginUserSession(sessionId);
+					String userName = StringUtils.BLANK;
 					if(user != null && user.getCdUser() != null) {
+						userName = user.getCdUser().getUserName();
 						sysLog.setActionUserCode(user.getCdUser().getUserName());
 					}
 					
 					sysLog.setActionDateTime(DateUtils.getCurrentGMTDate());
 					
-					sysLogDao.insertSysLog(sysLog);
+					sysLogDao.insertSysLog(sysLog, userName, "LogInterceptor");
 			    }
 			}
 		} catch (Exception e) {

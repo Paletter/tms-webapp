@@ -51,6 +51,14 @@ import com.palette.busi.project.tms.core.dao.CrMemberDao;
 import com.palette.busi.project.tms.core.entity.CrMember;
 import com.palette.busi.project.tms.core.dao.SysLogDao;
 import com.palette.busi.project.tms.core.entity.SysLog;
+import com.palette.busi.project.tms.core.dao.TmConsignmentDao;
+import com.palette.busi.project.tms.core.entity.TmConsignment;
+import com.palette.busi.project.tms.core.dao.TmConsignmentCurrentDao;
+import com.palette.busi.project.tms.core.entity.TmConsignmentCurrent;
+import com.palette.busi.project.tms.core.dao.TmConsignmentItemDao;
+import com.palette.busi.project.tms.core.entity.TmConsignmentItem;
+import com.palette.busi.project.tms.core.dao.TmConsignmentVasRelationDao;
+import com.palette.busi.project.tms.core.entity.TmConsignmentVasRelation;
 import com.palette.busi.project.tms.core.dao.TmPiecesDao;
 import com.palette.busi.project.tms.core.entity.TmPieces;
 import com.palette.busi.project.tms.core.dao.TmPiecesActionDao;
@@ -118,6 +126,10 @@ public class EntityGeneralQuerier {
 	@Autowired private CdWarehouseDao CdWarehouseDao;
 	@Autowired private CrMemberDao CrMemberDao;
 	@Autowired private SysLogDao SysLogDao;
+	@Autowired private TmConsignmentDao TmConsignmentDao;
+	@Autowired private TmConsignmentCurrentDao TmConsignmentCurrentDao;
+	@Autowired private TmConsignmentItemDao TmConsignmentItemDao;
+	@Autowired private TmConsignmentVasRelationDao TmConsignmentVasRelationDao;
 	@Autowired private TmPiecesDao TmPiecesDao;
 	@Autowired private TmPiecesActionDao TmPiecesActionDao;
 	@Autowired private TmPiecesCurrentDao TmPiecesCurrentDao;
@@ -270,6 +282,30 @@ public class EntityGeneralQuerier {
 	public List<SysLog> selectSysLogAllByRecord(SysLog param) {return SysLogDao.selectAllByRecord(param);};
 	public SysLog selectSysLogOneByRecord(SysLog param) {return SysLogDao.selectOneByRecord(param);};
 	public PageInfo selectSysLogPageByRecord(SysLog param) {return SysLogDao.selectPageByRecord(param);};
+	
+	public TmConsignment selectTmConsignmentById(Integer id) {return TmConsignmentDao.selectTmConsignmentById(id);}
+	public List<TmConsignment> selectTmConsignmentAll() {return TmConsignmentDao.selectAllTmConsignment();};
+	public List<TmConsignment> selectTmConsignmentAllByRecord(TmConsignment param) {return TmConsignmentDao.selectAllByRecord(param);};
+	public TmConsignment selectTmConsignmentOneByRecord(TmConsignment param) {return TmConsignmentDao.selectOneByRecord(param);};
+	public PageInfo selectTmConsignmentPageByRecord(TmConsignment param) {return TmConsignmentDao.selectPageByRecord(param);};
+	
+	public TmConsignmentCurrent selectTmConsignmentCurrentById(Integer id) {return TmConsignmentCurrentDao.selectTmConsignmentCurrentById(id);}
+	public List<TmConsignmentCurrent> selectTmConsignmentCurrentAll() {return TmConsignmentCurrentDao.selectAllTmConsignmentCurrent();};
+	public List<TmConsignmentCurrent> selectTmConsignmentCurrentAllByRecord(TmConsignmentCurrent param) {return TmConsignmentCurrentDao.selectAllByRecord(param);};
+	public TmConsignmentCurrent selectTmConsignmentCurrentOneByRecord(TmConsignmentCurrent param) {return TmConsignmentCurrentDao.selectOneByRecord(param);};
+	public PageInfo selectTmConsignmentCurrentPageByRecord(TmConsignmentCurrent param) {return TmConsignmentCurrentDao.selectPageByRecord(param);};
+	
+	public TmConsignmentItem selectTmConsignmentItemById(Integer id) {return TmConsignmentItemDao.selectTmConsignmentItemById(id);}
+	public List<TmConsignmentItem> selectTmConsignmentItemAll() {return TmConsignmentItemDao.selectAllTmConsignmentItem();};
+	public List<TmConsignmentItem> selectTmConsignmentItemAllByRecord(TmConsignmentItem param) {return TmConsignmentItemDao.selectAllByRecord(param);};
+	public TmConsignmentItem selectTmConsignmentItemOneByRecord(TmConsignmentItem param) {return TmConsignmentItemDao.selectOneByRecord(param);};
+	public PageInfo selectTmConsignmentItemPageByRecord(TmConsignmentItem param) {return TmConsignmentItemDao.selectPageByRecord(param);};
+	
+	public TmConsignmentVasRelation selectTmConsignmentVasRelationById(Integer id) {return TmConsignmentVasRelationDao.selectTmConsignmentVasRelationById(id);}
+	public List<TmConsignmentVasRelation> selectTmConsignmentVasRelationAll() {return TmConsignmentVasRelationDao.selectAllTmConsignmentVasRelation();};
+	public List<TmConsignmentVasRelation> selectTmConsignmentVasRelationAllByRecord(TmConsignmentVasRelation param) {return TmConsignmentVasRelationDao.selectAllByRecord(param);};
+	public TmConsignmentVasRelation selectTmConsignmentVasRelationOneByRecord(TmConsignmentVasRelation param) {return TmConsignmentVasRelationDao.selectOneByRecord(param);};
+	public PageInfo selectTmConsignmentVasRelationPageByRecord(TmConsignmentVasRelation param) {return TmConsignmentVasRelationDao.selectPageByRecord(param);};
 	
 	public TmPieces selectTmPiecesById(Integer id) {return TmPiecesDao.selectTmPiecesById(id);}
 	public List<TmPieces> selectTmPiecesAll() {return TmPiecesDao.selectAllTmPieces();};

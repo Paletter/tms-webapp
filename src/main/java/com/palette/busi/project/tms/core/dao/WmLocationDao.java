@@ -1,5 +1,9 @@
 package com.palette.busi.project.tms.core.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +23,20 @@ import com.palette.busi.project.tms.core.page.PageModel;
 @Component
 public class WmLocationDao extends BaseDaoImpl {
 	
-	public WmLocation updateWmLocation(WmLocation wmLocation) throws BaseException {
+	public WmLocation updateWmLocation(WmLocation wmLocation, String user, String programId) throws BaseException {
 		WmLocationIntf mapper = this.getSqlSessionTemplate().getMapper(WmLocationIntf.class);
+		wmLocation.setUpdateDateTime(getCurrentGMTDate());
+		wmLocation.setUpdateUserCode(user);
 		mapper.updateWmLocation(wmLocation);
 		return wmLocation;
 	}
 	
-	public WmLocation insertWmLocation(WmLocation wmLocation) throws BaseException {
+	public WmLocation insertWmLocation(WmLocation wmLocation, String user, String programId) throws BaseException {
 		WmLocationIntf mapper = this.getSqlSessionTemplate().getMapper(WmLocationIntf.class);
+		wmLocation.setCreateDateTime(getCurrentGMTDate());
+		wmLocation.setCreateUserCode(user);
+		wmLocation.setUpdateDateTime(getCurrentGMTDate());
+		wmLocation.setUpdateUserCode(user);
 		mapper.insertWmLocation(wmLocation);
 		if(wmLocation.getWmLocationId() == null){
 			wmLocation.setWmLocationId(getLastPk());
@@ -75,15 +85,23 @@ public class WmLocationDao extends BaseDaoImpl {
 		}
 	}
 	
-	public WmLocation saveWmLocation(WmLocation wmLocation) throws BaseException {
-		WmLocationIntf mapper = this.getSqlSessionTemplate().getMapper(WmLocationIntf.class);
+	public WmLocation saveWmLocation(WmLocation wmLocation, String user, String programId) throws BaseException {
 		if(wmLocation.getWmLocationId() == null){
-			mapper.insertWmLocation(wmLocation);
-			wmLocation = selectWmLocationById(getLastPk());
+			wmLocation = insertWmLocation(wmLocation, user, programId);
 		}else{
-			mapper.updateWmLocation(wmLocation);
-			wmLocation = mapper.selectWmLocationById(wmLocation.getWmLocationId());
+			wmLocation = updateWmLocation(wmLocation, user, programId);
 		}
 		return wmLocation;
 	}
+	
+	private Date getCurrentGMTDate() {
+		try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
+	        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        return dateTimeFormat.parse(dateFormat.format(new Date()));
+		} catch (Exception e) {
+			throw new BaseException(e.getMessage());
+		}
+    }
 }

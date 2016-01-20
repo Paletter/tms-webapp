@@ -1,5 +1,9 @@
 package com.palette.busi.project.tms.core.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +23,20 @@ import com.palette.busi.project.tms.core.page.PageModel;
 @Component
 public class TmSectorActionDao extends BaseDaoImpl {
 	
-	public TmSectorAction updateTmSectorAction(TmSectorAction tmSectorAction) throws BaseException {
+	public TmSectorAction updateTmSectorAction(TmSectorAction tmSectorAction, String user, String programId) throws BaseException {
 		TmSectorActionIntf mapper = this.getSqlSessionTemplate().getMapper(TmSectorActionIntf.class);
+		tmSectorAction.setUpdateDateTime(getCurrentGMTDate());
+		tmSectorAction.setUpdateUserCode(user);
 		mapper.updateTmSectorAction(tmSectorAction);
 		return tmSectorAction;
 	}
 	
-	public TmSectorAction insertTmSectorAction(TmSectorAction tmSectorAction) throws BaseException {
+	public TmSectorAction insertTmSectorAction(TmSectorAction tmSectorAction, String user, String programId) throws BaseException {
 		TmSectorActionIntf mapper = this.getSqlSessionTemplate().getMapper(TmSectorActionIntf.class);
+		tmSectorAction.setCreateDateTime(getCurrentGMTDate());
+		tmSectorAction.setCreateUserCode(user);
+		tmSectorAction.setUpdateDateTime(getCurrentGMTDate());
+		tmSectorAction.setUpdateUserCode(user);
 		mapper.insertTmSectorAction(tmSectorAction);
 		if(tmSectorAction.getTmSectorActionId() == null){
 			tmSectorAction.setTmSectorActionId(getLastPk());
@@ -75,15 +85,23 @@ public class TmSectorActionDao extends BaseDaoImpl {
 		}
 	}
 	
-	public TmSectorAction saveTmSectorAction(TmSectorAction tmSectorAction) throws BaseException {
-		TmSectorActionIntf mapper = this.getSqlSessionTemplate().getMapper(TmSectorActionIntf.class);
+	public TmSectorAction saveTmSectorAction(TmSectorAction tmSectorAction, String user, String programId) throws BaseException {
 		if(tmSectorAction.getTmSectorActionId() == null){
-			mapper.insertTmSectorAction(tmSectorAction);
-			tmSectorAction = selectTmSectorActionById(getLastPk());
+			tmSectorAction = insertTmSectorAction(tmSectorAction, user, programId);
 		}else{
-			mapper.updateTmSectorAction(tmSectorAction);
-			tmSectorAction = mapper.selectTmSectorActionById(tmSectorAction.getTmSectorActionId());
+			tmSectorAction = updateTmSectorAction(tmSectorAction, user, programId);
 		}
 		return tmSectorAction;
 	}
+	
+	private Date getCurrentGMTDate() {
+		try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
+	        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        return dateTimeFormat.parse(dateFormat.format(new Date()));
+		} catch (Exception e) {
+			throw new BaseException(e.getMessage());
+		}
+    }
 }

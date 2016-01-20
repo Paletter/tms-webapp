@@ -1,5 +1,9 @@
 package com.palette.busi.project.tms.core.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +23,20 @@ import com.palette.busi.project.tms.core.page.PageModel;
 @Component
 public class CdResourceDao extends BaseDaoImpl {
 	
-	public CdResource updateCdResource(CdResource cdResource) throws BaseException {
+	public CdResource updateCdResource(CdResource cdResource, String user, String programId) throws BaseException {
 		CdResourceIntf mapper = this.getSqlSessionTemplate().getMapper(CdResourceIntf.class);
+		cdResource.setUpdateDateTime(getCurrentGMTDate());
+		cdResource.setUpdateUserCode(user);
 		mapper.updateCdResource(cdResource);
 		return cdResource;
 	}
 	
-	public CdResource insertCdResource(CdResource cdResource) throws BaseException {
+	public CdResource insertCdResource(CdResource cdResource, String user, String programId) throws BaseException {
 		CdResourceIntf mapper = this.getSqlSessionTemplate().getMapper(CdResourceIntf.class);
+		cdResource.setCreateDateTime(getCurrentGMTDate());
+		cdResource.setCreateUserCode(user);
+		cdResource.setUpdateDateTime(getCurrentGMTDate());
+		cdResource.setUpdateUserCode(user);
 		mapper.insertCdResource(cdResource);
 		if(cdResource.getCdResourceId() == null){
 			cdResource.setCdResourceId(getLastPk());
@@ -75,15 +85,23 @@ public class CdResourceDao extends BaseDaoImpl {
 		}
 	}
 	
-	public CdResource saveCdResource(CdResource cdResource) throws BaseException {
-		CdResourceIntf mapper = this.getSqlSessionTemplate().getMapper(CdResourceIntf.class);
+	public CdResource saveCdResource(CdResource cdResource, String user, String programId) throws BaseException {
 		if(cdResource.getCdResourceId() == null){
-			mapper.insertCdResource(cdResource);
-			cdResource = selectCdResourceById(getLastPk());
+			cdResource = insertCdResource(cdResource, user, programId);
 		}else{
-			mapper.updateCdResource(cdResource);
-			cdResource = mapper.selectCdResourceById(cdResource.getCdResourceId());
+			cdResource = updateCdResource(cdResource, user, programId);
 		}
 		return cdResource;
 	}
+	
+	private Date getCurrentGMTDate() {
+		try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
+	        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        return dateTimeFormat.parse(dateFormat.format(new Date()));
+		} catch (Exception e) {
+			throw new BaseException(e.getMessage());
+		}
+    }
 }

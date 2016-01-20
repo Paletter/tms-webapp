@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.palette.busi.project.tms.business.storage.piecesManage.mapper.pieces_manage">
+	<!-- Define map -->
+	<parameterMap id="piecesListPageParamVo" type="com.palette.busi.project.tms.business.storage.piecesManage.vo.PiecesListPageParamVo"></parameterMap>
+	<resultMap id="piecesListResultVo" type="com.palette.busi.project.tms.business.storage.piecesManage.vo.PiecesListResultVo"></resultMap>
+	<resultMap id="piecesDetailResultVo" type="com.palette.busi.project.tms.business.storage.piecesManage.vo.PiecesDetailResultVo"></resultMap>
+	<resultMap id="piecesDetailHistoryResultVo" type="com.palette.busi.project.tms.business.storage.piecesManage.vo.PiecesDetailHistoryResultVo"></resultMap>
+	<!-- End define map -->
+	
+	<!-- Define sql -->
+	<select id="queryPiecesList" parameterMap="piecesListPageParamVo" resultMap="piecesListResultVo">
+		SELECT
+			tp.TM_PIECES_ID,
+			tp.PIECES_NO,
+			tp.CONSIGNMENT_NO,
+			tp.LOGISTICS_NO,
+			tp.MEMBER_CODE,
+			tp.ACTUAL_WEIGHT,
+			tp.VOLUME_WEIGHT,
+			wlc.LOCATION_CODE AS locCode,
+			cw.WAREHOUSE_DESC AS piecesWarehouse,
+			tp.TM_CONSIGNMENT_ID,
+			tpa.USER_VIEW_CODE AS userViewCode,
+			tpa.USER_VIEW_NO AS userViewNo,
+			tpa.ACTION_DESC AS currentActionDesc,
+			tp.CHECK_DATE,
+			tp.MEMO AS piecesMemo
+		FROM
+			tm_pieces tp
+			LEFT JOIN tm_pieces_current tpc ON tpc.TM_PIECES_ID = tp.TM_PIECES_ID
+			LEFT JOIN tm_pieces_history tph ON tph.TM_PIECES_ID = tp.TM_PIECES_ID
+			LEFT JOIN tm_pieces_action tpa ON tpa.ACTION_CODE = tpc.ACTION_CODE
+			LEFT JOIN cd_warehouse cw ON cw.WAREHOUSE_CODE = tp.WAREHOUSE_CODE
+			LEFT JOIN wm_location_current wlc ON tp.PIECES_NO = wlc.PIECES_NO
+		WHERE
+			1 = 1
+			<if test="consignmentNo != null and consignmentNo != ''">
+				AND tp.CONSIGNMENT_NO LIKE CONCAT('%',#{consignmentNo,jdbcType=VARCHAR})
+			</if>
+			<if test="logisticsNo != null and logisticsNo != ''">
+				AND tp.LOGISTICS_NO LIKE CONCAT('%',#{logisticsNo,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="piecesNo != null and piecesNo != ''">
+				AND tp.PIECES_NO LIKE CONCAT('%',#{piecesNo,jdbcType=VARCHAR})
+			</if>
+			<if test="warehouseCode != null and warehouseCode != ''">
+				AND tp.WAREHOUSE_CODE = #{warehouseCode}
+			</if>
+			<if test="memberCode != null and memberCode != ''">
+				AND tp.MEMBER_CODE = #{memberCode}
+			</if>
+			<if test="startStockedTime != null and startStockedTime != ''">
+				AND tp.CHECK_DATE >= #{startStockedTime}
+			</if>
+			<if test="endStockedTime != null and endStockedTime != ''">
+				AND tp.CHECK_DATE &lt;= #{endStockedTime}
+			</if>
+			<if test="stockStatus == 'NOT_STOCK'">
+				AND ((tp.TM_CONSIGNMENT_ID IS NULL AND tp.CHECK_DATE IS NULL) 
+						OR (tp.TM_CONSIGNMENT_ID IS NOT NULL AND tc.ACTURAL_WAREHOUSE_CODE IS NULL))
+			</if>
+			<if test="stockStatus == 'IN_STOCK'">
+				AND tpa.USER_VIEW_NO &lt; 400
+			</if>
+			<if test="stockStatus == 'OUT_STOCK'">
+				AND tca.USER_VIEW_NO >= 400
+			</if>
+			<if test="piecesClaimStatus == 'NOT_CLAIM'">
+				AND tp.TM_CONSIGNMENT_ID IS NULL
+			</if>
+			<if test="piecesClaimStatus == 'CLAIMED'">
+				AND tp.TM_CONSIGNMENT_ID IS NOT NULL
+			</if>
+			<if test="piecesMemo != null and piecesMemo != ''">
+				AND tp.MEMO = #{piecesMemo}
+			</if>
+		GROUP BY tp.PIECES_NO
+		ORDER BY tp.PIECES_NO DESC
+	</select>
+	
+	<select id="callGetPiecesDetailSp" statementType="CALLABLE" parameterType="string" resultMap="piecesDetailResultVo, common.tmConsignmentItemEntity, piecesDetailHistoryResultVo">
+		{CALL sys_pm_get_pieces_detail(#{piecesNo, mode=IN, jdbcType=VARCHAR})}
+	</select>
+	<!-- End define sql -->
+	
+</mapper>

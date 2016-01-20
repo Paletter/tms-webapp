@@ -1,5 +1,9 @@
 package com.palette.busi.project.tms.core.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +23,20 @@ import com.palette.busi.project.tms.core.page.PageModel;
 @Component
 public class TmUnitDao extends BaseDaoImpl {
 	
-	public TmUnit updateTmUnit(TmUnit tmUnit) throws BaseException {
+	public TmUnit updateTmUnit(TmUnit tmUnit, String user, String programId) throws BaseException {
 		TmUnitIntf mapper = this.getSqlSessionTemplate().getMapper(TmUnitIntf.class);
+		tmUnit.setUpdateDateTime(getCurrentGMTDate());
+		tmUnit.setUpdateUserCode(user);
 		mapper.updateTmUnit(tmUnit);
 		return tmUnit;
 	}
 	
-	public TmUnit insertTmUnit(TmUnit tmUnit) throws BaseException {
+	public TmUnit insertTmUnit(TmUnit tmUnit, String user, String programId) throws BaseException {
 		TmUnitIntf mapper = this.getSqlSessionTemplate().getMapper(TmUnitIntf.class);
+		tmUnit.setCreateDateTime(getCurrentGMTDate());
+		tmUnit.setCreateUserCode(user);
+		tmUnit.setUpdateDateTime(getCurrentGMTDate());
+		tmUnit.setUpdateUserCode(user);
 		mapper.insertTmUnit(tmUnit);
 		if(tmUnit.getTmUnitId() == null){
 			tmUnit.setTmUnitId(getLastPk());
@@ -75,15 +85,23 @@ public class TmUnitDao extends BaseDaoImpl {
 		}
 	}
 	
-	public TmUnit saveTmUnit(TmUnit tmUnit) throws BaseException {
-		TmUnitIntf mapper = this.getSqlSessionTemplate().getMapper(TmUnitIntf.class);
+	public TmUnit saveTmUnit(TmUnit tmUnit, String user, String programId) throws BaseException {
 		if(tmUnit.getTmUnitId() == null){
-			mapper.insertTmUnit(tmUnit);
-			tmUnit = selectTmUnitById(getLastPk());
+			tmUnit = insertTmUnit(tmUnit, user, programId);
 		}else{
-			mapper.updateTmUnit(tmUnit);
-			tmUnit = mapper.selectTmUnitById(tmUnit.getTmUnitId());
+			tmUnit = updateTmUnit(tmUnit, user, programId);
 		}
 		return tmUnit;
 	}
+	
+	private Date getCurrentGMTDate() {
+		try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
+	        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        return dateTimeFormat.parse(dateFormat.format(new Date()));
+		} catch (Exception e) {
+			throw new BaseException(e.getMessage());
+		}
+    }
 }

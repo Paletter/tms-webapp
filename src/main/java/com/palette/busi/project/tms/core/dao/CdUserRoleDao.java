@@ -1,5 +1,9 @@
 package com.palette.busi.project.tms.core.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +23,20 @@ import com.palette.busi.project.tms.core.page.PageModel;
 @Component
 public class CdUserRoleDao extends BaseDaoImpl {
 	
-	public CdUserRole updateCdUserRole(CdUserRole cdUserRole) throws BaseException {
+	public CdUserRole updateCdUserRole(CdUserRole cdUserRole, String user, String programId) throws BaseException {
 		CdUserRoleIntf mapper = this.getSqlSessionTemplate().getMapper(CdUserRoleIntf.class);
+		cdUserRole.setUpdateDateTime(getCurrentGMTDate());
+		cdUserRole.setUpdateUserCode(user);
 		mapper.updateCdUserRole(cdUserRole);
 		return cdUserRole;
 	}
 	
-	public CdUserRole insertCdUserRole(CdUserRole cdUserRole) throws BaseException {
+	public CdUserRole insertCdUserRole(CdUserRole cdUserRole, String user, String programId) throws BaseException {
 		CdUserRoleIntf mapper = this.getSqlSessionTemplate().getMapper(CdUserRoleIntf.class);
+		cdUserRole.setCreateDateTime(getCurrentGMTDate());
+		cdUserRole.setCreateUserCode(user);
+		cdUserRole.setUpdateDateTime(getCurrentGMTDate());
+		cdUserRole.setUpdateUserCode(user);
 		mapper.insertCdUserRole(cdUserRole);
 		if(cdUserRole.getCdUserRoleId() == null){
 			cdUserRole.setCdUserRoleId(getLastPk());
@@ -75,15 +85,23 @@ public class CdUserRoleDao extends BaseDaoImpl {
 		}
 	}
 	
-	public CdUserRole saveCdUserRole(CdUserRole cdUserRole) throws BaseException {
-		CdUserRoleIntf mapper = this.getSqlSessionTemplate().getMapper(CdUserRoleIntf.class);
+	public CdUserRole saveCdUserRole(CdUserRole cdUserRole, String user, String programId) throws BaseException {
 		if(cdUserRole.getCdUserRoleId() == null){
-			mapper.insertCdUserRole(cdUserRole);
-			cdUserRole = selectCdUserRoleById(getLastPk());
+			cdUserRole = insertCdUserRole(cdUserRole, user, programId);
 		}else{
-			mapper.updateCdUserRole(cdUserRole);
-			cdUserRole = mapper.selectCdUserRoleById(cdUserRole.getCdUserRoleId());
+			cdUserRole = updateCdUserRole(cdUserRole, user, programId);
 		}
 		return cdUserRole;
 	}
+	
+	private Date getCurrentGMTDate() {
+		try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
+	        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        return dateTimeFormat.parse(dateFormat.format(new Date()));
+		} catch (Exception e) {
+			throw new BaseException(e.getMessage());
+		}
+    }
 }

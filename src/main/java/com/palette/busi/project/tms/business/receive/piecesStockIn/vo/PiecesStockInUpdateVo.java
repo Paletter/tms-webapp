@@ -16,6 +16,10 @@ public class PiecesStockInUpdateVo extends BaseUpdateVo {
     private BigDecimal volumeWeight;
     private String memo;
 
+	public PiecesStockInUpdateVo(String userName, String controllerId) {
+		super(userName, controllerId);
+	}
+
 	public Integer getTmPiecesId() {
 		return tmPiecesId;
 	}

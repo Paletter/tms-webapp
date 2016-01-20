@@ -1,5 +1,9 @@
 package com.palette.busi.project.tms.core.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +23,20 @@ import com.palette.busi.project.tms.core.page.PageModel;
 @Component
 public class CdServiceProductDao extends BaseDaoImpl {
 	
-	public CdServiceProduct updateCdServiceProduct(CdServiceProduct cdServiceProduct) throws BaseException {
+	public CdServiceProduct updateCdServiceProduct(CdServiceProduct cdServiceProduct, String user, String programId) throws BaseException {
 		CdServiceProductIntf mapper = this.getSqlSessionTemplate().getMapper(CdServiceProductIntf.class);
+		cdServiceProduct.setUpdateDateTime(getCurrentGMTDate());
+		cdServiceProduct.setUpdateUserCode(user);
 		mapper.updateCdServiceProduct(cdServiceProduct);
 		return cdServiceProduct;
 	}
 	
-	public CdServiceProduct insertCdServiceProduct(CdServiceProduct cdServiceProduct) throws BaseException {
+	public CdServiceProduct insertCdServiceProduct(CdServiceProduct cdServiceProduct, String user, String programId) throws BaseException {
 		CdServiceProductIntf mapper = this.getSqlSessionTemplate().getMapper(CdServiceProductIntf.class);
+		cdServiceProduct.setCreateDateTime(getCurrentGMTDate());
+		cdServiceProduct.setCreateUserCode(user);
+		cdServiceProduct.setUpdateDateTime(getCurrentGMTDate());
+		cdServiceProduct.setUpdateUserCode(user);
 		mapper.insertCdServiceProduct(cdServiceProduct);
 		if(cdServiceProduct.getCdServiceProductId() == null){
 			cdServiceProduct.setCdServiceProductId(getLastPk());
@@ -75,15 +85,23 @@ public class CdServiceProductDao extends BaseDaoImpl {
 		}
 	}
 	
-	public CdServiceProduct saveCdServiceProduct(CdServiceProduct cdServiceProduct) throws BaseException {
-		CdServiceProductIntf mapper = this.getSqlSessionTemplate().getMapper(CdServiceProductIntf.class);
+	public CdServiceProduct saveCdServiceProduct(CdServiceProduct cdServiceProduct, String user, String programId) throws BaseException {
 		if(cdServiceProduct.getCdServiceProductId() == null){
-			mapper.insertCdServiceProduct(cdServiceProduct);
-			cdServiceProduct = selectCdServiceProductById(getLastPk());
+			cdServiceProduct = insertCdServiceProduct(cdServiceProduct, user, programId);
 		}else{
-			mapper.updateCdServiceProduct(cdServiceProduct);
-			cdServiceProduct = mapper.selectCdServiceProductById(cdServiceProduct.getCdServiceProductId());
+			cdServiceProduct = updateCdServiceProduct(cdServiceProduct, user, programId);
 		}
 		return cdServiceProduct;
 	}
+	
+	private Date getCurrentGMTDate() {
+		try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
+	        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        return dateTimeFormat.parse(dateFormat.format(new Date()));
+		} catch (Exception e) {
+			throw new BaseException(e.getMessage());
+		}
+    }
 }

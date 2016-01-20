@@ -12,11 +12,13 @@ import com.palette.busi.project.tms.business.storage.checkWeight.vo.CWPiecesQuer
 import com.palette.busi.project.tms.business.storage.checkWeight.vo.CheckWeightUpdateVo;
 import com.palette.busi.project.tms.common.base.BaseController;
 import com.palette.busi.project.tms.common.util.StringUtils;
-import com.palette.busi.project.tms.web.exception.BusinessException;
+import com.palette.busi.project.tms.common.util.ThrowExp;
 
 @RestController
 public class CheckWeightController extends BaseController {
 
+	public static String CONTROLLER_ID = "CHECK_WEIGHT";
+	
 	@Autowired
 	private CheckWeightService checkWeightService;
 	@Autowired
@@ -25,13 +27,13 @@ public class CheckWeightController extends BaseController {
 	@RequestMapping(value="/CheckWeightController/queryPieces")
 	public CWPiecesInfoResultVo queryPieces(@RequestBody CWPiecesQueryParamVo checkWeightPiecesQueryParamVo) {
 		
-		if(StringUtils.isNullOrEmpty(checkWeightPiecesQueryParamVo.getQueryNo())) throw new BusinessException("操作失败。查询单号不能为空");
+		ThrowExp.isNullOrEmpty(checkWeightPiecesQueryParamVo.getQueryNo(), "操作失败。查询单号不能为空");
 		
-		checkWeightPiecesQueryParamVo.setQueryNo(checkWeightPiecesQueryParamVo.getQueryNo().toUpperCase().replaceAll(" ", ""));
+		checkWeightPiecesQueryParamVo.setQueryNo(StringUtils.toUpperAndTrim(checkWeightPiecesQueryParamVo.getQueryNo()));
 		
 		// Business
 		CWPiecesInfoResultVo resultVo = checkWeightService.queryCheckWeightPieces(checkWeightPiecesQueryParamVo);
-		if(resultVo == null) throw new BusinessException("操作失败。运单信息不存在");
+		ThrowExp.isNull(resultVo, "操作失败。运单信息不存在");
 		
 		return resultVo;
 	}

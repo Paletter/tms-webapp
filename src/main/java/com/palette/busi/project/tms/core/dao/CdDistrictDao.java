@@ -1,5 +1,9 @@
 package com.palette.busi.project.tms.core.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +23,20 @@ import com.palette.busi.project.tms.core.page.PageModel;
 @Component
 public class CdDistrictDao extends BaseDaoImpl {
 	
-	public CdDistrict updateCdDistrict(CdDistrict cdDistrict) throws BaseException {
+	public CdDistrict updateCdDistrict(CdDistrict cdDistrict, String user, String programId) throws BaseException {
 		CdDistrictIntf mapper = this.getSqlSessionTemplate().getMapper(CdDistrictIntf.class);
+		cdDistrict.setUpdateDateTime(getCurrentGMTDate());
+		cdDistrict.setUpdateUserCode(user);
 		mapper.updateCdDistrict(cdDistrict);
 		return cdDistrict;
 	}
 	
-	public CdDistrict insertCdDistrict(CdDistrict cdDistrict) throws BaseException {
+	public CdDistrict insertCdDistrict(CdDistrict cdDistrict, String user, String programId) throws BaseException {
 		CdDistrictIntf mapper = this.getSqlSessionTemplate().getMapper(CdDistrictIntf.class);
+		cdDistrict.setCreateDateTime(getCurrentGMTDate());
+		cdDistrict.setCreateUserCode(user);
+		cdDistrict.setUpdateDateTime(getCurrentGMTDate());
+		cdDistrict.setUpdateUserCode(user);
 		mapper.insertCdDistrict(cdDistrict);
 		if(cdDistrict.getCdDistrictId() == null){
 			cdDistrict.setCdDistrictId(getLastPk());
@@ -75,15 +85,23 @@ public class CdDistrictDao extends BaseDaoImpl {
 		}
 	}
 	
-	public CdDistrict saveCdDistrict(CdDistrict cdDistrict) throws BaseException {
-		CdDistrictIntf mapper = this.getSqlSessionTemplate().getMapper(CdDistrictIntf.class);
+	public CdDistrict saveCdDistrict(CdDistrict cdDistrict, String user, String programId) throws BaseException {
 		if(cdDistrict.getCdDistrictId() == null){
-			mapper.insertCdDistrict(cdDistrict);
-			cdDistrict = selectCdDistrictById(getLastPk());
+			cdDistrict = insertCdDistrict(cdDistrict, user, programId);
 		}else{
-			mapper.updateCdDistrict(cdDistrict);
-			cdDistrict = mapper.selectCdDistrictById(cdDistrict.getCdDistrictId());
+			cdDistrict = updateCdDistrict(cdDistrict, user, programId);
 		}
 		return cdDistrict;
 	}
+	
+	private Date getCurrentGMTDate() {
+		try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
+	        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        return dateTimeFormat.parse(dateFormat.format(new Date()));
+		} catch (Exception e) {
+			throw new BaseException(e.getMessage());
+		}
+    }
 }

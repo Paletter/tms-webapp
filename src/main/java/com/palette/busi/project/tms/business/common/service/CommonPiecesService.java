@@ -2,14 +2,15 @@ package com.palette.busi.project.tms.business.common.service;
 
 import java.math.BigDecimal;
 
-import com.palette.busi.project.tms.business.common.vo.UpdatePiecesStatusVo;
+import com.palette.busi.project.tms.business.common.vo.ComPiecesRefUpdateVo;
+import com.palette.busi.project.tms.business.common.vo.ComPiecesStatusUpdateVo;
 import com.palette.busi.project.tms.core.entity.TmPieces;
 
 public interface CommonPiecesService {
 
-	public void updatePiecesRefInfo(TmPieces tmPieces, String refType, String refCode);
+	public void updatePiecesRefInfo(ComPiecesRefUpdateVo updateVo);
 	
-	public void updatePiecesStatus(UpdatePiecesStatusVo updatePiecesStatusVo);
+	public void updatePiecesStatus(ComPiecesStatusUpdateVo updateVo);
 	
 	public BigDecimal getPiecesChargedWeight(TmPieces tmPieces);
 }

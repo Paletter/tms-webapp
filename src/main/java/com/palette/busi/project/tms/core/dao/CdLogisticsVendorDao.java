@@ -1,5 +1,9 @@
 package com.palette.busi.project.tms.core.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +23,20 @@ import com.palette.busi.project.tms.core.page.PageModel;
 @Component
 public class CdLogisticsVendorDao extends BaseDaoImpl {
 	
-	public CdLogisticsVendor updateCdLogisticsVendor(CdLogisticsVendor cdLogisticsVendor) throws BaseException {
+	public CdLogisticsVendor updateCdLogisticsVendor(CdLogisticsVendor cdLogisticsVendor, String user, String programId) throws BaseException {
 		CdLogisticsVendorIntf mapper = this.getSqlSessionTemplate().getMapper(CdLogisticsVendorIntf.class);
+		cdLogisticsVendor.setUpdateDateTime(getCurrentGMTDate());
+		cdLogisticsVendor.setUpdateUserCode(user);
 		mapper.updateCdLogisticsVendor(cdLogisticsVendor);
 		return cdLogisticsVendor;
 	}
 	
-	public CdLogisticsVendor insertCdLogisticsVendor(CdLogisticsVendor cdLogisticsVendor) throws BaseException {
+	public CdLogisticsVendor insertCdLogisticsVendor(CdLogisticsVendor cdLogisticsVendor, String user, String programId) throws BaseException {
 		CdLogisticsVendorIntf mapper = this.getSqlSessionTemplate().getMapper(CdLogisticsVendorIntf.class);
+		cdLogisticsVendor.setCreateDateTime(getCurrentGMTDate());
+		cdLogisticsVendor.setCreateUserCode(user);
+		cdLogisticsVendor.setUpdateDateTime(getCurrentGMTDate());
+		cdLogisticsVendor.setUpdateUserCode(user);
 		mapper.insertCdLogisticsVendor(cdLogisticsVendor);
 		if(cdLogisticsVendor.getCdLogisticsVendorId() == null){
 			cdLogisticsVendor.setCdLogisticsVendorId(getLastPk());
@@ -75,15 +85,23 @@ public class CdLogisticsVendorDao extends BaseDaoImpl {
 		}
 	}
 	
-	public CdLogisticsVendor saveCdLogisticsVendor(CdLogisticsVendor cdLogisticsVendor) throws BaseException {
-		CdLogisticsVendorIntf mapper = this.getSqlSessionTemplate().getMapper(CdLogisticsVendorIntf.class);
+	public CdLogisticsVendor saveCdLogisticsVendor(CdLogisticsVendor cdLogisticsVendor, String user, String programId) throws BaseException {
 		if(cdLogisticsVendor.getCdLogisticsVendorId() == null){
-			mapper.insertCdLogisticsVendor(cdLogisticsVendor);
-			cdLogisticsVendor = selectCdLogisticsVendorById(getLastPk());
+			cdLogisticsVendor = insertCdLogisticsVendor(cdLogisticsVendor, user, programId);
 		}else{
-			mapper.updateCdLogisticsVendor(cdLogisticsVendor);
-			cdLogisticsVendor = mapper.selectCdLogisticsVendorById(cdLogisticsVendor.getCdLogisticsVendorId());
+			cdLogisticsVendor = updateCdLogisticsVendor(cdLogisticsVendor, user, programId);
 		}
 		return cdLogisticsVendor;
 	}
+	
+	private Date getCurrentGMTDate() {
+		try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
+	        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        return dateTimeFormat.parse(dateFormat.format(new Date()));
+		} catch (Exception e) {
+			throw new BaseException(e.getMessage());
+		}
+    }
 }

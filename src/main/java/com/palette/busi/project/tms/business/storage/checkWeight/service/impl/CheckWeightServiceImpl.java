@@ -5,7 +5,8 @@ import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.palette.busi.project.tms.business.common.vo.UpdatePiecesStatusVo;
+import com.palette.busi.project.tms.business.common.vo.ComPiecesStatusUpdateVo;
+import com.palette.busi.project.tms.business.storage.checkWeight.controller.CheckWeightController;
 import com.palette.busi.project.tms.business.storage.checkWeight.service.CheckWeightService;
 import com.palette.busi.project.tms.business.storage.checkWeight.vo.CWPiecesInfoResultVo;
 import com.palette.busi.project.tms.business.storage.checkWeight.vo.CWPiecesQueryParamVo;
@@ -14,7 +15,6 @@ import com.palette.busi.project.tms.common.base.BaseServiceImpl;
 import com.palette.busi.project.tms.common.constant.CodeConstants;
 import com.palette.busi.project.tms.common.constant.SqlMapperConstants;
 import com.palette.busi.project.tms.common.util.DateUtils;
-import com.palette.busi.project.tms.common.util.EntityUtils;
 import com.palette.busi.project.tms.common.util.StringUtils;
 import com.palette.busi.project.tms.common.vo.ServiceOptParamLinkerVo;
 import com.palette.busi.project.tms.core.dao.TmPiecesDao;
@@ -46,7 +46,7 @@ public class CheckWeightServiceImpl extends BaseServiceImpl implements CheckWeig
 			checkWeightUpdateVo.setVolumeWeight(volumeWeight.setScale(2, BigDecimal.ROUND_UP));
 		}
 		
-		checkWeightUpdateVo.setPiecesNo(checkWeightUpdateVo.getPiecesNo().toUpperCase().replaceAll(" ", ""));
+		checkWeightUpdateVo.setPiecesNo(StringUtils.toUpperAndTrim(checkWeightUpdateVo.getPiecesNo()));
 	}
 
 	@Override
@@ -67,18 +67,17 @@ public class CheckWeightServiceImpl extends BaseServiceImpl implements CheckWeig
 			updatePieces.setVolumeWeight(updateVo.getVolumeWeight());
 		}
 		updatePieces.setWarehouseCode(paramLinkerVo.getWarehouseCode());
-		EntityUtils.setBasicDataForUpdateEntity(updatePieces, paramLinkerVo.getUserName());
 		
-		tmPiecesDao.updateTmPieces(updatePieces);
+		tmPiecesDao.updateTmPieces(updatePieces, paramLinkerVo.getUserName(), CheckWeightController.CONTROLLER_ID);
 		
 		// Insert or Update pieces current and history
-		UpdatePiecesStatusVo updatePiecesStatusVo = createCheckWeightUpdatePiecesStatusVo(updatePieces, paramLinkerVo);
+		ComPiecesStatusUpdateVo updatePiecesStatusVo = createCheckWeightUpdatePiecesStatusVo(updatePieces, paramLinkerVo);
 		servicePvd.commonPiecesService.updatePiecesStatus(updatePiecesStatusVo);
 	}
 	
-	private UpdatePiecesStatusVo createCheckWeightUpdatePiecesStatusVo(TmPieces tmPieces, ServiceOptParamLinkerVo paramLinkerVo) {
+	private ComPiecesStatusUpdateVo createCheckWeightUpdatePiecesStatusVo(TmPieces tmPieces, ServiceOptParamLinkerVo paramLinkerVo) {
 		
-		UpdatePiecesStatusVo updatePiecesStatusVo = new UpdatePiecesStatusVo();
+		ComPiecesStatusUpdateVo updatePiecesStatusVo = new ComPiecesStatusUpdateVo(paramLinkerVo.getUserName(), CheckWeightController.CONTROLLER_ID);
 		
 		updatePiecesStatusVo.setTmPiecesId(tmPieces.getTmPiecesId());
 		updatePiecesStatusVo.setPiecesNo(tmPieces.getPiecesNo());

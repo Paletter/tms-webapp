@@ -2,7 +2,9 @@ package com.palette.busi.project.tms.business.storage.checkWeight.vo;
 
 import java.math.BigDecimal;
 
-public class CheckWeightUpdateVo {
+import com.palette.busi.project.tms.common.base.BaseUpdateVo;
+
+public class CheckWeightUpdateVo extends BaseUpdateVo {
 
 	private Integer tmPiecesId;
 	private String piecesNo;
@@ -14,6 +16,10 @@ public class CheckWeightUpdateVo {
     private BigDecimal height;
     private BigDecimal volumeWeight;
 
+	public CheckWeightUpdateVo(String userName, String controllerId) {
+		super(userName, controllerId);
+	}
+    
 	public String getPiecesNo() {
 		return piecesNo;
 	}

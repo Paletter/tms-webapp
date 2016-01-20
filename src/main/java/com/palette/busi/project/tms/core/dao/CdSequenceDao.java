@@ -1,5 +1,9 @@
 package com.palette.busi.project.tms.core.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +23,20 @@ import com.palette.busi.project.tms.core.page.PageModel;
 @Component
 public class CdSequenceDao extends BaseDaoImpl {
 	
-	public CdSequence updateCdSequence(CdSequence cdSequence) throws BaseException {
+	public CdSequence updateCdSequence(CdSequence cdSequence, String user, String programId) throws BaseException {
 		CdSequenceIntf mapper = this.getSqlSessionTemplate().getMapper(CdSequenceIntf.class);
+		cdSequence.setUpdateDateTime(getCurrentGMTDate());
+		cdSequence.setUpdateUserCode(user);
 		mapper.updateCdSequence(cdSequence);
 		return cdSequence;
 	}
 	
-	public CdSequence insertCdSequence(CdSequence cdSequence) throws BaseException {
+	public CdSequence insertCdSequence(CdSequence cdSequence, String user, String programId) throws BaseException {
 		CdSequenceIntf mapper = this.getSqlSessionTemplate().getMapper(CdSequenceIntf.class);
+		cdSequence.setCreateDateTime(getCurrentGMTDate());
+		cdSequence.setCreateUserCode(user);
+		cdSequence.setUpdateDateTime(getCurrentGMTDate());
+		cdSequence.setUpdateUserCode(user);
 		mapper.insertCdSequence(cdSequence);
 		if(cdSequence.getCdSequenceId() == null){
 			cdSequence.setCdSequenceId(getLastPk());
@@ -75,15 +85,23 @@ public class CdSequenceDao extends BaseDaoImpl {
 		}
 	}
 	
-	public CdSequence saveCdSequence(CdSequence cdSequence) throws BaseException {
-		CdSequenceIntf mapper = this.getSqlSessionTemplate().getMapper(CdSequenceIntf.class);
+	public CdSequence saveCdSequence(CdSequence cdSequence, String user, String programId) throws BaseException {
 		if(cdSequence.getCdSequenceId() == null){
-			mapper.insertCdSequence(cdSequence);
-			cdSequence = selectCdSequenceById(getLastPk());
+			cdSequence = insertCdSequence(cdSequence, user, programId);
 		}else{
-			mapper.updateCdSequence(cdSequence);
-			cdSequence = mapper.selectCdSequenceById(cdSequence.getCdSequenceId());
+			cdSequence = updateCdSequence(cdSequence, user, programId);
 		}
 		return cdSequence;
 	}
+	
+	private Date getCurrentGMTDate() {
+		try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
+	        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        return dateTimeFormat.parse(dateFormat.format(new Date()));
+		} catch (Exception e) {
+			throw new BaseException(e.getMessage());
+		}
+    }
 }

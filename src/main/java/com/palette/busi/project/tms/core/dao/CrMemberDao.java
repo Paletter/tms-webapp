@@ -1,5 +1,9 @@
 package com.palette.busi.project.tms.core.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +23,20 @@ import com.palette.busi.project.tms.core.page.PageModel;
 @Component
 public class CrMemberDao extends BaseDaoImpl {
 	
-	public CrMember updateCrMember(CrMember crMember) throws BaseException {
+	public CrMember updateCrMember(CrMember crMember, String user, String programId) throws BaseException {
 		CrMemberIntf mapper = this.getSqlSessionTemplate().getMapper(CrMemberIntf.class);
+		crMember.setUpdateDateTime(getCurrentGMTDate());
+		crMember.setUpdateUserCode(user);
 		mapper.updateCrMember(crMember);
 		return crMember;
 	}
 	
-	public CrMember insertCrMember(CrMember crMember) throws BaseException {
+	public CrMember insertCrMember(CrMember crMember, String user, String programId) throws BaseException {
 		CrMemberIntf mapper = this.getSqlSessionTemplate().getMapper(CrMemberIntf.class);
+		crMember.setCreateDateTime(getCurrentGMTDate());
+		crMember.setCreateUserCode(user);
+		crMember.setUpdateDateTime(getCurrentGMTDate());
+		crMember.setUpdateUserCode(user);
 		mapper.insertCrMember(crMember);
 		if(crMember.getCrMemberId() == null){
 			crMember.setCrMemberId(getLastPk());
@@ -75,15 +85,23 @@ public class CrMemberDao extends BaseDaoImpl {
 		}
 	}
 	
-	public CrMember saveCrMember(CrMember crMember) throws BaseException {
-		CrMemberIntf mapper = this.getSqlSessionTemplate().getMapper(CrMemberIntf.class);
+	public CrMember saveCrMember(CrMember crMember, String user, String programId) throws BaseException {
 		if(crMember.getCrMemberId() == null){
-			mapper.insertCrMember(crMember);
-			crMember = selectCrMemberById(getLastPk());
+			crMember = insertCrMember(crMember, user, programId);
 		}else{
-			mapper.updateCrMember(crMember);
-			crMember = mapper.selectCrMemberById(crMember.getCrMemberId());
+			crMember = updateCrMember(crMember, user, programId);
 		}
 		return crMember;
 	}
+	
+	private Date getCurrentGMTDate() {
+		try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
+	        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        return dateTimeFormat.parse(dateFormat.format(new Date()));
+		} catch (Exception e) {
+			throw new BaseException(e.getMessage());
+		}
+    }
 }

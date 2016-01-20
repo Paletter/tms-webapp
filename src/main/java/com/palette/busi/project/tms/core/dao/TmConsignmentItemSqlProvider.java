@@ -13,16 +13,22 @@ import static org.apache.ibatis.jdbc.SqlBuilder.UPDATE;
 import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 import static org.apache.ibatis.jdbc.SqlBuilder.WHERE;
 
-import com.palette.busi.project.tms.core.entity.TmPiecesItem;
+import com.palette.busi.project.tms.core.entity.TmConsignmentItem;
 import com.palette.busi.project.tms.core.base.BaseSqlProvider;
 
-public class TmPiecesItemSqlProvider extends BaseSqlProvider {
+public class TmConsignmentItemSqlProvider extends BaseSqlProvider {
 
-	public String update(TmPiecesItem record) {
+	public String update(TmConsignmentItem record) {
 		BEGIN();
-        UPDATE("tm_pieces_item");
-        if (record.getTmPiecesItemId() != null) {
-            SET("TM_PIECES_ITEM_ID = #{tmPiecesItemId}");
+        UPDATE("tm_consignment_item");
+        if (record.getTmConsignmentItemId() != null) {
+            SET("TM_CONSIGNMENT_ITEM_ID = #{tmConsignmentItemId}");
+        }
+        if (record.getTmConsignmentId() != null) {
+            SET("TM_CONSIGNMENT_ID = #{tmConsignmentId}");
+        }
+        if (record.getConsignmentNo() != null) {
+            SET("CONSIGNMENT_NO = #{consignmentNo}");
         }
         if (record.getSeq() != null) {
             SET("SEQ = #{seq}");
@@ -66,15 +72,6 @@ public class TmPiecesItemSqlProvider extends BaseSqlProvider {
         if (record.getTariff() != null) {
             SET("TARIFF = #{tariff}");
         }
-        if (record.getConsignmentNo() != null) {
-            SET("CONSIGNMENT_NO = #{consignmentNo}");
-        }
-        if (record.getTmPiecesId() != null) {
-            SET("TM_PIECES_ID = #{tmPiecesId}");
-        }
-        if (record.getTmConsignmentId() != null) {
-            SET("TM_CONSIGNMENT_ID = #{tmConsignmentId}");
-        }
         if (record.getGoodsUrl() != null) {
             SET("GOODS_URL = #{goodsUrl}");
         }
@@ -90,32 +87,32 @@ public class TmPiecesItemSqlProvider extends BaseSqlProvider {
         if (record.getCreateDateTime() != null) {
             SET("CREATE_DATE_TIME = #{createDateTime}");
         }
-        if (record.getCreateTimeZone() != null) {
-            SET("CREATE_TIME_ZONE = #{createTimeZone}");
-        }
         if (record.getUpdateUserCode() != null) {
             SET("UPDATE_USER_CODE = #{updateUserCode}");
         }
         if (record.getUpdateDateTime() != null) {
             SET("UPDATE_DATE_TIME = #{updateDateTime}");
         }
-        if (record.getUpdateTimeZone() != null) {
-            SET("UPDATE_TIME_ZONE = #{updateTimeZone}");
-        }
 
-        WHERE("tm_pieces_item_id = #{tmPiecesItemId}");
+        WHERE("tm_consignment_item_id = #{tmConsignmentItemId}");
 
         return SQL();
 	}
 
-    public String selectAllByRecord(TmPiecesItem record) {
+    public String selectAllByRecord(TmConsignmentItem record) {
         BEGIN();
         SELECT("*");
-        FROM("tm_pieces_item");
+        FROM("tm_consignment_item");
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append(" 1=1 ");
-        if (record.getTmPiecesItemId() != null) {
-            stringBuffer.append(" AND TM_PIECES_ITEM_ID = #{tmPiecesItemId}");
+        if (record.getTmConsignmentItemId() != null) {
+            stringBuffer.append(" AND TM_CONSIGNMENT_ITEM_ID = #{tmConsignmentItemId}");
+        }
+        if (record.getTmConsignmentId() != null) {
+            stringBuffer.append(" AND TM_CONSIGNMENT_ID = #{tmConsignmentId}");
+        }
+        if (record.getConsignmentNo() != null) {
+            stringBuffer.append(" AND CONSIGNMENT_NO = #{consignmentNo}");
         }
         if (record.getSeq() != null) {
             stringBuffer.append(" AND SEQ = #{seq}");
@@ -159,15 +156,6 @@ public class TmPiecesItemSqlProvider extends BaseSqlProvider {
         if (record.getTariff() != null) {
             stringBuffer.append(" AND TARIFF = #{tariff}");
         }
-        if (record.getConsignmentNo() != null) {
-            stringBuffer.append(" AND CONSIGNMENT_NO = #{consignmentNo}");
-        }
-        if (record.getTmPiecesId() != null) {
-            stringBuffer.append(" AND TM_PIECES_ID = #{tmPiecesId}");
-        }
-        if (record.getTmConsignmentId() != null) {
-            stringBuffer.append(" AND TM_CONSIGNMENT_ID = #{tmConsignmentId}");
-        }
         if (record.getGoodsUrl() != null) {
             stringBuffer.append(" AND GOODS_URL = #{goodsUrl}");
         }
@@ -183,17 +171,11 @@ public class TmPiecesItemSqlProvider extends BaseSqlProvider {
         if (record.getCreateDateTime() != null) {
             stringBuffer.append(" AND CREATE_DATE_TIME = #{createDateTime}");
         }
-        if (record.getCreateTimeZone() != null) {
-            stringBuffer.append(" AND CREATE_TIME_ZONE = #{createTimeZone}");
-        }
         if (record.getUpdateUserCode() != null) {
             stringBuffer.append(" AND UPDATE_USER_CODE = #{updateUserCode}");
         }
         if (record.getUpdateDateTime() != null) {
             stringBuffer.append(" AND UPDATE_DATE_TIME = #{updateDateTime}");
-        }
-        if (record.getUpdateTimeZone() != null) {
-            stringBuffer.append(" AND UPDATE_TIME_ZONE = #{updateTimeZone}");
         }
 
         WHERE(stringBuffer.toString());

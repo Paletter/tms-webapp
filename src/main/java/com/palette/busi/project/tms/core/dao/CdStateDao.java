@@ -1,5 +1,9 @@
 package com.palette.busi.project.tms.core.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +23,20 @@ import com.palette.busi.project.tms.core.page.PageModel;
 @Component
 public class CdStateDao extends BaseDaoImpl {
 	
-	public CdState updateCdState(CdState cdState) throws BaseException {
+	public CdState updateCdState(CdState cdState, String user, String programId) throws BaseException {
 		CdStateIntf mapper = this.getSqlSessionTemplate().getMapper(CdStateIntf.class);
+		cdState.setUpdateDateTime(getCurrentGMTDate());
+		cdState.setUpdateUserCode(user);
 		mapper.updateCdState(cdState);
 		return cdState;
 	}
 	
-	public CdState insertCdState(CdState cdState) throws BaseException {
+	public CdState insertCdState(CdState cdState, String user, String programId) throws BaseException {
 		CdStateIntf mapper = this.getSqlSessionTemplate().getMapper(CdStateIntf.class);
+		cdState.setCreateDateTime(getCurrentGMTDate());
+		cdState.setCreateUserCode(user);
+		cdState.setUpdateDateTime(getCurrentGMTDate());
+		cdState.setUpdateUserCode(user);
 		mapper.insertCdState(cdState);
 		if(cdState.getCdStateId() == null){
 			cdState.setCdStateId(getLastPk());
@@ -75,15 +85,23 @@ public class CdStateDao extends BaseDaoImpl {
 		}
 	}
 	
-	public CdState saveCdState(CdState cdState) throws BaseException {
-		CdStateIntf mapper = this.getSqlSessionTemplate().getMapper(CdStateIntf.class);
+	public CdState saveCdState(CdState cdState, String user, String programId) throws BaseException {
 		if(cdState.getCdStateId() == null){
-			mapper.insertCdState(cdState);
-			cdState = selectCdStateById(getLastPk());
+			cdState = insertCdState(cdState, user, programId);
 		}else{
-			mapper.updateCdState(cdState);
-			cdState = mapper.selectCdStateById(cdState.getCdStateId());
+			cdState = updateCdState(cdState, user, programId);
 		}
 		return cdState;
 	}
+	
+	private Date getCurrentGMTDate() {
+		try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
+	        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        return dateTimeFormat.parse(dateFormat.format(new Date()));
+		} catch (Exception e) {
+			throw new BaseException(e.getMessage());
+		}
+    }
 }

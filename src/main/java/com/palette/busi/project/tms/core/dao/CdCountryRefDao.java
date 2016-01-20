@@ -1,5 +1,9 @@
 package com.palette.busi.project.tms.core.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +23,20 @@ import com.palette.busi.project.tms.core.page.PageModel;
 @Component
 public class CdCountryRefDao extends BaseDaoImpl {
 	
-	public CdCountryRef updateCdCountryRef(CdCountryRef cdCountryRef) throws BaseException {
+	public CdCountryRef updateCdCountryRef(CdCountryRef cdCountryRef, String user, String programId) throws BaseException {
 		CdCountryRefIntf mapper = this.getSqlSessionTemplate().getMapper(CdCountryRefIntf.class);
+		cdCountryRef.setUpdateDateTime(getCurrentGMTDate());
+		cdCountryRef.setUpdateUserCode(user);
 		mapper.updateCdCountryRef(cdCountryRef);
 		return cdCountryRef;
 	}
 	
-	public CdCountryRef insertCdCountryRef(CdCountryRef cdCountryRef) throws BaseException {
+	public CdCountryRef insertCdCountryRef(CdCountryRef cdCountryRef, String user, String programId) throws BaseException {
 		CdCountryRefIntf mapper = this.getSqlSessionTemplate().getMapper(CdCountryRefIntf.class);
+		cdCountryRef.setCreateDateTime(getCurrentGMTDate());
+		cdCountryRef.setCreateUserCode(user);
+		cdCountryRef.setUpdateDateTime(getCurrentGMTDate());
+		cdCountryRef.setUpdateUserCode(user);
 		mapper.insertCdCountryRef(cdCountryRef);
 		if(cdCountryRef.getCdCountryRefId() == null){
 			cdCountryRef.setCdCountryRefId(getLastPk());
@@ -75,15 +85,23 @@ public class CdCountryRefDao extends BaseDaoImpl {
 		}
 	}
 	
-	public CdCountryRef saveCdCountryRef(CdCountryRef cdCountryRef) throws BaseException {
-		CdCountryRefIntf mapper = this.getSqlSessionTemplate().getMapper(CdCountryRefIntf.class);
+	public CdCountryRef saveCdCountryRef(CdCountryRef cdCountryRef, String user, String programId) throws BaseException {
 		if(cdCountryRef.getCdCountryRefId() == null){
-			mapper.insertCdCountryRef(cdCountryRef);
-			cdCountryRef = selectCdCountryRefById(getLastPk());
+			cdCountryRef = insertCdCountryRef(cdCountryRef, user, programId);
 		}else{
-			mapper.updateCdCountryRef(cdCountryRef);
-			cdCountryRef = mapper.selectCdCountryRefById(cdCountryRef.getCdCountryRefId());
+			cdCountryRef = updateCdCountryRef(cdCountryRef, user, programId);
 		}
 		return cdCountryRef;
 	}
+	
+	private Date getCurrentGMTDate() {
+		try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
+	        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        return dateTimeFormat.parse(dateFormat.format(new Date()));
+		} catch (Exception e) {
+			throw new BaseException(e.getMessage());
+		}
+    }
 }

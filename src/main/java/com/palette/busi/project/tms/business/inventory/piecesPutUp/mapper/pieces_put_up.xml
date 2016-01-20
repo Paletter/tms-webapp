@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.palette.busi.project.tms.business.inventory.piecesPutUp.mapper.pieces_put_up">
+	<!-- Define map -->
+	<!-- End define map -->
+	
+	<!-- Define sql -->
+	<delete id="deletePiecesNoLocationCurrent" parameterMap="common.hashMap">
+		DELETE FROM wm_location_current WHERE PIECES_NO = #{piecesNo}   
+	</delete>
+	
+	<delete id="deleteCsmNoLocationCurrent" parameterMap="common.hashMap">
+		DELETE FROM wm_location_current WHERE CONSIGNMENT_NO = #{consignmentNo}   
+	</delete>
+	<!-- End define sql -->
+	
+</mapper>

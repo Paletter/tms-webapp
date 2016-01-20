@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import org.springframework.util.Assert;
 
-public class StringUtils {
+public class StringUtils extends org.springframework.util.StringUtils {
 	
 	public static final String BLANK = "";
 	public static final String SPACE = " ";
@@ -77,5 +77,9 @@ public class StringUtils {
         UUID uuid = UUID.randomUUID();
         String str = uuid.toString().replaceAll("-", "");
         return str.substring(0,length);
+    }
+    
+    public static String toUpperAndTrim(String str) {
+    	return str == null ? null : str.toUpperCase().trim().replaceAll(" ", "");
     }
 }

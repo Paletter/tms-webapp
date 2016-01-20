@@ -1,5 +1,9 @@
 package com.palette.busi.project.tms.core.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +23,20 @@ import com.palette.busi.project.tms.core.page.PageModel;
 @Component
 public class CdDeliveryDao extends BaseDaoImpl {
 	
-	public CdDelivery updateCdDelivery(CdDelivery cdDelivery) throws BaseException {
+	public CdDelivery updateCdDelivery(CdDelivery cdDelivery, String user, String programId) throws BaseException {
 		CdDeliveryIntf mapper = this.getSqlSessionTemplate().getMapper(CdDeliveryIntf.class);
+		cdDelivery.setUpdateDateTime(getCurrentGMTDate());
+		cdDelivery.setUpdateUserCode(user);
 		mapper.updateCdDelivery(cdDelivery);
 		return cdDelivery;
 	}
 	
-	public CdDelivery insertCdDelivery(CdDelivery cdDelivery) throws BaseException {
+	public CdDelivery insertCdDelivery(CdDelivery cdDelivery, String user, String programId) throws BaseException {
 		CdDeliveryIntf mapper = this.getSqlSessionTemplate().getMapper(CdDeliveryIntf.class);
+		cdDelivery.setCreateDateTime(getCurrentGMTDate());
+		cdDelivery.setCreateUserCode(user);
+		cdDelivery.setUpdateDateTime(getCurrentGMTDate());
+		cdDelivery.setUpdateUserCode(user);
 		mapper.insertCdDelivery(cdDelivery);
 		if(cdDelivery.getCdDeliveryId() == null){
 			cdDelivery.setCdDeliveryId(getLastPk());
@@ -75,15 +85,23 @@ public class CdDeliveryDao extends BaseDaoImpl {
 		}
 	}
 	
-	public CdDelivery saveCdDelivery(CdDelivery cdDelivery) throws BaseException {
-		CdDeliveryIntf mapper = this.getSqlSessionTemplate().getMapper(CdDeliveryIntf.class);
+	public CdDelivery saveCdDelivery(CdDelivery cdDelivery, String user, String programId) throws BaseException {
 		if(cdDelivery.getCdDeliveryId() == null){
-			mapper.insertCdDelivery(cdDelivery);
-			cdDelivery = selectCdDeliveryById(getLastPk());
+			cdDelivery = insertCdDelivery(cdDelivery, user, programId);
 		}else{
-			mapper.updateCdDelivery(cdDelivery);
-			cdDelivery = mapper.selectCdDeliveryById(cdDelivery.getCdDeliveryId());
+			cdDelivery = updateCdDelivery(cdDelivery, user, programId);
 		}
 		return cdDelivery;
 	}
+	
+	private Date getCurrentGMTDate() {
+		try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
+	        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        return dateTimeFormat.parse(dateFormat.format(new Date()));
+		} catch (Exception e) {
+			throw new BaseException(e.getMessage());
+		}
+    }
 }

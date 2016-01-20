@@ -1,5 +1,9 @@
 package com.palette.busi.project.tms.core.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +23,20 @@ import com.palette.busi.project.tms.core.page.PageModel;
 @Component
 public class WmLocationHistoryDao extends BaseDaoImpl {
 	
-	public WmLocationHistory updateWmLocationHistory(WmLocationHistory wmLocationHistory) throws BaseException {
+	public WmLocationHistory updateWmLocationHistory(WmLocationHistory wmLocationHistory, String user, String programId) throws BaseException {
 		WmLocationHistoryIntf mapper = this.getSqlSessionTemplate().getMapper(WmLocationHistoryIntf.class);
+		wmLocationHistory.setUpdateDateTime(getCurrentGMTDate());
+		wmLocationHistory.setUpdateUserCode(user);
 		mapper.updateWmLocationHistory(wmLocationHistory);
 		return wmLocationHistory;
 	}
 	
-	public WmLocationHistory insertWmLocationHistory(WmLocationHistory wmLocationHistory) throws BaseException {
+	public WmLocationHistory insertWmLocationHistory(WmLocationHistory wmLocationHistory, String user, String programId) throws BaseException {
 		WmLocationHistoryIntf mapper = this.getSqlSessionTemplate().getMapper(WmLocationHistoryIntf.class);
+		wmLocationHistory.setCreateDateTime(getCurrentGMTDate());
+		wmLocationHistory.setCreateUserCode(user);
+		wmLocationHistory.setUpdateDateTime(getCurrentGMTDate());
+		wmLocationHistory.setUpdateUserCode(user);
 		mapper.insertWmLocationHistory(wmLocationHistory);
 		if(wmLocationHistory.getWmLocationHistoryId() == null){
 			wmLocationHistory.setWmLocationHistoryId(getLastPk());
@@ -75,15 +85,23 @@ public class WmLocationHistoryDao extends BaseDaoImpl {
 		}
 	}
 	
-	public WmLocationHistory saveWmLocationHistory(WmLocationHistory wmLocationHistory) throws BaseException {
-		WmLocationHistoryIntf mapper = this.getSqlSessionTemplate().getMapper(WmLocationHistoryIntf.class);
+	public WmLocationHistory saveWmLocationHistory(WmLocationHistory wmLocationHistory, String user, String programId) throws BaseException {
 		if(wmLocationHistory.getWmLocationHistoryId() == null){
-			mapper.insertWmLocationHistory(wmLocationHistory);
-			wmLocationHistory = selectWmLocationHistoryById(getLastPk());
+			wmLocationHistory = insertWmLocationHistory(wmLocationHistory, user, programId);
 		}else{
-			mapper.updateWmLocationHistory(wmLocationHistory);
-			wmLocationHistory = mapper.selectWmLocationHistoryById(wmLocationHistory.getWmLocationHistoryId());
+			wmLocationHistory = updateWmLocationHistory(wmLocationHistory, user, programId);
 		}
 		return wmLocationHistory;
 	}
+	
+	private Date getCurrentGMTDate() {
+		try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
+	        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        return dateTimeFormat.parse(dateFormat.format(new Date()));
+		} catch (Exception e) {
+			throw new BaseException(e.getMessage());
+		}
+    }
 }

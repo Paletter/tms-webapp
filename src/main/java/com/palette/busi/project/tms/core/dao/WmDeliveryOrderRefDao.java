@@ -1,5 +1,9 @@
 package com.palette.busi.project.tms.core.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +23,20 @@ import com.palette.busi.project.tms.core.page.PageModel;
 @Component
 public class WmDeliveryOrderRefDao extends BaseDaoImpl {
 	
-	public WmDeliveryOrderRef updateWmDeliveryOrderRef(WmDeliveryOrderRef wmDeliveryOrderRef) throws BaseException {
+	public WmDeliveryOrderRef updateWmDeliveryOrderRef(WmDeliveryOrderRef wmDeliveryOrderRef, String user, String programId) throws BaseException {
 		WmDeliveryOrderRefIntf mapper = this.getSqlSessionTemplate().getMapper(WmDeliveryOrderRefIntf.class);
+		wmDeliveryOrderRef.setUpdateDateTime(getCurrentGMTDate());
+		wmDeliveryOrderRef.setUpdateUserCode(user);
 		mapper.updateWmDeliveryOrderRef(wmDeliveryOrderRef);
 		return wmDeliveryOrderRef;
 	}
 	
-	public WmDeliveryOrderRef insertWmDeliveryOrderRef(WmDeliveryOrderRef wmDeliveryOrderRef) throws BaseException {
+	public WmDeliveryOrderRef insertWmDeliveryOrderRef(WmDeliveryOrderRef wmDeliveryOrderRef, String user, String programId) throws BaseException {
 		WmDeliveryOrderRefIntf mapper = this.getSqlSessionTemplate().getMapper(WmDeliveryOrderRefIntf.class);
+		wmDeliveryOrderRef.setCreateDateTime(getCurrentGMTDate());
+		wmDeliveryOrderRef.setCreateUserCode(user);
+		wmDeliveryOrderRef.setUpdateDateTime(getCurrentGMTDate());
+		wmDeliveryOrderRef.setUpdateUserCode(user);
 		mapper.insertWmDeliveryOrderRef(wmDeliveryOrderRef);
 		if(wmDeliveryOrderRef.getWmDeliveryOrderRefId() == null){
 			wmDeliveryOrderRef.setWmDeliveryOrderRefId(getLastPk());
@@ -75,15 +85,23 @@ public class WmDeliveryOrderRefDao extends BaseDaoImpl {
 		}
 	}
 	
-	public WmDeliveryOrderRef saveWmDeliveryOrderRef(WmDeliveryOrderRef wmDeliveryOrderRef) throws BaseException {
-		WmDeliveryOrderRefIntf mapper = this.getSqlSessionTemplate().getMapper(WmDeliveryOrderRefIntf.class);
+	public WmDeliveryOrderRef saveWmDeliveryOrderRef(WmDeliveryOrderRef wmDeliveryOrderRef, String user, String programId) throws BaseException {
 		if(wmDeliveryOrderRef.getWmDeliveryOrderRefId() == null){
-			mapper.insertWmDeliveryOrderRef(wmDeliveryOrderRef);
-			wmDeliveryOrderRef = selectWmDeliveryOrderRefById(getLastPk());
+			wmDeliveryOrderRef = insertWmDeliveryOrderRef(wmDeliveryOrderRef, user, programId);
 		}else{
-			mapper.updateWmDeliveryOrderRef(wmDeliveryOrderRef);
-			wmDeliveryOrderRef = mapper.selectWmDeliveryOrderRefById(wmDeliveryOrderRef.getWmDeliveryOrderRefId());
+			wmDeliveryOrderRef = updateWmDeliveryOrderRef(wmDeliveryOrderRef, user, programId);
 		}
 		return wmDeliveryOrderRef;
 	}
+	
+	private Date getCurrentGMTDate() {
+		try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
+	        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        return dateTimeFormat.parse(dateFormat.format(new Date()));
+		} catch (Exception e) {
+			throw new BaseException(e.getMessage());
+		}
+    }
 }

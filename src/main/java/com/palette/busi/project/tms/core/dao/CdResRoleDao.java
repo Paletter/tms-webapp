@@ -1,5 +1,9 @@
 package com.palette.busi.project.tms.core.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +23,20 @@ import com.palette.busi.project.tms.core.page.PageModel;
 @Component
 public class CdResRoleDao extends BaseDaoImpl {
 	
-	public CdResRole updateCdResRole(CdResRole cdResRole) throws BaseException {
+	public CdResRole updateCdResRole(CdResRole cdResRole, String user, String programId) throws BaseException {
 		CdResRoleIntf mapper = this.getSqlSessionTemplate().getMapper(CdResRoleIntf.class);
+		cdResRole.setUpdateDateTime(getCurrentGMTDate());
+		cdResRole.setUpdateUserCode(user);
 		mapper.updateCdResRole(cdResRole);
 		return cdResRole;
 	}
 	
-	public CdResRole insertCdResRole(CdResRole cdResRole) throws BaseException {
+	public CdResRole insertCdResRole(CdResRole cdResRole, String user, String programId) throws BaseException {
 		CdResRoleIntf mapper = this.getSqlSessionTemplate().getMapper(CdResRoleIntf.class);
+		cdResRole.setCreateDateTime(getCurrentGMTDate());
+		cdResRole.setCreateUserCode(user);
+		cdResRole.setUpdateDateTime(getCurrentGMTDate());
+		cdResRole.setUpdateUserCode(user);
 		mapper.insertCdResRole(cdResRole);
 		if(cdResRole.getCdResRoleId() == null){
 			cdResRole.setCdResRoleId(getLastPk());
@@ -75,15 +85,23 @@ public class CdResRoleDao extends BaseDaoImpl {
 		}
 	}
 	
-	public CdResRole saveCdResRole(CdResRole cdResRole) throws BaseException {
-		CdResRoleIntf mapper = this.getSqlSessionTemplate().getMapper(CdResRoleIntf.class);
+	public CdResRole saveCdResRole(CdResRole cdResRole, String user, String programId) throws BaseException {
 		if(cdResRole.getCdResRoleId() == null){
-			mapper.insertCdResRole(cdResRole);
-			cdResRole = selectCdResRoleById(getLastPk());
+			cdResRole = insertCdResRole(cdResRole, user, programId);
 		}else{
-			mapper.updateCdResRole(cdResRole);
-			cdResRole = mapper.selectCdResRoleById(cdResRole.getCdResRoleId());
+			cdResRole = updateCdResRole(cdResRole, user, programId);
 		}
 		return cdResRole;
 	}
+	
+	private Date getCurrentGMTDate() {
+		try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
+	        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        return dateTimeFormat.parse(dateFormat.format(new Date()));
+		} catch (Exception e) {
+			throw new BaseException(e.getMessage());
+		}
+    }
 }

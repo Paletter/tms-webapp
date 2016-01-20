@@ -1,5 +1,9 @@
 package com.palette.busi.project.tms.core.dao;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
@@ -19,14 +23,20 @@ import com.palette.busi.project.tms.core.page.PageModel;
 @Component
 public class WmCheckPickHistoryDao extends BaseDaoImpl {
 	
-	public WmCheckPickHistory updateWmCheckPickHistory(WmCheckPickHistory wmCheckPickHistory) throws BaseException {
+	public WmCheckPickHistory updateWmCheckPickHistory(WmCheckPickHistory wmCheckPickHistory, String user, String programId) throws BaseException {
 		WmCheckPickHistoryIntf mapper = this.getSqlSessionTemplate().getMapper(WmCheckPickHistoryIntf.class);
+		wmCheckPickHistory.setUpdateDateTime(getCurrentGMTDate());
+		wmCheckPickHistory.setUpdateUserCode(user);
 		mapper.updateWmCheckPickHistory(wmCheckPickHistory);
 		return wmCheckPickHistory;
 	}
 	
-	public WmCheckPickHistory insertWmCheckPickHistory(WmCheckPickHistory wmCheckPickHistory) throws BaseException {
+	public WmCheckPickHistory insertWmCheckPickHistory(WmCheckPickHistory wmCheckPickHistory, String user, String programId) throws BaseException {
 		WmCheckPickHistoryIntf mapper = this.getSqlSessionTemplate().getMapper(WmCheckPickHistoryIntf.class);
+		wmCheckPickHistory.setCreateDateTime(getCurrentGMTDate());
+		wmCheckPickHistory.setCreateUserCode(user);
+		wmCheckPickHistory.setUpdateDateTime(getCurrentGMTDate());
+		wmCheckPickHistory.setUpdateUserCode(user);
 		mapper.insertWmCheckPickHistory(wmCheckPickHistory);
 		if(wmCheckPickHistory.getWmCheckPickHistoryId() == null){
 			wmCheckPickHistory.setWmCheckPickHistoryId(getLastPk());
@@ -75,15 +85,23 @@ public class WmCheckPickHistoryDao extends BaseDaoImpl {
 		}
 	}
 	
-	public WmCheckPickHistory saveWmCheckPickHistory(WmCheckPickHistory wmCheckPickHistory) throws BaseException {
-		WmCheckPickHistoryIntf mapper = this.getSqlSessionTemplate().getMapper(WmCheckPickHistoryIntf.class);
+	public WmCheckPickHistory saveWmCheckPickHistory(WmCheckPickHistory wmCheckPickHistory, String user, String programId) throws BaseException {
 		if(wmCheckPickHistory.getWmCheckPickHistoryId() == null){
-			mapper.insertWmCheckPickHistory(wmCheckPickHistory);
-			wmCheckPickHistory = selectWmCheckPickHistoryById(getLastPk());
+			wmCheckPickHistory = insertWmCheckPickHistory(wmCheckPickHistory, user, programId);
 		}else{
-			mapper.updateWmCheckPickHistory(wmCheckPickHistory);
-			wmCheckPickHistory = mapper.selectWmCheckPickHistoryById(wmCheckPickHistory.getWmCheckPickHistoryId());
+			wmCheckPickHistory = updateWmCheckPickHistory(wmCheckPickHistory, user, programId);
 		}
 		return wmCheckPickHistory;
 	}
+	
+	private Date getCurrentGMTDate() {
+		try {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
+	        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        return dateTimeFormat.parse(dateFormat.format(new Date()));
+		} catch (Exception e) {
+			throw new BaseException(e.getMessage());
+		}
+    }
 }
