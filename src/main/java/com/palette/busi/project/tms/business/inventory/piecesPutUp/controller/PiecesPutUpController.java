@@ -3,7 +3,6 @@ package com.palette.busi.project.tms.business.inventory.piecesPutUp.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,11 +30,12 @@ public class PiecesPutUpController extends BaseController {
 	private PiecesPutUpService piecesPutUpService;
 
 	@RequestMapping(value="/PiecesPutUpController/queryLocationInfo")
-	public LocationInfoResultVo queryLocationInfo(@RequestParam(value="locCode") String locCode) throws BusinessException {
-		
-		// Business
+	public LocationInfoResultVo queryLocationInfo(@RequestParam(value="locCode") String locCode) {
+
+		// Validate
 		ThrowExp.isNullOrEmpty(locCode, "操作失败。库位号不能为空");
 		
+		// Business
 		locCode = StringUtils.toUpperAndTrim(locCode);
 		
 		WmLocation wmLocationQuery = new WmLocation();

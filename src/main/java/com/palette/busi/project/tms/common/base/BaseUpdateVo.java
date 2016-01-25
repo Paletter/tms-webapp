@@ -5,6 +5,10 @@ public class BaseUpdateVo {
 	protected String userName;
 	protected String controllerId;
 
+	public BaseUpdateVo() {
+		super();
+	}
+
 	public BaseUpdateVo(String userName, String controllerId) {
 		super();
 		this.userName = userName;
