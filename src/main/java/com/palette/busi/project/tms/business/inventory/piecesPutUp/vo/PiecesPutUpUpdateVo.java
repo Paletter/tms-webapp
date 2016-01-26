@@ -8,6 +8,14 @@ public class PiecesPutUpUpdateVo extends BaseUpdateVo {
 	private WmLocation wmLocation;
 	private String putUpNo;
 
+	public PiecesPutUpUpdateVo() {
+		super();
+	}
+
+	public PiecesPutUpUpdateVo(String userName, String controllerId) {
+		super(userName, controllerId);
+	}
+
 	public WmLocation getWmLocation() {
 		return wmLocation;
 	}
