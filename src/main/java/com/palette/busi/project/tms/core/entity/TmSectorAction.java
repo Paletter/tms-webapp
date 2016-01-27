@@ -16,13 +16,13 @@ public class TmSectorAction extends BasePo {
     private Integer tmSectorActionId;
     private String actionCode;
     private String actionDesc;
+    private Integer isActivity;
     private Integer recordVersion;
+    private String companyCode;
     private String createUserCode;
     private Date createDateTime;
-    private String createTimeZone;
     private String updateUserCode;
     private Date updateDateTime;
-    private String updateTimeZone;
     
     public Integer getTmSectorActionId() {
         return tmSectorActionId;
@@ -48,12 +48,28 @@ public class TmSectorAction extends BasePo {
         this.actionDesc = actionDesc;
     }
         
+    public Integer getIsActivity() {
+        return isActivity;
+    }
+        
+    public void setIsActivity(Integer isActivity) {
+        this.isActivity = isActivity;
+    }
+        
     public Integer getRecordVersion() {
         return recordVersion;
     }
         
     public void setRecordVersion(Integer recordVersion) {
         this.recordVersion = recordVersion;
+    }
+        
+    public String getCompanyCode() {
+        return companyCode;
+    }
+        
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
         
     public String getCreateUserCode() {
@@ -72,14 +88,6 @@ public class TmSectorAction extends BasePo {
         this.createDateTime = createDateTime;
     }
         
-    public String getCreateTimeZone() {
-        return createTimeZone;
-    }
-        
-    public void setCreateTimeZone(String createTimeZone) {
-        this.createTimeZone = createTimeZone;
-    }
-        
     public String getUpdateUserCode() {
         return updateUserCode;
     }
@@ -94,14 +102,6 @@ public class TmSectorAction extends BasePo {
         
     public void setUpdateDateTime(Date updateDateTime) {
         this.updateDateTime = updateDateTime;
-    }
-        
-    public String getUpdateTimeZone() {
-        return updateTimeZone;
-    }
-        
-    public void setUpdateTimeZone(String updateTimeZone) {
-        this.updateTimeZone = updateTimeZone;
     }
         
 }

@@ -18,6 +18,7 @@ public class CdPort extends BasePo {
     private String portName;
     private String portEnglishName;
     private String cityCode;
+    private String companyCode;
     private Integer recordVersion;
     private String createUserCode;
     private Date createDateTime;
@@ -64,6 +65,14 @@ public class CdPort extends BasePo {
         
     public void setCityCode(String cityCode) {
         this.cityCode = cityCode;
+    }
+        
+    public String getCompanyCode() {
+        return companyCode;
+    }
+        
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
         
     public Integer getRecordVersion() {

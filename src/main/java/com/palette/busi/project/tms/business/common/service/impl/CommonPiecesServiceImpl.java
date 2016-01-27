@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.palette.busi.project.tms.business.common.service.CommonPiecesService;
 import com.palette.busi.project.tms.business.common.vo.ComPiecesRefUpdateVo;
@@ -21,6 +22,7 @@ import com.palette.busi.project.tms.core.entity.TmPiecesHistory;
 import com.palette.busi.project.tms.core.entity.TmPiecesRef;
 
 @Service
+@Transactional
 public class CommonPiecesServiceImpl extends BaseServiceImpl implements CommonPiecesService {
 
 	@Autowired

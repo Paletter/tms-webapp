@@ -54,6 +54,9 @@ public class SysLogSqlProvider extends BaseSqlProvider {
         if (record.getRecordVersion() != null) {
             SET("RECORD_VERSION = #{recordVersion}");
         }
+        if (record.getCompanyCode() != null) {
+            SET("COMPANY_CODE = #{companyCode}");
+        }
         if (record.getCreateUserCode() != null) {
             SET("CREATE_USER_CODE = #{createUserCode}");
         }
@@ -116,6 +119,9 @@ public class SysLogSqlProvider extends BaseSqlProvider {
         }
         if (record.getRecordVersion() != null) {
             stringBuffer.append(" AND RECORD_VERSION = #{recordVersion}");
+        }
+        if (record.getCompanyCode() != null) {
+            stringBuffer.append(" AND COMPANY_CODE = #{companyCode}");
         }
         if (record.getCreateUserCode() != null) {
             stringBuffer.append(" AND CREATE_USER_CODE = #{createUserCode}");

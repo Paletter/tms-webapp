@@ -13,6 +13,8 @@ import com.palette.busi.project.tms.core.dao.CdAttachmentRefDao;
 import com.palette.busi.project.tms.core.entity.CdAttachmentRef;
 import com.palette.busi.project.tms.core.dao.CdCityDao;
 import com.palette.busi.project.tms.core.entity.CdCity;
+import com.palette.busi.project.tms.core.dao.CdCompanyDao;
+import com.palette.busi.project.tms.core.entity.CdCompany;
 import com.palette.busi.project.tms.core.dao.CdCountryDao;
 import com.palette.busi.project.tms.core.entity.CdCountry;
 import com.palette.busi.project.tms.core.dao.CdCountryRefDao;
@@ -21,8 +23,6 @@ import com.palette.busi.project.tms.core.dao.CdDeliveryDao;
 import com.palette.busi.project.tms.core.entity.CdDelivery;
 import com.palette.busi.project.tms.core.dao.CdDistrictDao;
 import com.palette.busi.project.tms.core.entity.CdDistrict;
-import com.palette.busi.project.tms.core.dao.CdLogisticsVendorDao;
-import com.palette.busi.project.tms.core.entity.CdLogisticsVendor;
 import com.palette.busi.project.tms.core.dao.CdPortDao;
 import com.palette.busi.project.tms.core.entity.CdPort;
 import com.palette.busi.project.tms.core.dao.CdResRoleDao;
@@ -97,8 +97,6 @@ import com.palette.busi.project.tms.core.dao.WmLocationCurrentDao;
 import com.palette.busi.project.tms.core.entity.WmLocationCurrent;
 import com.palette.busi.project.tms.core.dao.WmLocationHistoryDao;
 import com.palette.busi.project.tms.core.entity.WmLocationHistory;
-import com.palette.busi.project.tms.core.dao.WmTransitPiecesRecordDao;
-import com.palette.busi.project.tms.core.entity.WmTransitPiecesRecord;
 
 @Service
 @Transactional
@@ -107,11 +105,11 @@ public class EntityGeneralQuerier {
 	@Autowired private CdAttachmentDao CdAttachmentDao;
 	@Autowired private CdAttachmentRefDao CdAttachmentRefDao;
 	@Autowired private CdCityDao CdCityDao;
+	@Autowired private CdCompanyDao CdCompanyDao;
 	@Autowired private CdCountryDao CdCountryDao;
 	@Autowired private CdCountryRefDao CdCountryRefDao;
 	@Autowired private CdDeliveryDao CdDeliveryDao;
 	@Autowired private CdDistrictDao CdDistrictDao;
-	@Autowired private CdLogisticsVendorDao CdLogisticsVendorDao;
 	@Autowired private CdPortDao CdPortDao;
 	@Autowired private CdResRoleDao CdResRoleDao;
 	@Autowired private CdResourceDao CdResourceDao;
@@ -149,7 +147,6 @@ public class EntityGeneralQuerier {
 	@Autowired private WmLocationDao WmLocationDao;
 	@Autowired private WmLocationCurrentDao WmLocationCurrentDao;
 	@Autowired private WmLocationHistoryDao WmLocationHistoryDao;
-	@Autowired private WmTransitPiecesRecordDao WmTransitPiecesRecordDao;
 	
 	public CdAttachment selectCdAttachmentById(Integer id) {return CdAttachmentDao.selectCdAttachmentById(id);}
 	public List<CdAttachment> selectCdAttachmentAll() {return CdAttachmentDao.selectAllCdAttachment();};
@@ -168,6 +165,12 @@ public class EntityGeneralQuerier {
 	public List<CdCity> selectCdCityAllByRecord(CdCity param) {return CdCityDao.selectAllByRecord(param);};
 	public CdCity selectCdCityOneByRecord(CdCity param) {return CdCityDao.selectOneByRecord(param);};
 	public PageInfo selectCdCityPageByRecord(CdCity param) {return CdCityDao.selectPageByRecord(param);};
+	
+	public CdCompany selectCdCompanyById(Integer id) {return CdCompanyDao.selectCdCompanyById(id);}
+	public List<CdCompany> selectCdCompanyAll() {return CdCompanyDao.selectAllCdCompany();};
+	public List<CdCompany> selectCdCompanyAllByRecord(CdCompany param) {return CdCompanyDao.selectAllByRecord(param);};
+	public CdCompany selectCdCompanyOneByRecord(CdCompany param) {return CdCompanyDao.selectOneByRecord(param);};
+	public PageInfo selectCdCompanyPageByRecord(CdCompany param) {return CdCompanyDao.selectPageByRecord(param);};
 	
 	public CdCountry selectCdCountryById(Integer id) {return CdCountryDao.selectCdCountryById(id);}
 	public List<CdCountry> selectCdCountryAll() {return CdCountryDao.selectAllCdCountry();};
@@ -192,12 +195,6 @@ public class EntityGeneralQuerier {
 	public List<CdDistrict> selectCdDistrictAllByRecord(CdDistrict param) {return CdDistrictDao.selectAllByRecord(param);};
 	public CdDistrict selectCdDistrictOneByRecord(CdDistrict param) {return CdDistrictDao.selectOneByRecord(param);};
 	public PageInfo selectCdDistrictPageByRecord(CdDistrict param) {return CdDistrictDao.selectPageByRecord(param);};
-	
-	public CdLogisticsVendor selectCdLogisticsVendorById(Integer id) {return CdLogisticsVendorDao.selectCdLogisticsVendorById(id);}
-	public List<CdLogisticsVendor> selectCdLogisticsVendorAll() {return CdLogisticsVendorDao.selectAllCdLogisticsVendor();};
-	public List<CdLogisticsVendor> selectCdLogisticsVendorAllByRecord(CdLogisticsVendor param) {return CdLogisticsVendorDao.selectAllByRecord(param);};
-	public CdLogisticsVendor selectCdLogisticsVendorOneByRecord(CdLogisticsVendor param) {return CdLogisticsVendorDao.selectOneByRecord(param);};
-	public PageInfo selectCdLogisticsVendorPageByRecord(CdLogisticsVendor param) {return CdLogisticsVendorDao.selectPageByRecord(param);};
 	
 	public CdPort selectCdPortById(Integer id) {return CdPortDao.selectCdPortById(id);}
 	public List<CdPort> selectCdPortAll() {return CdPortDao.selectAllCdPort();};
@@ -420,12 +417,6 @@ public class EntityGeneralQuerier {
 	public List<WmLocationHistory> selectWmLocationHistoryAllByRecord(WmLocationHistory param) {return WmLocationHistoryDao.selectAllByRecord(param);};
 	public WmLocationHistory selectWmLocationHistoryOneByRecord(WmLocationHistory param) {return WmLocationHistoryDao.selectOneByRecord(param);};
 	public PageInfo selectWmLocationHistoryPageByRecord(WmLocationHistory param) {return WmLocationHistoryDao.selectPageByRecord(param);};
-	
-	public WmTransitPiecesRecord selectWmTransitPiecesRecordById(Integer id) {return WmTransitPiecesRecordDao.selectWmTransitPiecesRecordById(id);}
-	public List<WmTransitPiecesRecord> selectWmTransitPiecesRecordAll() {return WmTransitPiecesRecordDao.selectAllWmTransitPiecesRecord();};
-	public List<WmTransitPiecesRecord> selectWmTransitPiecesRecordAllByRecord(WmTransitPiecesRecord param) {return WmTransitPiecesRecordDao.selectAllByRecord(param);};
-	public WmTransitPiecesRecord selectWmTransitPiecesRecordOneByRecord(WmTransitPiecesRecord param) {return WmTransitPiecesRecordDao.selectOneByRecord(param);};
-	public PageInfo selectWmTransitPiecesRecordPageByRecord(WmTransitPiecesRecord param) {return WmTransitPiecesRecordDao.selectPageByRecord(param);};
 	
 	
 }

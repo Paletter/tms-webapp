@@ -35,7 +35,7 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
 			    HandlerMethod handlerMethod = (HandlerMethod) handler;
 			    String classPathName = handlerMethod.getBeanType().getName();
 			    
-			    if(classPathName.contains("com.udfexpress.oso.business")) {
+			    if(classPathName.contains("com.palette.busi.project.tms.business")) {
 			    	
 					SysLog sysLog = new SysLog();
 					
@@ -78,7 +78,6 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
 			}
 		} catch (Exception e) {
 			
-			log.error(e.getMessage());
 		}
 		
 		return super.preHandle(request, response, handler);

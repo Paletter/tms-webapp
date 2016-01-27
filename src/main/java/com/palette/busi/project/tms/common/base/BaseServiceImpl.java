@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.palette.busi.project.tms.common.provider.CommonServiceProvider;
 import com.palette.busi.project.tms.core.base.BasePo;
@@ -16,6 +17,7 @@ import com.palette.busi.project.tms.core.service.EntityGeneralQuerier;
 import com.palette.busi.project.tms.web.exception.BusinessException;
 
 @Service
+@Transactional
 public class BaseServiceImpl {
 	
 	public Logger log = LoggerFactory.getLogger(BaseServiceImpl.class);

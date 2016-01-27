@@ -13,10 +13,10 @@ import com.palette.busi.project.tms.core.entity.TmPieces;
 public class PiecesStockInPrintServiceImpl extends BaseServiceImpl implements PiecesStockInPrintService {
 
 	@Override
-	public XSSFWorkbook createPiecesStorageLabel(String servletRealPath, TmPieces tmPieces, ServiceOptParamLinkerVo paramLinkerVo) throws Exception {
+	public XSSFWorkbook createPiecesStorageLabel(String servletRealPath, TmPieces tmPieces, ServiceOptParamLinkerVo linkerVo) throws Exception {
 		
 		String templatePath = servletRealPath + PrintTemplateConstants.COM_PIECES_STORAGE_LABLE;
-		XSSFWorkbook workbook = servicePvd.usLabelExcelCreator.createPiecesStorageLabelWorkBook(templatePath, tmPieces, paramLinkerVo);
+		XSSFWorkbook workbook = servicePvd.usLabelExcelCreator.createPiecesStorageLabelWorkBook(templatePath, tmPieces, linkerVo);
 		
 		return workbook;
 	}

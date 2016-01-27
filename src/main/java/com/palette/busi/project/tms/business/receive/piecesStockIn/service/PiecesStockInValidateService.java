@@ -1,9 +1,9 @@
 package com.palette.busi.project.tms.business.receive.piecesStockIn.service;
 
-import com.palette.busi.project.tms.business.receive.piecesStockIn.vo.PiecesStockInUpdateVo;
+import com.palette.busi.project.tms.business.receive.piecesStockIn.dto.PiecesStockInReqDto;
 
 public interface PiecesStockInValidateService {
 
-	public void validateNormalPiecesStockIn(PiecesStockInUpdateVo piecesStockInUpdateVo);
-	public void validateUnconsignedPiecesStockIn(PiecesStockInUpdateVo piecesStockInUpdateVo);
+	public void validateNormalPiecesStockIn(PiecesStockInReqDto reqDto);
+	public void validateUnconsignedPiecesStockIn(PiecesStockInReqDto reqDto);
 }

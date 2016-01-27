@@ -17,6 +17,7 @@ public class CdDelivery extends BasePo {
     private String deliveryName;
     private String deliveryCode;
     private Integer deliveryOrder;
+    private String companyCode;
     private Integer recordVersion;
     private String createUserCode;
     private Date createDateTime;
@@ -55,6 +56,14 @@ public class CdDelivery extends BasePo {
         
     public void setDeliveryOrder(Integer deliveryOrder) {
         this.deliveryOrder = deliveryOrder;
+    }
+        
+    public String getCompanyCode() {
+        return companyCode;
+    }
+        
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
         
     public Integer getRecordVersion() {

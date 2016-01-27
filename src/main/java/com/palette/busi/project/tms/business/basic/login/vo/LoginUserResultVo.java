@@ -2,6 +2,7 @@ package com.palette.busi.project.tms.business.basic.login.vo;
 
 import java.util.List;
 
+import com.palette.busi.project.tms.core.entity.CdCompany;
 import com.palette.busi.project.tms.core.entity.CdCountry;
 import com.palette.busi.project.tms.core.entity.CdCountryRef;
 import com.palette.busi.project.tms.core.entity.CdRole;
@@ -17,6 +18,7 @@ public class LoginUserResultVo {
 	private String sessionId;
 	private List<CdRole> cdRoleList;
 	private boolean isRoot;
+	private CdCompany cdCompany;
 	
 	private List<MenuResultVo> menuVoList;
 
@@ -83,6 +85,14 @@ public class LoginUserResultVo {
 
 	public void setCdRoleList(List<CdRole> cdRoleList) {
 		this.cdRoleList = cdRoleList;
+	}
+
+	public CdCompany getCdCompany() {
+		return cdCompany;
+	}
+
+	public void setCdCompany(CdCompany cdCompany) {
+		this.cdCompany = cdCompany;
 	}
 
 }

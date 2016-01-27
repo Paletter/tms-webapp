@@ -11,6 +11,7 @@ public class ServiceOptParamLinkerVo {
 	private String warehouseCode;
 	private String warehouseDesc;
 	private BigDecimal convertToKg;
+	private String companyCode;
 
 	public String getUserName() {
 		return userName;
@@ -66,6 +67,14 @@ public class ServiceOptParamLinkerVo {
 
 	public void setVolumnUnit(String volumnUnit) {
 		this.volumnUnit = volumnUnit;
+	}
+
+	public String getCompanyCode() {
+		return companyCode;
+	}
+
+	public void setCompanyCode(String companyCode) {
+		this.companyCode = companyCode;
 	}
 	
 }

@@ -18,6 +18,7 @@ public class WmDeliveryOrderItem extends BasePo {
     private String piecesNo;
     private String consignmentNo;
     private String status;
+    private Integer recordVersion;
     private Date createDateTime;
     private String createUserCode;
     private Date updateDateTime;
@@ -61,6 +62,14 @@ public class WmDeliveryOrderItem extends BasePo {
         
     public void setStatus(String status) {
         this.status = status;
+    }
+        
+    public Integer getRecordVersion() {
+        return recordVersion;
+    }
+        
+    public void setRecordVersion(Integer recordVersion) {
+        this.recordVersion = recordVersion;
     }
         
     public Date getCreateDateTime() {

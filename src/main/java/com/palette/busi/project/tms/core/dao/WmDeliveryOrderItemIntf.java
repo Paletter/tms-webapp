@@ -18,13 +18,13 @@ import com.palette.busi.project.tms.core.base.BaseMybatisMapper;
 public interface WmDeliveryOrderItemIntf extends BaseMybatisMapper {
 
 
-	@Select("SELECT  WM_DELIVERY_ORDER_ITEM_ID  AS wmDeliveryOrderItemId, WM_DELIVERY_ORDER_ID  AS wmDeliveryOrderId, PIECES_NO  AS piecesNo, CONSIGNMENT_NO  AS consignmentNo, STATUS  AS status, CREATE_DATE_TIME  AS createDateTime, CREATE_USER_CODE  AS createUserCode, UPDATE_DATE_TIME  AS updateDateTime, UPDATE_USER_CODE  AS updateUserCode FROM wm_delivery_order_item WHERE wm_delivery_order_item_id=#{wmDeliveryOrderItemId}")
+	@Select("SELECT  WM_DELIVERY_ORDER_ITEM_ID  AS wmDeliveryOrderItemId, WM_DELIVERY_ORDER_ID  AS wmDeliveryOrderId, PIECES_NO  AS piecesNo, CONSIGNMENT_NO  AS consignmentNo, STATUS  AS status, RECORD_VERSION  AS recordVersion, CREATE_DATE_TIME  AS createDateTime, CREATE_USER_CODE  AS createUserCode, UPDATE_DATE_TIME  AS updateDateTime, UPDATE_USER_CODE  AS updateUserCode FROM wm_delivery_order_item WHERE wm_delivery_order_item_id=#{wmDeliveryOrderItemId}")
 	public WmDeliveryOrderItem selectWmDeliveryOrderItemById(@Param("wmDeliveryOrderItemId") int wmDeliveryOrderItemId);
 	
-	@Select("SELECT  WM_DELIVERY_ORDER_ITEM_ID  AS wmDeliveryOrderItemId, WM_DELIVERY_ORDER_ID  AS wmDeliveryOrderId, PIECES_NO  AS piecesNo, CONSIGNMENT_NO  AS consignmentNo, STATUS  AS status, CREATE_DATE_TIME  AS createDateTime, CREATE_USER_CODE  AS createUserCode, UPDATE_DATE_TIME  AS updateDateTime, UPDATE_USER_CODE  AS updateUserCode FROM wm_delivery_order_item")
+	@Select("SELECT  WM_DELIVERY_ORDER_ITEM_ID  AS wmDeliveryOrderItemId, WM_DELIVERY_ORDER_ID  AS wmDeliveryOrderId, PIECES_NO  AS piecesNo, CONSIGNMENT_NO  AS consignmentNo, STATUS  AS status, RECORD_VERSION  AS recordVersion, CREATE_DATE_TIME  AS createDateTime, CREATE_USER_CODE  AS createUserCode, UPDATE_DATE_TIME  AS updateDateTime, UPDATE_USER_CODE  AS updateUserCode FROM wm_delivery_order_item")
 	public List<WmDeliveryOrderItem> selectAllWmDeliveryOrderItem();
 	
-	@Insert("insert into wm_delivery_order_item ( WM_DELIVERY_ORDER_ITEM_ID, WM_DELIVERY_ORDER_ID, PIECES_NO, CONSIGNMENT_NO, STATUS, CREATE_DATE_TIME, CREATE_USER_CODE, UPDATE_DATE_TIME, UPDATE_USER_CODE ) values (#{wmDeliveryOrderItemId},#{wmDeliveryOrderId},#{piecesNo},#{consignmentNo},#{status},#{createDateTime},#{createUserCode},#{updateDateTime},#{updateUserCode})")
+	@Insert("insert into wm_delivery_order_item ( WM_DELIVERY_ORDER_ITEM_ID, WM_DELIVERY_ORDER_ID, PIECES_NO, CONSIGNMENT_NO, STATUS, RECORD_VERSION, CREATE_DATE_TIME, CREATE_USER_CODE, UPDATE_DATE_TIME, UPDATE_USER_CODE ) values (#{wmDeliveryOrderItemId},#{wmDeliveryOrderId},#{piecesNo},#{consignmentNo},#{status},#{recordVersion},#{createDateTime},#{createUserCode},#{updateDateTime},#{updateUserCode})")
 	public int insertWmDeliveryOrderItem(WmDeliveryOrderItem wmDeliveryOrderItem);
 
 	@UpdateProvider(type=WmDeliveryOrderItemSqlProvider.class, method="update")

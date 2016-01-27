@@ -42,6 +42,9 @@ public class CdCountrySqlProvider extends BaseSqlProvider {
         if (record.getIsActive() != null) {
             SET("IS_ACTIVE = #{isActive}");
         }
+        if (record.getCompanyCode() != null) {
+            SET("COMPANY_CODE = #{companyCode}");
+        }
         if (record.getRecordVersion() != null) {
             SET("RECORD_VERSION = #{recordVersion}");
         }
@@ -95,6 +98,9 @@ public class CdCountrySqlProvider extends BaseSqlProvider {
         }
         if (record.getIsActive() != null) {
             stringBuffer.append(" AND IS_ACTIVE = #{isActive}");
+        }
+        if (record.getCompanyCode() != null) {
+            stringBuffer.append(" AND COMPANY_CODE = #{companyCode}");
         }
         if (record.getRecordVersion() != null) {
             stringBuffer.append(" AND RECORD_VERSION = #{recordVersion}");

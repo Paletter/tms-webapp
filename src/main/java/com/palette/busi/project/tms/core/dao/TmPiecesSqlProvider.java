@@ -24,9 +24,6 @@ public class TmPiecesSqlProvider extends BaseSqlProvider {
         if (record.getTmPiecesId() != null) {
             SET("TM_PIECES_ID = #{tmPiecesId}");
         }
-        if (record.getSeq() != null) {
-            SET("SEQ = #{seq}");
-        }
         if (record.getWarehouseCode() != null) {
             SET("WAREHOUSE_CODE = #{warehouseCode}");
         }
@@ -96,6 +93,9 @@ public class TmPiecesSqlProvider extends BaseSqlProvider {
         if (record.getDeliveryNo() != null) {
             SET("DELIVERY_NO = #{deliveryNo}");
         }
+        if (record.getCompanyCode() != null) {
+            SET("COMPANY_CODE = #{companyCode}");
+        }
         if (record.getRecordVersion() != null) {
             SET("RECORD_VERSION = #{recordVersion}");
         }
@@ -125,9 +125,6 @@ public class TmPiecesSqlProvider extends BaseSqlProvider {
         stringBuffer.append(" 1=1 ");
         if (record.getTmPiecesId() != null) {
             stringBuffer.append(" AND TM_PIECES_ID = #{tmPiecesId}");
-        }
-        if (record.getSeq() != null) {
-            stringBuffer.append(" AND SEQ = #{seq}");
         }
         if (record.getWarehouseCode() != null) {
             stringBuffer.append(" AND WAREHOUSE_CODE = #{warehouseCode}");
@@ -197,6 +194,9 @@ public class TmPiecesSqlProvider extends BaseSqlProvider {
         }
         if (record.getDeliveryNo() != null) {
             stringBuffer.append(" AND DELIVERY_NO = #{deliveryNo}");
+        }
+        if (record.getCompanyCode() != null) {
+            stringBuffer.append(" AND COMPANY_CODE = #{companyCode}");
         }
         if (record.getRecordVersion() != null) {
             stringBuffer.append(" AND RECORD_VERSION = #{recordVersion}");

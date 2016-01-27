@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.palette.busi.project.tms.business.common.vo.ComPiecesPutUpUpdateVo;
+import com.palette.busi.project.tms.business.common.vo.ComPutPiecesUpUpdateVo;
+import com.palette.busi.project.tms.business.inventory.piecesPutUp.dto.PiecesPutUpReqDto;
+import com.palette.busi.project.tms.business.inventory.piecesPutUp.dto.QueryLocationInfoRespDto;
 import com.palette.busi.project.tms.business.inventory.piecesPutUp.service.PiecesPutUpService;
-import com.palette.busi.project.tms.business.inventory.piecesPutUp.vo.LocationInfoResultVo;
-import com.palette.busi.project.tms.business.inventory.piecesPutUp.vo.PiecesPutUpUpdateVo;
 import com.palette.busi.project.tms.common.base.BaseController;
 import com.palette.busi.project.tms.common.constant.CodeConstants;
 import com.palette.busi.project.tms.common.util.StringUtils;
@@ -30,7 +30,7 @@ public class PiecesPutUpController extends BaseController {
 	private PiecesPutUpService piecesPutUpService;
 
 	@RequestMapping(value="/PiecesPutUpController/queryLocationInfo")
-	public LocationInfoResultVo queryLocationInfo(@RequestParam(value="locCode") String locCode) {
+	public QueryLocationInfoRespDto queryLocationInfo(@RequestParam(value="locCode") String locCode) {
 
 		// Validate
 		ThrowExp.isNullOrEmpty(locCode, "操作失败。库位号不能为空");
@@ -50,31 +50,31 @@ public class PiecesPutUpController extends BaseController {
 		List<WmLocationCurrent> wmLocationCurrentList = querier.selectWmLocationCurrentAllByRecord(wmLocationCurrentQuery);
 		
 		// Encapsulation result
-		LocationInfoResultVo locationInfoResultVo = new LocationInfoResultVo();
-		locationInfoResultVo.setWmLocation(wmLocation);
-		locationInfoResultVo.setWmLocationCurrentList(wmLocationCurrentList);
-		return locationInfoResultVo;
+		QueryLocationInfoRespDto respDto = new QueryLocationInfoRespDto();
+		respDto.setWmLocation(wmLocation);
+		respDto.setWmLocationCurrentList(wmLocationCurrentList);
+		return respDto;
 	}
 	
 	@RequestMapping(value="/PiecesPutUpController/piecesPutUp")
-	public boolean piecesPutUp(@RequestBody PiecesPutUpUpdateVo piecesPutUpUpdateVo) throws BusinessException {
+	public boolean piecesPutUp(@RequestBody PiecesPutUpReqDto reqDto) throws BusinessException {
 		
 		// Validate
-		ThrowExp.isNull(piecesPutUpUpdateVo.getWmLocation() == null, "操作失败。库位信息不能为空");
-		ThrowExp.isNullOrEmpty(piecesPutUpUpdateVo.getPutUpNo(), "操作失败。上架号不能为空");
+		ThrowExp.isNull(reqDto.getWmLocation() == null, "操作失败。库位信息不能为空");
+		ThrowExp.isNullOrEmpty(reqDto.getPutUpNo(), "操作失败。上架号不能为空");
 		
 		TmPieces tmPiecesQuery = new TmPieces();
-		tmPiecesQuery.setPiecesNo(piecesPutUpUpdateVo.getPutUpNo());
+		tmPiecesQuery.setPiecesNo(reqDto.getPutUpNo());
 		TmPieces tmPieces = querier.selectTmPiecesOneByRecord(tmPiecesQuery);
 		ThrowExp.isNull(tmPieces, "操作失败。找不到包裹信息");
 		
 		// Business
-		ComPiecesPutUpUpdateVo comPiecesPutUpUpdateVo = new ComPiecesPutUpUpdateVo(getSessionUserName(), PiecesPutUpController.CONTROLLER_ID);
+		ComPutPiecesUpUpdateVo comPiecesPutUpUpdateVo = new ComPutPiecesUpUpdateVo(getSessionUserName(), PiecesPutUpController.CONTROLLER_ID);
 		comPiecesPutUpUpdateVo.setTmPieces(tmPieces);
-		comPiecesPutUpUpdateVo.setWmLocation(piecesPutUpUpdateVo.getWmLocation());
+		comPiecesPutUpUpdateVo.setWmLocation(reqDto.getWmLocation());
 		comPiecesPutUpUpdateVo.setMemo(CodeConstants.LOCATION_HITORY_MEMO_TEMPLATE.NORMAL);
 		comPiecesPutUpUpdateVo.setUserName(getSessionUserName());
-		servicePvd.commonLocationService.piecesPutUpToLocation(comPiecesPutUpUpdateVo, getSessionServiceOptParamLinkerVo());
+		servicePvd.commonLocationService.putPiecesUpToLocation(comPiecesPutUpUpdateVo, getSessionServiceOptParamLinkerVo());
 		
 		return true;
 	}

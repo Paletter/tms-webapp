@@ -3,7 +3,7 @@ package com.palette.busi.project.tms.common.constant;
 public class SqlMapperConstants {
 
 	// Business common
-	public static final String BUSINESS_COMMON_NAMSPACE = "com.palette.busi.project.tms.business.common.mapper.seq_number.";
+	public static final String BUSINESS_COMMON_NAMSPACE = "com.palette.busi.project.tms.business.common.mapper.business_common.";
 	public static final String BUSINESS_COMMON_QUERY_SEQ_NEXTVAL = BUSINESS_COMMON_NAMSPACE + "querySeqNextval";
 	public static final String BUSINESS_COMMON_DELETE_PIECES_NO_LOCATION_CURRENT = BUSINESS_COMMON_NAMSPACE + "deletePiecesNoLocationCurrent";
 	
@@ -30,8 +30,7 @@ public class SqlMapperConstants {
 	public static final String PIECES_MANAGE_QUERY_PIECES_LIST = PIECES_MANAGE_NAMESPACE + "queryPiecesList";
 	public static final String PIECES_MANAGE_GET_PIECES_DETAIL_SP = PIECES_MANAGE_NAMESPACE + "callGetPiecesDetailSp";
 	
-	// Pieces put up
-	public static final String PIECES_PUT_UP_NAMESPACE = "com.udfexpress.oso.business.inventory.piecesPutUp.mapper.pieces_put_up.";
-	public static final String PIECES_PUT_UP_DELETE_PIECES_NO_LOCATION_CURRENT = PIECES_PUT_UP_NAMESPACE + "deletePiecesNoLocationCurrent";
-	public static final String PIECES_PUT_UP_DELETE_CSM_NO_LOCATION_CURRENT = PIECES_PUT_UP_NAMESPACE + "deleteCsmNoLocationCurrent";
+	// Flight
+	public static final String FLIGHT_NAMESPACE = "com.palette.busi.project.tms.business.delivery.flight.mapper.flight.";
+	public static final String FLIGHT_QUERY_FLIGHT = FLIGHT_NAMESPACE + "queryFlightList";
 }

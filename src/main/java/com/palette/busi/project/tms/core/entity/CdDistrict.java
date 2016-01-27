@@ -19,6 +19,7 @@ public class CdDistrict extends BasePo {
     private String districtEnglishName;
     private String cityCode;
     private Integer isRemoteArea;
+    private String companyCode;
     private Integer recordVersion;
     private String createUserCode;
     private Date createDateTime;
@@ -73,6 +74,14 @@ public class CdDistrict extends BasePo {
         
     public void setIsRemoteArea(Integer isRemoteArea) {
         this.isRemoteArea = isRemoteArea;
+    }
+        
+    public String getCompanyCode() {
+        return companyCode;
+    }
+        
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
         
     public Integer getRecordVersion() {

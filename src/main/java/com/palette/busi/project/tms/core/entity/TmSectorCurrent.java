@@ -14,21 +14,18 @@ public class TmSectorCurrent extends BasePo {
 	private static final long serialVersionUID = 1L;
 	
     private Integer tmSectorCurrentId;
+    private Integer tmSectorId;
     private String sectorCode;
     private String actionCode;
+    private String memo;
     private String actionPlace;
     private Date actionDateTime;
-    private String updatedUserName;
-    private Date updatedDateTime;
-    private Integer tmSectorId;
-    private String memo;
+    private String actionUserName;
     private Integer recordVersion;
     private String createUserCode;
     private Date createDateTime;
-    private String createTimeZone;
     private String updateUserCode;
     private Date updateDateTime;
-    private String updateTimeZone;
     
     public Integer getTmSectorCurrentId() {
         return tmSectorCurrentId;
@@ -36,6 +33,14 @@ public class TmSectorCurrent extends BasePo {
         
     public void setTmSectorCurrentId(Integer tmSectorCurrentId) {
         this.tmSectorCurrentId = tmSectorCurrentId;
+    }
+        
+    public Integer getTmSectorId() {
+        return tmSectorId;
+    }
+        
+    public void setTmSectorId(Integer tmSectorId) {
+        this.tmSectorId = tmSectorId;
     }
         
     public String getSectorCode() {
@@ -54,6 +59,14 @@ public class TmSectorCurrent extends BasePo {
         this.actionCode = actionCode;
     }
         
+    public String getMemo() {
+        return memo;
+    }
+        
+    public void setMemo(String memo) {
+        this.memo = memo;
+    }
+        
     public String getActionPlace() {
         return actionPlace;
     }
@@ -70,36 +83,12 @@ public class TmSectorCurrent extends BasePo {
         this.actionDateTime = actionDateTime;
     }
         
-    public String getUpdatedUserName() {
-        return updatedUserName;
+    public String getActionUserName() {
+        return actionUserName;
     }
         
-    public void setUpdatedUserName(String updatedUserName) {
-        this.updatedUserName = updatedUserName;
-    }
-        
-    public Date getUpdatedDateTime() {
-        return updatedDateTime;
-    }
-        
-    public void setUpdatedDateTime(Date updatedDateTime) {
-        this.updatedDateTime = updatedDateTime;
-    }
-        
-    public Integer getTmSectorId() {
-        return tmSectorId;
-    }
-        
-    public void setTmSectorId(Integer tmSectorId) {
-        this.tmSectorId = tmSectorId;
-    }
-        
-    public String getMemo() {
-        return memo;
-    }
-        
-    public void setMemo(String memo) {
-        this.memo = memo;
+    public void setActionUserName(String actionUserName) {
+        this.actionUserName = actionUserName;
     }
         
     public Integer getRecordVersion() {
@@ -126,14 +115,6 @@ public class TmSectorCurrent extends BasePo {
         this.createDateTime = createDateTime;
     }
         
-    public String getCreateTimeZone() {
-        return createTimeZone;
-    }
-        
-    public void setCreateTimeZone(String createTimeZone) {
-        this.createTimeZone = createTimeZone;
-    }
-        
     public String getUpdateUserCode() {
         return updateUserCode;
     }
@@ -148,14 +129,6 @@ public class TmSectorCurrent extends BasePo {
         
     public void setUpdateDateTime(Date updateDateTime) {
         this.updateDateTime = updateDateTime;
-    }
-        
-    public String getUpdateTimeZone() {
-        return updateTimeZone;
-    }
-        
-    public void setUpdateTimeZone(String updateTimeZone) {
-        this.updateTimeZone = updateTimeZone;
     }
         
 }

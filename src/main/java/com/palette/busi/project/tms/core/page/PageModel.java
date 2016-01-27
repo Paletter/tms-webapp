@@ -2,8 +2,8 @@ package com.palette.busi.project.tms.core.page;
 
 import java.io.Serializable;
 
-public class PageModel implements Serializable
-{
+public class PageModel implements Serializable {
+	
 	private int pageNum;
     private int pageSize;
     private int startRow;

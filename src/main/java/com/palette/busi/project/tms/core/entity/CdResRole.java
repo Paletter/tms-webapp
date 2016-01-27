@@ -16,6 +16,7 @@ public class CdResRole extends BasePo {
     private Integer cdResRoleId;
     private Integer cdRoleId;
     private Integer cdResourceId;
+    private String companyCode;
     private Integer recordVersion;
     private String createUserCode;
     private Date createDateTime;
@@ -46,6 +47,14 @@ public class CdResRole extends BasePo {
         
     public void setCdResourceId(Integer cdResourceId) {
         this.cdResourceId = cdResourceId;
+    }
+        
+    public String getCompanyCode() {
+        return companyCode;
+    }
+        
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
         
     public Integer getRecordVersion() {

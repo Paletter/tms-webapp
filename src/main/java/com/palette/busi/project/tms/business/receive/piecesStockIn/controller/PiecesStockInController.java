@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.palette.busi.project.tms.business.receive.piecesStockIn.dto.PiecesStockInReqDto;
+import com.palette.busi.project.tms.business.receive.piecesStockIn.dto.PiecesStockInRespDto;
+import com.palette.busi.project.tms.business.receive.piecesStockIn.dto.QueryStockedPiecesReqDto;
+import com.palette.busi.project.tms.business.receive.piecesStockIn.dto.QueryStockedPiecesRespDto;
 import com.palette.busi.project.tms.business.receive.piecesStockIn.service.PiecesStockInPrintService;
 import com.palette.busi.project.tms.business.receive.piecesStockIn.service.PiecesStockInService;
 import com.palette.busi.project.tms.business.receive.piecesStockIn.service.PiecesStockInValidateService;
-import com.palette.busi.project.tms.business.receive.piecesStockIn.vo.PiecesStockInResultVo;
-import com.palette.busi.project.tms.business.receive.piecesStockIn.vo.PiecesStockInUpdateVo;
-import com.palette.busi.project.tms.business.receive.piecesStockIn.vo.StockedPiecesQueryParamVo;
-import com.palette.busi.project.tms.business.receive.piecesStockIn.vo.StockedPiecesResultVo;
 import com.palette.busi.project.tms.common.base.BaseController;
 import com.palette.busi.project.tms.common.util.BeanUtilsExt;
 import com.palette.busi.project.tms.common.util.PrintUtils;
@@ -35,55 +35,56 @@ public class PiecesStockInController extends BaseController {
 	private PiecesStockInValidateService piecesStockInValidateService;
 	
 	@RequestMapping(value="/PiecesStockInController/queryStockedPiecesInfo")
-	public StockedPiecesResultVo queryStockedPiecesInfo(@RequestBody StockedPiecesQueryParamVo queryParamVo) {
+	public QueryStockedPiecesRespDto queryStockedPiecesInfo(@RequestBody QueryStockedPiecesReqDto reqDto) {
 
-		ThrowExp.isNullOrEmpty(queryParamVo.getLogisticsNo(), "操作失败。物流号不能为空");
+		ThrowExp.isNullOrEmpty(reqDto.getLogisticsNo(), "操作失败。物流号不能为空");
 		
-		queryParamVo.setLogisticsNo(StringUtils.toUpperAndTrim(queryParamVo.getLogisticsNo()));
+		reqDto.setLogisticsNo(StringUtils.toUpperAndTrim(reqDto.getLogisticsNo()));
 		
 		// Business
-		TmPieces tmPieces = piecesStockInService.queryCanStockInPiecesInfoByLogisticNo(queryParamVo.getLogisticsNo());
+		TmPieces tmPieces = piecesStockInService.queryCanStockInPiecesInfoByLogisticNo(reqDto.getLogisticsNo());
 		
 		// Encapsulation result
-		StockedPiecesResultVo resultVo = new StockedPiecesResultVo();
+		QueryStockedPiecesRespDto respDto = new QueryStockedPiecesRespDto();
 		if(tmPieces != null) {
-			BeanUtilsExt.copyPropertiesIgnoreDefault(tmPieces, resultVo);
+			BeanUtilsExt.copyPropertiesIgnoreDefault(tmPieces, respDto);
 		}
-		return resultVo;
+		
+		return respDto;
 	}
 	
 	@RequestMapping(value="/PiecesStockInController/unconsignedPiecesStockIn")
-	public PiecesStockInResultVo unconsignedPiecesStockIn(@RequestBody PiecesStockInUpdateVo piecesStockInUpdateVo) {
+	public PiecesStockInRespDto unconsignedPiecesStockIn(@RequestBody PiecesStockInReqDto reqDto) {
 		
 		// Validate
-		piecesStockInValidateService.validateUnconsignedPiecesStockIn(piecesStockInUpdateVo);
+		piecesStockInValidateService.validateUnconsignedPiecesStockIn(reqDto);
 		
-		piecesStockInService.formatPiecesStockInUpdateVo(piecesStockInUpdateVo);
+		piecesStockInService.formatPiecesStockInUpdateVo(reqDto);
 		
 		// Business
-		TmPieces updatePieces = piecesStockInService.updatePiecesInfoForStockIn(piecesStockInUpdateVo, getSessionServiceOptParamLinkerVo());
+		TmPieces updatePieces = piecesStockInService.updatePiecesInfoForStockIn(reqDto, getSessionServiceOptParamLinkerVo());
 		
 		// Encapsulation result
-		PiecesStockInResultVo resultVo = new PiecesStockInResultVo();
-		BeanUtilsExt.copyPropertiesIgnoreDefault(updatePieces, resultVo);
-		return resultVo;
+		PiecesStockInRespDto respDto = new PiecesStockInRespDto();
+		BeanUtilsExt.copyPropertiesIgnoreDefault(updatePieces, respDto);
+		return respDto;
 	}
 	
 	@RequestMapping(value="/PiecesStockInController/consignedPiecesStockIn")
-	public PiecesStockInResultVo consignedPiecesStockIn(@RequestBody PiecesStockInUpdateVo piecesStockInUpdateVo) throws Exception {
+	public PiecesStockInRespDto consignedPiecesStockIn(@RequestBody PiecesStockInReqDto reqDto) throws Exception {
 		
-		piecesStockInService.formatPiecesStockInUpdateVo(piecesStockInUpdateVo);
+		piecesStockInService.formatPiecesStockInUpdateVo(reqDto);
 		
 		// Validate
-		piecesStockInValidateService.validateNormalPiecesStockIn(piecesStockInUpdateVo);
+		piecesStockInValidateService.validateNormalPiecesStockIn(reqDto);
 		
 		// Business
-		TmPieces updatePieces = piecesStockInService.updatePiecesInfoForStockIn(piecesStockInUpdateVo, getSessionServiceOptParamLinkerVo());
+		TmPieces updatePieces = piecesStockInService.updatePiecesInfoForStockIn(reqDto, getSessionServiceOptParamLinkerVo());
 		
 		// Encapsulation result
-		PiecesStockInResultVo resultVo = new PiecesStockInResultVo();
-		BeanUtilsExt.copyPropertiesIgnoreDefault(updatePieces, resultVo);
-		return resultVo;
+		PiecesStockInRespDto respDto = new PiecesStockInRespDto();
+		BeanUtilsExt.copyPropertiesIgnoreDefault(updatePieces, respDto);
+		return respDto;
 	}
 	
 	@RequestMapping(value="/PiecesStockInController/printPiecesStorageLabel")

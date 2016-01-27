@@ -27,6 +27,7 @@ public class CdServiceProduct extends BasePo {
     private Integer isUseCoupon;
     private Integer feeWeight;
     private Integer isAutoDisassemble;
+    private String companyCode;
     private Integer recordVersion;
     private String createUserCode;
     private Date createDateTime;
@@ -145,6 +146,14 @@ public class CdServiceProduct extends BasePo {
         
     public void setIsAutoDisassemble(Integer isAutoDisassemble) {
         this.isAutoDisassemble = isAutoDisassemble;
+    }
+        
+    public String getCompanyCode() {
+        return companyCode;
+    }
+        
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
         
     public Integer getRecordVersion() {

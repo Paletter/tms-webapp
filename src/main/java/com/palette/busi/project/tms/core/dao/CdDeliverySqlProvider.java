@@ -33,6 +33,9 @@ public class CdDeliverySqlProvider extends BaseSqlProvider {
         if (record.getDeliveryOrder() != null) {
             SET("DELIVERY_ORDER = #{deliveryOrder}");
         }
+        if (record.getCompanyCode() != null) {
+            SET("COMPANY_CODE = #{companyCode}");
+        }
         if (record.getRecordVersion() != null) {
             SET("RECORD_VERSION = #{recordVersion}");
         }
@@ -77,6 +80,9 @@ public class CdDeliverySqlProvider extends BaseSqlProvider {
         }
         if (record.getDeliveryOrder() != null) {
             stringBuffer.append(" AND DELIVERY_ORDER = #{deliveryOrder}");
+        }
+        if (record.getCompanyCode() != null) {
+            stringBuffer.append(" AND COMPANY_CODE = #{companyCode}");
         }
         if (record.getRecordVersion() != null) {
             stringBuffer.append(" AND RECORD_VERSION = #{recordVersion}");

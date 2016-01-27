@@ -36,6 +36,9 @@ public class CdPortSqlProvider extends BaseSqlProvider {
         if (record.getCityCode() != null) {
             SET("CITY_CODE = #{cityCode}");
         }
+        if (record.getCompanyCode() != null) {
+            SET("COMPANY_CODE = #{companyCode}");
+        }
         if (record.getRecordVersion() != null) {
             SET("RECORD_VERSION = #{recordVersion}");
         }
@@ -83,6 +86,9 @@ public class CdPortSqlProvider extends BaseSqlProvider {
         }
         if (record.getCityCode() != null) {
             stringBuffer.append(" AND CITY_CODE = #{cityCode}");
+        }
+        if (record.getCompanyCode() != null) {
+            stringBuffer.append(" AND COMPANY_CODE = #{companyCode}");
         }
         if (record.getRecordVersion() != null) {
             stringBuffer.append(" AND RECORD_VERSION = #{recordVersion}");

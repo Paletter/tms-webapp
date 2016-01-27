@@ -5,12 +5,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.palette.busi.project.tms.business.storage.checkWeight.dto.CheckWeightReqDto;
+import com.palette.busi.project.tms.business.storage.checkWeight.dto.QueryCheckWeightPiecesReqDto;
+import com.palette.busi.project.tms.business.storage.checkWeight.dto.QueryCheckWeightPiecesRespDto;
 import com.palette.busi.project.tms.business.storage.checkWeight.service.CheckWeightService;
 import com.palette.busi.project.tms.business.storage.checkWeight.service.CheckWeightValidateService;
 import com.palette.busi.project.tms.business.storage.checkWeight.vo.CWPiecesInfoResultVo;
-import com.palette.busi.project.tms.business.storage.checkWeight.vo.CWPiecesQueryParamVo;
-import com.palette.busi.project.tms.business.storage.checkWeight.vo.CheckWeightUpdateVo;
 import com.palette.busi.project.tms.common.base.BaseController;
+import com.palette.busi.project.tms.common.util.BeanUtilsExt;
 import com.palette.busi.project.tms.common.util.StringUtils;
 import com.palette.busi.project.tms.common.util.ThrowExp;
 
@@ -25,28 +27,33 @@ public class CheckWeightController extends BaseController {
 	private CheckWeightValidateService checkWeightValidateService;
 	
 	@RequestMapping(value="/CheckWeightController/queryPieces")
-	public CWPiecesInfoResultVo queryPieces(@RequestBody CWPiecesQueryParamVo checkWeightPiecesQueryParamVo) {
+	public QueryCheckWeightPiecesRespDto queryPieces(@RequestBody QueryCheckWeightPiecesReqDto reqDto) {
 		
-		ThrowExp.isNullOrEmpty(checkWeightPiecesQueryParamVo.getQueryNo(), "操作失败。查询单号不能为空");
+		// Validate
+		ThrowExp.isNullOrEmpty(reqDto.getQueryNo(), "操作失败。查询单号不能为空");
 		
-		checkWeightPiecesQueryParamVo.setQueryNo(StringUtils.toUpperAndTrim(checkWeightPiecesQueryParamVo.getQueryNo()));
+		reqDto.setQueryNo(StringUtils.toUpperAndTrim(reqDto.getQueryNo()));
 		
 		// Business
-		CWPiecesInfoResultVo resultVo = checkWeightService.queryCheckWeightPieces(checkWeightPiecesQueryParamVo);
-		ThrowExp.isNull(resultVo, "操作失败。运单信息不存在");
+		CWPiecesInfoResultVo piecesInfoResultVo = checkWeightService.queryCheckWeightPieces(reqDto);
+		ThrowExp.isNull(piecesInfoResultVo, "操作失败。运单信息不存在");
 		
-		return resultVo;
+		// Encapsulation result
+		QueryCheckWeightPiecesRespDto respDto = new QueryCheckWeightPiecesRespDto();
+		BeanUtilsExt.copyPropertiesIgnoreDefault(piecesInfoResultVo, respDto);
+		
+		return respDto;
 	}
 	
 	@RequestMapping(value="/CheckWeightController/checkWeight")
-	public boolean checkWeight(@RequestBody CheckWeightUpdateVo checkWeightUpdateVo) throws Exception {
+	public boolean checkWeight(@RequestBody CheckWeightReqDto reqDto) throws Exception {
 		
 		// Validate
-		checkWeightService.formatCheckWeightUpdateVo(checkWeightUpdateVo);
-		checkWeightValidateService.validateCheckWeight(checkWeightUpdateVo);
+		checkWeightService.formatCheckWeightUpdateVo(reqDto);
+		checkWeightValidateService.validateCheckWeight(reqDto);
 		
 		// Business
-		checkWeightService.updatePiecesInfoForCkeckWeight(checkWeightUpdateVo, getSessionServiceOptParamLinkerVo());
+		checkWeightService.updatePiecesInfoForCkeckWeight(reqDto, getSessionServiceOptParamLinkerVo());
 		
 		return true;
 	}

@@ -51,6 +51,12 @@ public class WmDeliveryOrderSqlProvider extends BaseSqlProvider {
         if (record.getStatus() != null) {
             SET("STATUS = #{status}");
         }
+        if (record.getRecordVersion() != null) {
+            SET("RECORD_VERSION = #{recordVersion}");
+        }
+        if (record.getCompanyCode() != null) {
+            SET("COMPANY_CODE = #{companyCode}");
+        }
         if (record.getCreateDateTime() != null) {
             SET("CREATE_DATE_TIME = #{createDateTime}");
         }
@@ -104,6 +110,12 @@ public class WmDeliveryOrderSqlProvider extends BaseSqlProvider {
         }
         if (record.getStatus() != null) {
             stringBuffer.append(" AND STATUS = #{status}");
+        }
+        if (record.getRecordVersion() != null) {
+            stringBuffer.append(" AND RECORD_VERSION = #{recordVersion}");
+        }
+        if (record.getCompanyCode() != null) {
+            stringBuffer.append(" AND COMPANY_CODE = #{companyCode}");
         }
         if (record.getCreateDateTime() != null) {
             stringBuffer.append(" AND CREATE_DATE_TIME = #{createDateTime}");

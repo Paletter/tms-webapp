@@ -19,6 +19,7 @@ public class WmDeliveryOrderRef extends BasePo {
     private String refType;
     private Integer refId;
     private String refCode;
+    private Integer recordVersion;
     private Date createDateTime;
     private String createUserCode;
     private Date updateDateTime;
@@ -70,6 +71,14 @@ public class WmDeliveryOrderRef extends BasePo {
         
     public void setRefCode(String refCode) {
         this.refCode = refCode;
+    }
+        
+    public Integer getRecordVersion() {
+        return recordVersion;
+    }
+        
+    public void setRecordVersion(Integer recordVersion) {
+        this.recordVersion = recordVersion;
     }
         
     public Date getCreateDateTime() {

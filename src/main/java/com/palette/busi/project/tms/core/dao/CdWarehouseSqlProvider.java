@@ -54,6 +54,9 @@ public class CdWarehouseSqlProvider extends BaseSqlProvider {
         if (record.getDefaultServiceProductCode() != null) {
             SET("DEFAULT_SERVICE_PRODUCT_CODE = #{defaultServiceProductCode}");
         }
+        if (record.getCompanyCode() != null) {
+            SET("COMPANY_CODE = #{companyCode}");
+        }
         if (record.getRecordVersion() != null) {
             SET("RECORD_VERSION = #{recordVersion}");
         }
@@ -119,6 +122,9 @@ public class CdWarehouseSqlProvider extends BaseSqlProvider {
         }
         if (record.getDefaultServiceProductCode() != null) {
             stringBuffer.append(" AND DEFAULT_SERVICE_PRODUCT_CODE = #{defaultServiceProductCode}");
+        }
+        if (record.getCompanyCode() != null) {
+            stringBuffer.append(" AND COMPANY_CODE = #{companyCode}");
         }
         if (record.getRecordVersion() != null) {
             stringBuffer.append(" AND RECORD_VERSION = #{recordVersion}");

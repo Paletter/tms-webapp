@@ -30,8 +30,14 @@ public class TmSectorActionSqlProvider extends BaseSqlProvider {
         if (record.getActionDesc() != null) {
             SET("ACTION_DESC = #{actionDesc}");
         }
+        if (record.getIsActivity() != null) {
+            SET("IS_ACTIVITY = #{isActivity}");
+        }
         if (record.getRecordVersion() != null) {
             SET("RECORD_VERSION = #{recordVersion}");
+        }
+        if (record.getCompanyCode() != null) {
+            SET("COMPANY_CODE = #{companyCode}");
         }
         if (record.getCreateUserCode() != null) {
             SET("CREATE_USER_CODE = #{createUserCode}");
@@ -39,17 +45,11 @@ public class TmSectorActionSqlProvider extends BaseSqlProvider {
         if (record.getCreateDateTime() != null) {
             SET("CREATE_DATE_TIME = #{createDateTime}");
         }
-        if (record.getCreateTimeZone() != null) {
-            SET("CREATE_TIME_ZONE = #{createTimeZone}");
-        }
         if (record.getUpdateUserCode() != null) {
             SET("UPDATE_USER_CODE = #{updateUserCode}");
         }
         if (record.getUpdateDateTime() != null) {
             SET("UPDATE_DATE_TIME = #{updateDateTime}");
-        }
-        if (record.getUpdateTimeZone() != null) {
-            SET("UPDATE_TIME_ZONE = #{updateTimeZone}");
         }
 
         WHERE("tm_sector_action_id = #{tmSectorActionId}");
@@ -72,8 +72,14 @@ public class TmSectorActionSqlProvider extends BaseSqlProvider {
         if (record.getActionDesc() != null) {
             stringBuffer.append(" AND ACTION_DESC = #{actionDesc}");
         }
+        if (record.getIsActivity() != null) {
+            stringBuffer.append(" AND IS_ACTIVITY = #{isActivity}");
+        }
         if (record.getRecordVersion() != null) {
             stringBuffer.append(" AND RECORD_VERSION = #{recordVersion}");
+        }
+        if (record.getCompanyCode() != null) {
+            stringBuffer.append(" AND COMPANY_CODE = #{companyCode}");
         }
         if (record.getCreateUserCode() != null) {
             stringBuffer.append(" AND CREATE_USER_CODE = #{createUserCode}");
@@ -81,17 +87,11 @@ public class TmSectorActionSqlProvider extends BaseSqlProvider {
         if (record.getCreateDateTime() != null) {
             stringBuffer.append(" AND CREATE_DATE_TIME = #{createDateTime}");
         }
-        if (record.getCreateTimeZone() != null) {
-            stringBuffer.append(" AND CREATE_TIME_ZONE = #{createTimeZone}");
-        }
         if (record.getUpdateUserCode() != null) {
             stringBuffer.append(" AND UPDATE_USER_CODE = #{updateUserCode}");
         }
         if (record.getUpdateDateTime() != null) {
             stringBuffer.append(" AND UPDATE_DATE_TIME = #{updateDateTime}");
-        }
-        if (record.getUpdateTimeZone() != null) {
-            stringBuffer.append(" AND UPDATE_TIME_ZONE = #{updateTimeZone}");
         }
 
         WHERE(stringBuffer.toString());

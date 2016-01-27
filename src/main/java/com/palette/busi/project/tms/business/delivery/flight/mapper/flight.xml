@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.palette.busi.project.tms.business.delivery.flight.mapper.flight">
+	<!-- Define map -->
+	<parameterMap id="flightListPageParamVo" type="com.palette.busi.project.tms.business.delivery.flight.vo.FlightListPageParamVo"></parameterMap>
+	<resultMap id="flightListResultVo" type="com.palette.busi.project.tms.business.delivery.flight.vo.FlightListResultVo"></resultMap>
+	<!-- End define map -->
+	
+	<!-- Define sql -->
+	<select id="queryFlightList" parameterMap="flightListPageParamVo" resultMap="flightListResultVo">
+		SELECT 
+			ts.*,
+			orig_p.PORT_NAME AS origPortDesc,
+			dest_p.PORT_NAME AS destPortDesc,
+			tsa.ACTION_DESC,
+			tsc.ACTION_CODE
+		FROM
+			tm_sector ts
+			LEFT JOIN tm_sector_current tsc ON tsc.TM_SECTOR_ID = ts.TM_SECTOR_ID
+			LEFT JOIN tm_sector_action tsa ON tsa.ACTION_CODE = tsc.ACTION_CODE
+			LEFT JOIN cd_port orig_p ON orig_p.PORT_CODE = ts.ORIG_PORT
+			LEFT JOIN cd_port dest_p ON dest_p.PORT_CODE = ts.DEST_PORT
+		WHERE
+			1 = 1
+			<if test="companyCode != null and companyCode != ''">
+				AND ts.COMPANY_CODE = #{companyCode}
+			</if>
+			<if test="warehouseCode != null and warehouseCode != ''">
+				AND ts.WAREHOUSE_CODE = #{warehouseCode}
+			</if>
+			<if test="sectorLabel != null and sectorLabel != ''">
+				AND SECTOR_LABEL = #{sectorLabel} 
+			</if>
+			<if test="mawbCode != null and mawbCode != ''">
+				AND MAWB_CODE = #{mawbCode}
+			</if>
+			<if test="flyStatus == 'FLEW'">
+				AND tsc.ACTION_CODE in ('AL','UL','DL')
+			</if>
+			<if test="flyStatus == 'NOT_FLY'">
+				AND tsc.ACTION_CODE = 'CR'
+			</if>
+			<if test="startEtd != null and startEtd != ''">
+				AND ts.ETD >= DATE_FORMAT(#{startEtd},'%Y-%m-%d')
+			</if>
+			<if test="endEtd != null and endEtd != ''">
+				AND ts.ETD &lt;= DATE_FORMAT(#{endEtd},'%Y-%m-%d')
+			</if>
+			<if test="startEta != null and startEta != ''">
+				AND ts.ETA >= DATE_FORMAT(#{startEta},'%Y-%m-%d')
+			</if>
+			<if test="endEta != null and endEta != ''">
+				AND ts.ETA &lt;= DATE_FORMAT(#{endEta},'%Y-%m-%d')
+			</if>
+		ORDER BY ts.TM_SECTOR_ID DESC
+	</select>
+	<!-- End define sql -->
+</mapper>

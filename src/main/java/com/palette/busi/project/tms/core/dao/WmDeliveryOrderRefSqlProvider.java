@@ -39,6 +39,9 @@ public class WmDeliveryOrderRefSqlProvider extends BaseSqlProvider {
         if (record.getRefCode() != null) {
             SET("REF_CODE = #{refCode}");
         }
+        if (record.getRecordVersion() != null) {
+            SET("RECORD_VERSION = #{recordVersion}");
+        }
         if (record.getCreateDateTime() != null) {
             SET("CREATE_DATE_TIME = #{createDateTime}");
         }
@@ -80,6 +83,9 @@ public class WmDeliveryOrderRefSqlProvider extends BaseSqlProvider {
         }
         if (record.getRefCode() != null) {
             stringBuffer.append(" AND REF_CODE = #{refCode}");
+        }
+        if (record.getRecordVersion() != null) {
+            stringBuffer.append(" AND RECORD_VERSION = #{recordVersion}");
         }
         if (record.getCreateDateTime() != null) {
             stringBuffer.append(" AND CREATE_DATE_TIME = #{createDateTime}");

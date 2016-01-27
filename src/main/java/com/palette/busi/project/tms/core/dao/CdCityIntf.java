@@ -18,13 +18,13 @@ import com.palette.busi.project.tms.core.base.BaseMybatisMapper;
 public interface CdCityIntf extends BaseMybatisMapper {
 
 
-	@Select("SELECT  CD_CITY_ID  AS cdCityId, CITY_CODE  AS cityCode, CITY_NAME  AS cityName, CITY_ENGLISH_NAME  AS cityEnglishName, STATE_CODE  AS stateCode, IS_REMOTE_AREA  AS isRemoteArea, RECORD_VERSION  AS recordVersion, CREATE_USER_CODE  AS createUserCode, CREATE_DATE_TIME  AS createDateTime, CREATE_TIME_ZONE  AS createTimeZone, UPDATE_USER_CODE  AS updateUserCode, UPDATE_DATE_TIME  AS updateDateTime, UPDATE_TIME_ZONE  AS updateTimeZone FROM cd_city WHERE cd_city_id=#{cdCityId}")
+	@Select("SELECT  CD_CITY_ID  AS cdCityId, CITY_CODE  AS cityCode, CITY_NAME  AS cityName, CITY_ENGLISH_NAME  AS cityEnglishName, STATE_CODE  AS stateCode, IS_REMOTE_AREA  AS isRemoteArea, COMPANY_CODE  AS companyCode, RECORD_VERSION  AS recordVersion, CREATE_USER_CODE  AS createUserCode, CREATE_DATE_TIME  AS createDateTime, CREATE_TIME_ZONE  AS createTimeZone, UPDATE_USER_CODE  AS updateUserCode, UPDATE_DATE_TIME  AS updateDateTime, UPDATE_TIME_ZONE  AS updateTimeZone FROM cd_city WHERE cd_city_id=#{cdCityId}")
 	public CdCity selectCdCityById(@Param("cdCityId") int cdCityId);
 	
-	@Select("SELECT  CD_CITY_ID  AS cdCityId, CITY_CODE  AS cityCode, CITY_NAME  AS cityName, CITY_ENGLISH_NAME  AS cityEnglishName, STATE_CODE  AS stateCode, IS_REMOTE_AREA  AS isRemoteArea, RECORD_VERSION  AS recordVersion, CREATE_USER_CODE  AS createUserCode, CREATE_DATE_TIME  AS createDateTime, CREATE_TIME_ZONE  AS createTimeZone, UPDATE_USER_CODE  AS updateUserCode, UPDATE_DATE_TIME  AS updateDateTime, UPDATE_TIME_ZONE  AS updateTimeZone FROM cd_city")
+	@Select("SELECT  CD_CITY_ID  AS cdCityId, CITY_CODE  AS cityCode, CITY_NAME  AS cityName, CITY_ENGLISH_NAME  AS cityEnglishName, STATE_CODE  AS stateCode, IS_REMOTE_AREA  AS isRemoteArea, COMPANY_CODE  AS companyCode, RECORD_VERSION  AS recordVersion, CREATE_USER_CODE  AS createUserCode, CREATE_DATE_TIME  AS createDateTime, CREATE_TIME_ZONE  AS createTimeZone, UPDATE_USER_CODE  AS updateUserCode, UPDATE_DATE_TIME  AS updateDateTime, UPDATE_TIME_ZONE  AS updateTimeZone FROM cd_city")
 	public List<CdCity> selectAllCdCity();
 	
-	@Insert("insert into cd_city ( CD_CITY_ID, CITY_CODE, CITY_NAME, CITY_ENGLISH_NAME, STATE_CODE, IS_REMOTE_AREA, RECORD_VERSION, CREATE_USER_CODE, CREATE_DATE_TIME, CREATE_TIME_ZONE, UPDATE_USER_CODE, UPDATE_DATE_TIME, UPDATE_TIME_ZONE ) values (#{cdCityId},#{cityCode},#{cityName},#{cityEnglishName},#{stateCode},#{isRemoteArea},#{recordVersion},#{createUserCode},#{createDateTime},#{createTimeZone},#{updateUserCode},#{updateDateTime},#{updateTimeZone})")
+	@Insert("insert into cd_city ( CD_CITY_ID, CITY_CODE, CITY_NAME, CITY_ENGLISH_NAME, STATE_CODE, IS_REMOTE_AREA, COMPANY_CODE, RECORD_VERSION, CREATE_USER_CODE, CREATE_DATE_TIME, CREATE_TIME_ZONE, UPDATE_USER_CODE, UPDATE_DATE_TIME, UPDATE_TIME_ZONE ) values (#{cdCityId},#{cityCode},#{cityName},#{cityEnglishName},#{stateCode},#{isRemoteArea},#{companyCode},#{recordVersion},#{createUserCode},#{createDateTime},#{createTimeZone},#{updateUserCode},#{updateDateTime},#{updateTimeZone})")
 	public int insertCdCity(CdCity cdCity);
 
 	@UpdateProvider(type=CdCitySqlProvider.class, method="update")

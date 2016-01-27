@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.palette.busi.project.tms.business.common.vo.ComPiecesStatusUpdateVo;
 import com.palette.busi.project.tms.business.receive.piecesStockIn.controller.PiecesStockInController;
+import com.palette.busi.project.tms.business.receive.piecesStockIn.dto.PiecesStockInReqDto;
 import com.palette.busi.project.tms.business.receive.piecesStockIn.service.PiecesStockInService;
-import com.palette.busi.project.tms.business.receive.piecesStockIn.vo.PiecesStockInUpdateVo;
 import com.palette.busi.project.tms.common.base.BaseServiceImpl;
 import com.palette.busi.project.tms.common.constant.CodeConstants;
 import com.palette.busi.project.tms.common.constant.SqlMapperConstants;
@@ -36,70 +36,70 @@ public class PiecesStockInServiceImpl extends BaseServiceImpl implements PiecesS
 	}
 	
 	@Override
-	public void formatPiecesStockInUpdateVo(PiecesStockInUpdateVo piecesStockInUpdateVo) {
+	public void formatPiecesStockInUpdateVo(PiecesStockInReqDto reqDto) {
 		
-		if(piecesStockInUpdateVo.getActualWeight() != null) {
-			piecesStockInUpdateVo.setActualWeight(piecesStockInUpdateVo.getActualWeight().setScale(2, BigDecimal.ROUND_UP));
+		if(reqDto.getActualWeight() != null) {
+			reqDto.setActualWeight(reqDto.getActualWeight().setScale(2, BigDecimal.ROUND_UP));
 		}
 		
-		if(piecesStockInUpdateVo.getVolumeWeight() != null) {
-			piecesStockInUpdateVo.setVolumeWeight(piecesStockInUpdateVo.getVolumeWeight().setScale(2, BigDecimal.ROUND_UP));
-			piecesStockInUpdateVo.setLength(piecesStockInUpdateVo.getLength().setScale(2, BigDecimal.ROUND_UP));
-			piecesStockInUpdateVo.setWidth(piecesStockInUpdateVo.getWidth().setScale(2, BigDecimal.ROUND_UP));
-			piecesStockInUpdateVo.setHeight(piecesStockInUpdateVo.getHeight().setScale(2, BigDecimal.ROUND_UP));
+		if(reqDto.getVolumeWeight() != null) {
+			reqDto.setVolumeWeight(reqDto.getVolumeWeight().setScale(2, BigDecimal.ROUND_UP));
+			reqDto.setLength(reqDto.getLength().setScale(2, BigDecimal.ROUND_UP));
+			reqDto.setWidth(reqDto.getWidth().setScale(2, BigDecimal.ROUND_UP));
+			reqDto.setHeight(reqDto.getHeight().setScale(2, BigDecimal.ROUND_UP));
 		}
 		
-		piecesStockInUpdateVo.setLogisticsNo(StringUtils.toUpperAndTrim(piecesStockInUpdateVo.getLogisticsNo()));
+		reqDto.setLogisticsNo(StringUtils.toUpperAndTrim(reqDto.getLogisticsNo()));
 	}
 
 	@Override
-	public TmPieces updatePiecesInfoForStockIn(PiecesStockInUpdateVo piecesStockInUpdateVo, ServiceOptParamLinkerVo paramLinkerVo) {
+	public TmPieces updatePiecesInfoForStockIn(PiecesStockInReqDto reqDto, ServiceOptParamLinkerVo linkerVo) {
 		
 		TmPieces updatePieces = null;
 		
-		if(piecesStockInUpdateVo.getTmPiecesId() == null) {
+		if(reqDto.getTmPiecesId() == null) {
 			updatePieces = new TmPieces();
 			updatePieces.setPiecesNo(servicePvd.commonSeqNumberService.generatePiecesNo());
 		}
 		
-		if(piecesStockInUpdateVo.getTmPiecesId() != null) {
-			updatePieces = querier.selectTmPiecesById(piecesStockInUpdateVo.getTmPiecesId());
+		if(reqDto.getTmPiecesId() != null) {
+			updatePieces = querier.selectTmPiecesById(reqDto.getTmPiecesId());
 		}
 
 		// Inser or Update pieces
-		updatePieces.setActualWeight(piecesStockInUpdateVo.getActualWeight());
-		updatePieces.setLength(piecesStockInUpdateVo.getLength());
-		updatePieces.setWidth(piecesStockInUpdateVo.getWidth());
-		updatePieces.setHeight(piecesStockInUpdateVo.getHeight());
-		updatePieces.setVolumeWeight(piecesStockInUpdateVo.getVolumeWeight());
-		updatePieces.setMemberCode(piecesStockInUpdateVo.getMemberCode());
-		updatePieces.setLogisticsNo(StringUtils.toUpperAndTrim(piecesStockInUpdateVo.getLogisticsNo()));
-		updatePieces.setWarehouseCode(paramLinkerVo.getWarehouseCode());
-		updatePieces.setMemo(piecesStockInUpdateVo.getMemo());
+		updatePieces.setActualWeight(reqDto.getActualWeight());
+		updatePieces.setLength(reqDto.getLength());
+		updatePieces.setWidth(reqDto.getWidth());
+		updatePieces.setHeight(reqDto.getHeight());
+		updatePieces.setVolumeWeight(reqDto.getVolumeWeight());
+		updatePieces.setMemberCode(reqDto.getMemberCode());
+		updatePieces.setLogisticsNo(StringUtils.toUpperAndTrim(reqDto.getLogisticsNo()));
+		updatePieces.setWarehouseCode(linkerVo.getWarehouseCode());
+		updatePieces.setMemo(reqDto.getMemo());
 		if(updatePieces.getCheckDate() == null) updatePieces.setCheckDate(DateUtils.getCurrentGMTDate());
 		
-		updatePieces = tmPiecesDao.saveTmPieces(updatePieces, paramLinkerVo.getUserName(), PiecesStockInController.CONTROLLER_ID);
+		updatePieces = tmPiecesDao.saveTmPieces(updatePieces, linkerVo.getUserName(), PiecesStockInController.CONTROLLER_ID);
 		
 		// Insert or Update pieces current and history
-		ComPiecesStatusUpdateVo updatePiecesStatusVo = createStockInUpdatePiecesStatusVo(updatePieces, paramLinkerVo);
+		ComPiecesStatusUpdateVo updatePiecesStatusVo = createStockInUpdatePiecesStatusVo(updatePieces, linkerVo);
 		servicePvd.commonPiecesService.updatePiecesStatus(updatePiecesStatusVo);
 		
 		return updatePieces;
 	}
 	
-	private ComPiecesStatusUpdateVo createStockInUpdatePiecesStatusVo(TmPieces tmPieces, ServiceOptParamLinkerVo paramLinkerVo) {
+	private ComPiecesStatusUpdateVo createStockInUpdatePiecesStatusVo(TmPieces tmPieces, ServiceOptParamLinkerVo linkerVo) {
 		
-		ComPiecesStatusUpdateVo updatePiecesStatusVo = new ComPiecesStatusUpdateVo(paramLinkerVo.getUserName(), PiecesStockInController.CONTROLLER_ID);
+		ComPiecesStatusUpdateVo updatePiecesStatusVo = new ComPiecesStatusUpdateVo(linkerVo.getUserName(), PiecesStockInController.CONTROLLER_ID);
 		
 		updatePiecesStatusVo.setTmPiecesId(tmPieces.getTmPiecesId());
 		updatePiecesStatusVo.setPiecesNo(tmPieces.getPiecesNo());
 		updatePiecesStatusVo.setActionCode(CodeConstants.PIECES_ACTION.CI);
 		updatePiecesStatusVo.setActionDateTime(DateUtils.getCurrentGMTDate());
-		updatePiecesStatusVo.setActionUserName(paramLinkerVo.getUserName());
+		updatePiecesStatusVo.setActionUserName(linkerVo.getUserName());
 		BigDecimal chargedWeight = servicePvd.commonPiecesService.getPiecesChargedWeight(tmPieces);
-		String memo = StringUtils.concat(paramLinkerVo.getWarehouseDesc(), " 称重，计费重量", chargedWeight.toString(), paramLinkerVo.getWeightUnit(), "， 打印标签");
+		String memo = StringUtils.concat(linkerVo.getWarehouseDesc(), " 称重，计费重量", chargedWeight.toString(), linkerVo.getWeightUnit(), "， 打印标签");
 		updatePiecesStatusVo.setMemo(memo);
-		updatePiecesStatusVo.setUserName(paramLinkerVo.getUserName());
+		updatePiecesStatusVo.setUserName(linkerVo.getUserName());
 		
 		return updatePiecesStatusVo;
 	}

@@ -45,6 +45,9 @@ public class CdResourceSqlProvider extends BaseSqlProvider {
         if (record.getCategory() != null) {
             SET("CATEGORY = #{category}");
         }
+        if (record.getCompanyCode() != null) {
+            SET("COMPANY_CODE = #{companyCode}");
+        }
         if (record.getRecordVersion() != null) {
             SET("RECORD_VERSION = #{recordVersion}");
         }
@@ -101,6 +104,9 @@ public class CdResourceSqlProvider extends BaseSqlProvider {
         }
         if (record.getCategory() != null) {
             stringBuffer.append(" AND CATEGORY = #{category}");
+        }
+        if (record.getCompanyCode() != null) {
+            stringBuffer.append(" AND COMPANY_CODE = #{companyCode}");
         }
         if (record.getRecordVersion() != null) {
             stringBuffer.append(" AND RECORD_VERSION = #{recordVersion}");

@@ -18,13 +18,13 @@ import com.palette.busi.project.tms.core.base.BaseMybatisMapper;
 public interface CdResRoleIntf extends BaseMybatisMapper {
 
 
-	@Select("SELECT  CD_RES_ROLE_ID  AS cdResRoleId, CD_ROLE_ID  AS cdRoleId, CD_RESOURCE_ID  AS cdResourceId, RECORD_VERSION  AS recordVersion, CREATE_USER_CODE  AS createUserCode, CREATE_DATE_TIME  AS createDateTime, CREATE_TIME_ZONE  AS createTimeZone, UPDATE_USER_CODE  AS updateUserCode, UPDATE_DATE_TIME  AS updateDateTime, UPDATE_TIME_ZONE  AS updateTimeZone FROM cd_res_role WHERE cd_res_role_id=#{cdResRoleId}")
+	@Select("SELECT  CD_RES_ROLE_ID  AS cdResRoleId, CD_ROLE_ID  AS cdRoleId, CD_RESOURCE_ID  AS cdResourceId, COMPANY_CODE  AS companyCode, RECORD_VERSION  AS recordVersion, CREATE_USER_CODE  AS createUserCode, CREATE_DATE_TIME  AS createDateTime, CREATE_TIME_ZONE  AS createTimeZone, UPDATE_USER_CODE  AS updateUserCode, UPDATE_DATE_TIME  AS updateDateTime, UPDATE_TIME_ZONE  AS updateTimeZone FROM cd_res_role WHERE cd_res_role_id=#{cdResRoleId}")
 	public CdResRole selectCdResRoleById(@Param("cdResRoleId") int cdResRoleId);
 	
-	@Select("SELECT  CD_RES_ROLE_ID  AS cdResRoleId, CD_ROLE_ID  AS cdRoleId, CD_RESOURCE_ID  AS cdResourceId, RECORD_VERSION  AS recordVersion, CREATE_USER_CODE  AS createUserCode, CREATE_DATE_TIME  AS createDateTime, CREATE_TIME_ZONE  AS createTimeZone, UPDATE_USER_CODE  AS updateUserCode, UPDATE_DATE_TIME  AS updateDateTime, UPDATE_TIME_ZONE  AS updateTimeZone FROM cd_res_role")
+	@Select("SELECT  CD_RES_ROLE_ID  AS cdResRoleId, CD_ROLE_ID  AS cdRoleId, CD_RESOURCE_ID  AS cdResourceId, COMPANY_CODE  AS companyCode, RECORD_VERSION  AS recordVersion, CREATE_USER_CODE  AS createUserCode, CREATE_DATE_TIME  AS createDateTime, CREATE_TIME_ZONE  AS createTimeZone, UPDATE_USER_CODE  AS updateUserCode, UPDATE_DATE_TIME  AS updateDateTime, UPDATE_TIME_ZONE  AS updateTimeZone FROM cd_res_role")
 	public List<CdResRole> selectAllCdResRole();
 	
-	@Insert("insert into cd_res_role ( CD_RES_ROLE_ID, CD_ROLE_ID, CD_RESOURCE_ID, RECORD_VERSION, CREATE_USER_CODE, CREATE_DATE_TIME, CREATE_TIME_ZONE, UPDATE_USER_CODE, UPDATE_DATE_TIME, UPDATE_TIME_ZONE ) values (#{cdResRoleId},#{cdRoleId},#{cdResourceId},#{recordVersion},#{createUserCode},#{createDateTime},#{createTimeZone},#{updateUserCode},#{updateDateTime},#{updateTimeZone})")
+	@Insert("insert into cd_res_role ( CD_RES_ROLE_ID, CD_ROLE_ID, CD_RESOURCE_ID, COMPANY_CODE, RECORD_VERSION, CREATE_USER_CODE, CREATE_DATE_TIME, CREATE_TIME_ZONE, UPDATE_USER_CODE, UPDATE_DATE_TIME, UPDATE_TIME_ZONE ) values (#{cdResRoleId},#{cdRoleId},#{cdResourceId},#{companyCode},#{recordVersion},#{createUserCode},#{createDateTime},#{createTimeZone},#{updateUserCode},#{updateDateTime},#{updateTimeZone})")
 	public int insertCdResRole(CdResRole cdResRole);
 
 	@UpdateProvider(type=CdResRoleSqlProvider.class, method="update")

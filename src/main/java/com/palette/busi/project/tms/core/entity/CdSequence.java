@@ -21,6 +21,7 @@ public class CdSequence extends BasePo {
     private Integer incrementBy;
     private String dateFormat;
     private Integer curval;
+    private String companyCode;
     private Integer recordVersion;
     private String createUserCode;
     private Date createDateTime;
@@ -91,6 +92,14 @@ public class CdSequence extends BasePo {
         
     public void setCurval(Integer curval) {
         this.curval = curval;
+    }
+        
+    public String getCompanyCode() {
+        return companyCode;
+    }
+        
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
         
     public Integer getRecordVersion() {

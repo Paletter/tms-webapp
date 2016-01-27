@@ -39,6 +39,9 @@ public class CdCitySqlProvider extends BaseSqlProvider {
         if (record.getIsRemoteArea() != null) {
             SET("IS_REMOTE_AREA = #{isRemoteArea}");
         }
+        if (record.getCompanyCode() != null) {
+            SET("COMPANY_CODE = #{companyCode}");
+        }
         if (record.getRecordVersion() != null) {
             SET("RECORD_VERSION = #{recordVersion}");
         }
@@ -89,6 +92,9 @@ public class CdCitySqlProvider extends BaseSqlProvider {
         }
         if (record.getIsRemoteArea() != null) {
             stringBuffer.append(" AND IS_REMOTE_AREA = #{isRemoteArea}");
+        }
+        if (record.getCompanyCode() != null) {
+            stringBuffer.append(" AND COMPANY_CODE = #{companyCode}");
         }
         if (record.getRecordVersion() != null) {
             stringBuffer.append(" AND RECORD_VERSION = #{recordVersion}");

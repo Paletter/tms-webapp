@@ -24,6 +24,7 @@ public class CdWarehouse extends BasePo {
     private String memo;
     private Integer isActive;
     private String defaultServiceProductCode;
+    private String companyCode;
     private Integer recordVersion;
     private String createUserCode;
     private Date createDateTime;
@@ -118,6 +119,14 @@ public class CdWarehouse extends BasePo {
         
     public void setDefaultServiceProductCode(String defaultServiceProductCode) {
         this.defaultServiceProductCode = defaultServiceProductCode;
+    }
+        
+    public String getCompanyCode() {
+        return companyCode;
+    }
+        
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
         
     public Integer getRecordVersion() {

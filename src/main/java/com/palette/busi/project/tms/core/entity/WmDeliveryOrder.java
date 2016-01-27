@@ -23,6 +23,8 @@ public class WmDeliveryOrder extends BasePo {
     private String mawbCode;
     private String type;
     private String status;
+    private Integer recordVersion;
+    private String companyCode;
     private Date createDateTime;
     private String createUserCode;
     private Date updateDateTime;
@@ -106,6 +108,22 @@ public class WmDeliveryOrder extends BasePo {
         
     public void setStatus(String status) {
         this.status = status;
+    }
+        
+    public Integer getRecordVersion() {
+        return recordVersion;
+    }
+        
+    public void setRecordVersion(Integer recordVersion) {
+        this.recordVersion = recordVersion;
+    }
+        
+    public String getCompanyCode() {
+        return companyCode;
+    }
+        
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
         
     public Date getCreateDateTime() {

@@ -21,6 +21,7 @@ public class WmCheckPickHistory extends BasePo {
     private String memo;
     private String warehouseCode;
     private String countryCode;
+    private Integer recordVersion;
     private String createUserCode;
     private Date createDateTime;
     private String createTimeZone;
@@ -90,6 +91,14 @@ public class WmCheckPickHistory extends BasePo {
         
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
+    }
+        
+    public Integer getRecordVersion() {
+        return recordVersion;
+    }
+        
+    public void setRecordVersion(Integer recordVersion) {
+        this.recordVersion = recordVersion;
     }
         
     public String getCreateUserCode() {

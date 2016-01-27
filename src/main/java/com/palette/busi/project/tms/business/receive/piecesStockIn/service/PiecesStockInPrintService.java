@@ -7,5 +7,5 @@ import com.palette.busi.project.tms.core.entity.TmPieces;
 
 public interface PiecesStockInPrintService {
 
-	public XSSFWorkbook createPiecesStorageLabel(String servletRealPath, TmPieces tmPieces, ServiceOptParamLinkerVo paramLinkerVo) throws Exception;
+	public XSSFWorkbook createPiecesStorageLabel(String servletRealPath, TmPieces tmPieces, ServiceOptParamLinkerVo linkerVo) throws Exception;
 }

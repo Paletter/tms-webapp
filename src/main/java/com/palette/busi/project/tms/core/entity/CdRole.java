@@ -17,6 +17,7 @@ public class CdRole extends BasePo {
     private String roleName;
     private String descpt;
     private String category;
+    private String companyCode;
     private Integer recordVersion;
     private String createUserCode;
     private Date createDateTime;
@@ -55,6 +56,14 @@ public class CdRole extends BasePo {
         
     public void setCategory(String category) {
         this.category = category;
+    }
+        
+    public String getCompanyCode() {
+        return companyCode;
+    }
+        
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
         
     public Integer getRecordVersion() {

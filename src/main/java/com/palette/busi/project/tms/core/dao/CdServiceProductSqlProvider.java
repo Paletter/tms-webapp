@@ -63,6 +63,9 @@ public class CdServiceProductSqlProvider extends BaseSqlProvider {
         if (record.getIsAutoDisassemble() != null) {
             SET("IS_AUTO_DISASSEMBLE = #{isAutoDisassemble}");
         }
+        if (record.getCompanyCode() != null) {
+            SET("COMPANY_CODE = #{companyCode}");
+        }
         if (record.getRecordVersion() != null) {
             SET("RECORD_VERSION = #{recordVersion}");
         }
@@ -137,6 +140,9 @@ public class CdServiceProductSqlProvider extends BaseSqlProvider {
         }
         if (record.getIsAutoDisassemble() != null) {
             stringBuffer.append(" AND IS_AUTO_DISASSEMBLE = #{isAutoDisassemble}");
+        }
+        if (record.getCompanyCode() != null) {
+            stringBuffer.append(" AND COMPANY_CODE = #{companyCode}");
         }
         if (record.getRecordVersion() != null) {
             stringBuffer.append(" AND RECORD_VERSION = #{recordVersion}");

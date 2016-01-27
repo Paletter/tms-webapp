@@ -14,7 +14,6 @@ public class TmPieces extends BasePo {
 	private static final long serialVersionUID = 1L;
 	
     private Integer tmPiecesId;
-    private Integer seq;
     private String warehouseCode;
     private String countryCode;
     private String memberCode;
@@ -38,6 +37,7 @@ public class TmPieces extends BasePo {
     private Integer tmSectorId;
     private String deliveryVendorCode;
     private String deliveryNo;
+    private String companyCode;
     private Integer recordVersion;
     private String createUserCode;
     private Date createDateTime;
@@ -50,14 +50,6 @@ public class TmPieces extends BasePo {
         
     public void setTmPiecesId(Integer tmPiecesId) {
         this.tmPiecesId = tmPiecesId;
-    }
-        
-    public Integer getSeq() {
-        return seq;
-    }
-        
-    public void setSeq(Integer seq) {
-        this.seq = seq;
     }
         
     public String getWarehouseCode() {
@@ -242,6 +234,14 @@ public class TmPieces extends BasePo {
         
     public void setDeliveryNo(String deliveryNo) {
         this.deliveryNo = deliveryNo;
+    }
+        
+    public String getCompanyCode() {
+        return companyCode;
+    }
+        
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
         
     public Integer getRecordVersion() {

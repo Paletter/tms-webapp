@@ -24,6 +24,7 @@ public class TmPiecesAction extends BasePo {
     private Integer isActivity;
     private Integer isLogistics;
     private Integer recordVersion;
+    private String companyCode;
     private String createUserCode;
     private Date createDateTime;
     private String updateUserCode;
@@ -115,6 +116,14 @@ public class TmPiecesAction extends BasePo {
         
     public void setRecordVersion(Integer recordVersion) {
         this.recordVersion = recordVersion;
+    }
+        
+    public String getCompanyCode() {
+        return companyCode;
+    }
+        
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
         
     public String getCreateUserCode() {

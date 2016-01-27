@@ -160,6 +160,18 @@ public class BaseController {
 		return null;
 	}
 	
+	protected String getSessionCompanyCode() {
+		LoginUserResultVo user = getSessionUserVo();
+		if(user != null
+		   && user.getCdCompany() != null
+		   && user.getCdCompany().getCompanyCode() != null) {
+			
+			return user.getCdCompany().getCompanyCode();
+		}
+		
+		return null;
+	}
+	
 	// ============================================================
 	// Encapsulation commonly used session param obj
 	
@@ -177,6 +189,7 @@ public class BaseController {
 		serviceOptParamLinkerVo.setWarehouseCode(getSessionWarehouseCode());
 		serviceOptParamLinkerVo.setWarehouseDesc(getSessionWarehouseDesc());
 		serviceOptParamLinkerVo.setConvertToKg(getSessionCountryRef().getConvertToKg());
+		serviceOptParamLinkerVo.setCompanyCode(getSessionCompanyCode());
 		return serviceOptParamLinkerVo;
 	}
 	

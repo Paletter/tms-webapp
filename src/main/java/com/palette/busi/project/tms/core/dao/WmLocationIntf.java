@@ -18,13 +18,13 @@ import com.palette.busi.project.tms.core.base.BaseMybatisMapper;
 public interface WmLocationIntf extends BaseMybatisMapper {
 
 
-	@Select("SELECT  WM_LOCATION_ID  AS wmLocationId, LOCATION_CODE  AS locationCode, MEMO  AS memo, WAREHOUSE_CODE  AS warehouseCode, RECORD_VERSION  AS recordVersion, CREATE_USER_CODE  AS createUserCode, CREATE_DATE_TIME  AS createDateTime, CREATE_TIME_ZONE  AS createTimeZone, UPDATE_USER_CODE  AS updateUserCode, UPDATE_DATE_TIME  AS updateDateTime, UPDATE_TIME_ZONE  AS updateTimeZone FROM wm_location WHERE wm_location_id=#{wmLocationId}")
+	@Select("SELECT  WM_LOCATION_ID  AS wmLocationId, LOCATION_CODE  AS locationCode, MEMO  AS memo, WAREHOUSE_CODE  AS warehouseCode, RECORD_VERSION  AS recordVersion, COMPANY_CODE  AS companyCode, CREATE_USER_CODE  AS createUserCode, CREATE_DATE_TIME  AS createDateTime, CREATE_TIME_ZONE  AS createTimeZone, UPDATE_USER_CODE  AS updateUserCode, UPDATE_DATE_TIME  AS updateDateTime, UPDATE_TIME_ZONE  AS updateTimeZone FROM wm_location WHERE wm_location_id=#{wmLocationId}")
 	public WmLocation selectWmLocationById(@Param("wmLocationId") int wmLocationId);
 	
-	@Select("SELECT  WM_LOCATION_ID  AS wmLocationId, LOCATION_CODE  AS locationCode, MEMO  AS memo, WAREHOUSE_CODE  AS warehouseCode, RECORD_VERSION  AS recordVersion, CREATE_USER_CODE  AS createUserCode, CREATE_DATE_TIME  AS createDateTime, CREATE_TIME_ZONE  AS createTimeZone, UPDATE_USER_CODE  AS updateUserCode, UPDATE_DATE_TIME  AS updateDateTime, UPDATE_TIME_ZONE  AS updateTimeZone FROM wm_location")
+	@Select("SELECT  WM_LOCATION_ID  AS wmLocationId, LOCATION_CODE  AS locationCode, MEMO  AS memo, WAREHOUSE_CODE  AS warehouseCode, RECORD_VERSION  AS recordVersion, COMPANY_CODE  AS companyCode, CREATE_USER_CODE  AS createUserCode, CREATE_DATE_TIME  AS createDateTime, CREATE_TIME_ZONE  AS createTimeZone, UPDATE_USER_CODE  AS updateUserCode, UPDATE_DATE_TIME  AS updateDateTime, UPDATE_TIME_ZONE  AS updateTimeZone FROM wm_location")
 	public List<WmLocation> selectAllWmLocation();
 	
-	@Insert("insert into wm_location ( WM_LOCATION_ID, LOCATION_CODE, MEMO, WAREHOUSE_CODE, RECORD_VERSION, CREATE_USER_CODE, CREATE_DATE_TIME, CREATE_TIME_ZONE, UPDATE_USER_CODE, UPDATE_DATE_TIME, UPDATE_TIME_ZONE ) values (#{wmLocationId},#{locationCode},#{memo},#{warehouseCode},#{recordVersion},#{createUserCode},#{createDateTime},#{createTimeZone},#{updateUserCode},#{updateDateTime},#{updateTimeZone})")
+	@Insert("insert into wm_location ( WM_LOCATION_ID, LOCATION_CODE, MEMO, WAREHOUSE_CODE, RECORD_VERSION, COMPANY_CODE, CREATE_USER_CODE, CREATE_DATE_TIME, CREATE_TIME_ZONE, UPDATE_USER_CODE, UPDATE_DATE_TIME, UPDATE_TIME_ZONE ) values (#{wmLocationId},#{locationCode},#{memo},#{warehouseCode},#{recordVersion},#{companyCode},#{createUserCode},#{createDateTime},#{createTimeZone},#{updateUserCode},#{updateDateTime},#{updateTimeZone})")
 	public int insertWmLocation(WmLocation wmLocation);
 
 	@UpdateProvider(type=WmLocationSqlProvider.class, method="update")

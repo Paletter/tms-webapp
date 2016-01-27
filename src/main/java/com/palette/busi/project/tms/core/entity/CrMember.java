@@ -43,6 +43,7 @@ public class CrMember extends BasePo {
     private Date lastLoginDateTime;
     private String sessionCode;
     private Integer recordVersion;
+    private String companyCode;
     private String createUserCode;
     private Date createDateTime;
     private String createTimeZone;
@@ -288,6 +289,14 @@ public class CrMember extends BasePo {
         
     public void setRecordVersion(Integer recordVersion) {
         this.recordVersion = recordVersion;
+    }
+        
+    public String getCompanyCode() {
+        return companyCode;
+    }
+        
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
         
     public String getCreateUserCode() {

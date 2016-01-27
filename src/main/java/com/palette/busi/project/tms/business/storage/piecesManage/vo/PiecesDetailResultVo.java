@@ -38,9 +38,6 @@ public class PiecesDetailResultVo {
     private Integer auditStatus;
     private Integer combinationStatus;
     private String currentMemo;
-    
-    private List<TmConsignmentItem> tmConsignmentItemList;
-    private List<PiecesDetailHistoryResultVo> piecesHistoryVoList;
 
 	public String getConsignmentNo() {
 		return consignmentNo;
@@ -234,15 +231,6 @@ public class PiecesDetailResultVo {
 		this.deliveryNo = deliveryNo;
 	}
 
-	public List<TmConsignmentItem> getTmConsignmentItemList() {
-		return tmConsignmentItemList;
-	}
-
-	public void setTmConsignmentItemList(
-			List<TmConsignmentItem> tmConsignmentItemList) {
-		this.tmConsignmentItemList = tmConsignmentItemList;
-	}
-
 	public String getTotalGoodsDescription() {
 		return totalGoodsDescription;
 	}
@@ -265,15 +253,6 @@ public class PiecesDetailResultVo {
 
 	public void setTotalQty(BigDecimal totalQty) {
 		this.totalQty = totalQty;
-	}
-
-	public List<PiecesDetailHistoryResultVo> getPiecesHistoryVoList() {
-		return piecesHistoryVoList;
-	}
-
-	public void setPiecesHistoryVoList(
-			List<PiecesDetailHistoryResultVo> piecesHistoryVoList) {
-		this.piecesHistoryVoList = piecesHistoryVoList;
 	}
     
 }
