@@ -14,6 +14,7 @@ public class FlightListResultVo {
     private String eta;
     private String actionDesc;
     private String actionCode;
+    private Integer userViewNo;
 
 	public Integer getTmSectorId() {
 		return tmSectorId;
@@ -109,6 +110,14 @@ public class FlightListResultVo {
 
 	public void setSectorCode(String sectorCode) {
 		this.sectorCode = sectorCode;
+	}
+
+	public Integer getUserViewNo() {
+		return userViewNo;
+	}
+
+	public void setUserViewNo(Integer userViewNo) {
+		this.userViewNo = userViewNo;
 	}
     
 }

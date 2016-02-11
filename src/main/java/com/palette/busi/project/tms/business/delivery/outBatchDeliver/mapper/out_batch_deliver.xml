@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.palette.busi.project.tms.business.delivery.outBatchDeliver.mapper.out_batch_deliver">
+	<!-- Define map -->
+	<!-- End define map -->
+	
+	<!-- Define sql -->
+	<update id="batchUpdatePiecesBatchInfo" parameterMap="common.arrayList">
+		<foreach collection="list" item="item" separator=";">
+			UPDATE tm_pieces SET OUT_BATCH_NO = #{item.outBatchNo}, TM_OUT_BATCH_ID = #{item.tmOutBatchId}
+			WHERE TM_PIECES_ID = #{item.tmPiecesId} 
+		</foreach>
+	</update>
+	<!-- End define sql -->
+</mapper>

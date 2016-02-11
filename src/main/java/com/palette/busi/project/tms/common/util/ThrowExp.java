@@ -27,6 +27,14 @@ public class ThrowExp {
     }
     
     public static void isEmpty(Collection c, String message) {
-    	if (c == null || c.size() > 0) throw new BusinessException(message);
+    	if (c == null || c.size() == 0) throw new BusinessException(message);
     }
+    
+    public static void isBiggerThanZero(Integer i, String message) {
+    	if (i == null || i > 0) throw new BusinessException(message);
+    }
+    
+	public static void isMoreThanOne(Collection c, String message) {
+		if(c != null && c.size() > 1) throw new BusinessException(message);
+	}
 }

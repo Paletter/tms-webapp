@@ -18,6 +18,7 @@
 	<resultMap id="cdWarehouseEntity" type="com.palette.busi.project.tms.core.entity.CdWarehouse" autoMapping="true"></resultMap>
 	<resultMap id="wmCheckPickHistoryEntity" type="com.palette.busi.project.tms.core.entity.WmCheckPickHistory" autoMapping="true"></resultMap>
 	<resultMap id="cdCountryEntity" type="com.palette.busi.project.tms.core.entity.CdCountry" autoMapping="true"></resultMap>
+	<resultMap id="tmSectorEntity" type="com.palette.busi.project.tms.core.entity.TmSector" autoMapping="true"></resultMap>
 	
 <!-- 	<resultMap id="stSurfaceExcelVo" type="com.udfexpress.oso.excel.vo.STSurfaceExcelVo"></resultMap> -->
 <!-- 	<resultMap id="zhyzSurfaceExcelVo" type="com.udfexpress.oso.excel.vo.ZHYZSurfaceExcelVo"></resultMap> -->

@@ -12,6 +12,7 @@ import com.palette.busi.project.tms.web.util.JDBCUtils;
 import com.palette.busi.project.tms.web.util.SpringContextUtils;
 
 public class MyPropertyPlaceholderConfigurerExt extends PropertyPlaceholderConfigurer {
+	
 	private static MyPropertyPlaceholderConfigurerExt propertyPlaceholderConfigurer = null;
 
     private static Map<String, Object> ctxPropertiesMap;
@@ -32,7 +33,7 @@ public class MyPropertyPlaceholderConfigurerExt extends PropertyPlaceholderConfi
      * @return
      */
     private boolean isEncryptProp(String propertyName) {
-    	if("jdbc.password".equals(propertyName)) return true;
+//    	if("jdbc.password".equals(propertyName)) return true;
         return false;
     }
     

@@ -33,6 +33,7 @@ public class PiecesDetailResultVo {
     private String mawbCode;
     private String deliveryName;
     private String deliveryNo;
+    private String outBatchNo;
     
     private Integer payStatus;
     private Integer auditStatus;
@@ -253,6 +254,14 @@ public class PiecesDetailResultVo {
 
 	public void setTotalQty(BigDecimal totalQty) {
 		this.totalQty = totalQty;
+	}
+
+	public String getOutBatchNo() {
+		return outBatchNo;
+	}
+
+	public void setOutBatchNo(String outBatchNo) {
+		this.outBatchNo = outBatchNo;
 	}
     
 }

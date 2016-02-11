@@ -45,11 +45,8 @@ public class TmUnitSqlProvider extends BaseSqlProvider {
         if (record.getEta() != null) {
             SET("ETA = #{eta}");
         }
-        if (record.getSealNumber() != null) {
-            SET("SEAL_NUMBER = #{sealNumber}");
-        }
-        if (record.getValueType() != null) {
-            SET("VALUE_TYPE = #{valueType}");
+        if (record.getMawbCode() != null) {
+            SET("MAWB_CODE = #{mawbCode}");
         }
         if (record.getSectorCode() != null) {
             SET("SECTOR_CODE = #{sectorCode}");
@@ -66,17 +63,11 @@ public class TmUnitSqlProvider extends BaseSqlProvider {
         if (record.getCreateDateTime() != null) {
             SET("CREATE_DATE_TIME = #{createDateTime}");
         }
-        if (record.getCreateTimeZone() != null) {
-            SET("CREATE_TIME_ZONE = #{createTimeZone}");
-        }
         if (record.getUpdateUserCode() != null) {
             SET("UPDATE_USER_CODE = #{updateUserCode}");
         }
         if (record.getUpdateDateTime() != null) {
             SET("UPDATE_DATE_TIME = #{updateDateTime}");
-        }
-        if (record.getUpdateTimeZone() != null) {
-            SET("UPDATE_TIME_ZONE = #{updateTimeZone}");
         }
 
         WHERE("tm_unit_id = #{tmUnitId}");
@@ -114,11 +105,8 @@ public class TmUnitSqlProvider extends BaseSqlProvider {
         if (record.getEta() != null) {
             stringBuffer.append(" AND ETA = #{eta}");
         }
-        if (record.getSealNumber() != null) {
-            stringBuffer.append(" AND SEAL_NUMBER = #{sealNumber}");
-        }
-        if (record.getValueType() != null) {
-            stringBuffer.append(" AND VALUE_TYPE = #{valueType}");
+        if (record.getMawbCode() != null) {
+            stringBuffer.append(" AND MAWB_CODE = #{mawbCode}");
         }
         if (record.getSectorCode() != null) {
             stringBuffer.append(" AND SECTOR_CODE = #{sectorCode}");
@@ -135,17 +123,11 @@ public class TmUnitSqlProvider extends BaseSqlProvider {
         if (record.getCreateDateTime() != null) {
             stringBuffer.append(" AND CREATE_DATE_TIME = #{createDateTime}");
         }
-        if (record.getCreateTimeZone() != null) {
-            stringBuffer.append(" AND CREATE_TIME_ZONE = #{createTimeZone}");
-        }
         if (record.getUpdateUserCode() != null) {
             stringBuffer.append(" AND UPDATE_USER_CODE = #{updateUserCode}");
         }
         if (record.getUpdateDateTime() != null) {
             stringBuffer.append(" AND UPDATE_DATE_TIME = #{updateDateTime}");
-        }
-        if (record.getUpdateTimeZone() != null) {
-            stringBuffer.append(" AND UPDATE_TIME_ZONE = #{updateTimeZone}");
         }
 
         WHERE(stringBuffer.toString());

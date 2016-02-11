@@ -9,8 +9,18 @@ public class CodeConstants {
 		public static String SN = "SN";
 		public static String HW = "HW";
 		public static String KW = "KW";
+		public static String CP = "CP";
 		public static String PK = "PK";
 		public static String CO = "CO";
+		public static String UL = "UL";
+		public static String DL = "DL";
+	}
+	
+	public static class SECTOR_ACTION {
+		public static String CR = "CR";
+		public static String OS = "OS";
+		public static String UL = "UL";
+		public static String DL = "DL";
 	}
 	
 	public static class SERVICE_LINE_REF_TYPE {
@@ -136,6 +146,12 @@ public class CodeConstants {
 		public static String SECTOR_NO = "SECTOR_NO";
 		public static String SYNC_TARGET_NO = "SYNC_TARGET_NO";
 		public static String DELIVERY_ORDER_NO = "DELIVERY_ORDER_NO";
+		public static String OUT_BATCH_NO = "OUT_BATCH_NO";
+	}
+	
+	public static class OUT_BATCH_STATUS {
+		public static String INITIAL = "INITIAL";
+		public static String OUT = "OUT";
 	}
 	
 }

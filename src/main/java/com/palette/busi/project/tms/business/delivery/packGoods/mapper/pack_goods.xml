@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.palette.busi.project.tms.business.delivery.packGoods.mapper.pack_goods">
+	<!-- Define map -->
+	<resultMap id="unitCsmInfoResultVo" type="com.palette.busi.project.tms.business.delivery.packGoods.vo.UnitCsmInfoResultVo"></resultMap>
+	<!-- End define map -->
+	
+	<!-- Define sql -->
+	<select id="callGetUnitAndCsmSp" statementType="CALLABLE" parameterType="string" resultMap="common.tmUnitEntity, unitCsmInfoResultVo">
+		{CALL sys_pg_get_unit_and_csm(#{unitLabel, mode=IN, jdbcType=VARCHAR})}
+	</select>
+	
+	<update id="updatePiecesUnitInfo">
+		UPDATE tm_pieces SET 
+			tm_pieces.TM_UNIT_ID = #{tmUnitId}, 
+			tm_pieces.UNIT_NO = #{unitNo}, 
+			tm_pieces.TM_SECTOR_ID = #{tmSectorId}, 
+			tm_pieces.SECTOR_CODE = #{sectorCode}
+		WHERE tm_pieces.PIECES_NO = #{piecesNo}
+	</update>
+	<!-- End define sql -->
+</mapper>

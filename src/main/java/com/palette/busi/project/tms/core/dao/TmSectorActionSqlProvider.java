@@ -30,6 +30,12 @@ public class TmSectorActionSqlProvider extends BaseSqlProvider {
         if (record.getActionDesc() != null) {
             SET("ACTION_DESC = #{actionDesc}");
         }
+        if (record.getUserViewNo() != null) {
+            SET("USER_VIEW_NO = #{userViewNo}");
+        }
+        if (record.getUserViewCode() != null) {
+            SET("USER_VIEW_CODE = #{userViewCode}");
+        }
         if (record.getIsActivity() != null) {
             SET("IS_ACTIVITY = #{isActivity}");
         }
@@ -71,6 +77,12 @@ public class TmSectorActionSqlProvider extends BaseSqlProvider {
         }
         if (record.getActionDesc() != null) {
             stringBuffer.append(" AND ACTION_DESC = #{actionDesc}");
+        }
+        if (record.getUserViewNo() != null) {
+            stringBuffer.append(" AND USER_VIEW_NO = #{userViewNo}");
+        }
+        if (record.getUserViewCode() != null) {
+            stringBuffer.append(" AND USER_VIEW_CODE = #{userViewCode}");
         }
         if (record.getIsActivity() != null) {
             stringBuffer.append(" AND IS_ACTIVITY = #{isActivity}");

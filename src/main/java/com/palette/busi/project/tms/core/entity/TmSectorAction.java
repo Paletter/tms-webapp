@@ -16,6 +16,8 @@ public class TmSectorAction extends BasePo {
     private Integer tmSectorActionId;
     private String actionCode;
     private String actionDesc;
+    private Integer userViewNo;
+    private String userViewCode;
     private Integer isActivity;
     private Integer recordVersion;
     private String companyCode;
@@ -46,6 +48,22 @@ public class TmSectorAction extends BasePo {
         
     public void setActionDesc(String actionDesc) {
         this.actionDesc = actionDesc;
+    }
+        
+    public Integer getUserViewNo() {
+        return userViewNo;
+    }
+        
+    public void setUserViewNo(Integer userViewNo) {
+        this.userViewNo = userViewNo;
+    }
+        
+    public String getUserViewCode() {
+        return userViewCode;
+    }
+        
+    public void setUserViewCode(String userViewCode) {
+        this.userViewCode = userViewCode;
     }
         
     public Integer getIsActivity() {

@@ -1,6 +1,8 @@
 package com.palette.busi.project.tms.business.common.service.impl;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,9 +11,16 @@ import org.springframework.transaction.annotation.Transactional;
 import com.palette.busi.project.tms.business.common.service.CommonPiecesService;
 import com.palette.busi.project.tms.business.common.vo.ComPiecesRefUpdateVo;
 import com.palette.busi.project.tms.business.common.vo.ComPiecesStatusUpdateVo;
+import com.palette.busi.project.tms.business.common.vo.ComUsablePiecesResultVo;
+import com.palette.busi.project.tms.business.receive.piecesStockIn.controller.PiecesStockInController;
 import com.palette.busi.project.tms.common.base.BaseServiceImpl;
+import com.palette.busi.project.tms.common.constant.CodeConstants;
+import com.palette.busi.project.tms.common.constant.SqlMapperConstants;
 import com.palette.busi.project.tms.common.util.BigDecimalUtils;
+import com.palette.busi.project.tms.common.util.DateUtils;
+import com.palette.busi.project.tms.common.util.StringUtils;
 import com.palette.busi.project.tms.common.util.ThrowExp;
+import com.palette.busi.project.tms.common.vo.ServiceOptParamLinkerVo;
 import com.palette.busi.project.tms.core.dao.TmPiecesCurrentDao;
 import com.palette.busi.project.tms.core.dao.TmPiecesHistoryDao;
 import com.palette.busi.project.tms.core.dao.TmPiecesRefDao;
@@ -31,6 +40,22 @@ public class CommonPiecesServiceImpl extends BaseServiceImpl implements CommonPi
 	private TmPiecesHistoryDao tmPiecesHistoryDao;
 	@Autowired
 	private TmPiecesRefDao tmPiecesRefDao;
+	
+	@Override
+	public ComPiecesStatusUpdateVo createPiecesStatusUpdateVo(Integer tmPiecesId, String piecesNo, String actionCode, String memo, String controllerId, ServiceOptParamLinkerVo linkerVo) {
+		
+		ComPiecesStatusUpdateVo updateVo = new ComPiecesStatusUpdateVo(linkerVo.getUserName(), controllerId);
+		
+		updateVo.setTmPiecesId(tmPiecesId);
+		updateVo.setPiecesNo(piecesNo);
+		updateVo.setActionCode(actionCode);
+		updateVo.setActionDateTime(DateUtils.getCurrentGMTDate());
+		updateVo.setActionUserName(linkerVo.getUserName());
+		updateVo.setMemo(memo);
+		updateVo.setUserName(linkerVo.getUserName());
+		
+		return updateVo;
+	}
 	
 	@Override
 	public void updatePiecesStatus(ComPiecesStatusUpdateVo updateVo) {
@@ -101,5 +126,15 @@ public class CommonPiecesServiceImpl extends BaseServiceImpl implements CommonPi
 		
 		BigDecimal result = BigDecimalUtils.getBiggerOrEqual(tmPieces.getActualWeight(), tmPieces.getVolumeWeight());
 		return result;
+	}
+	
+	@Override
+	public ComUsablePiecesResultVo queryUsablePieces(String piecesNo, ServiceOptParamLinkerVo linkerVo) {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("piecesNo", piecesNo);
+		params.put("warehouseCode", linkerVo.getWarehouseCode());
+		ComUsablePiecesResultVo resultVo = selectOne(SqlMapperConstants.BUSINESS_COMMON_CALL_GET_USABLE_PIECES_SP, params);
+		return resultVo;
 	}
 }

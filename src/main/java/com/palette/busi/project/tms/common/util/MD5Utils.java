@@ -22,8 +22,7 @@ public class MD5Utils {
 	 * 生成盐值
 	 * @return
 	 */
-	public static String getSalt()
-	{
+	public static String getSalt() {
 		Random random = new Random();
 		StringBuilder sb = new StringBuilder("");
 		for(int i=0; i<6; i++)
@@ -37,8 +36,7 @@ public class MD5Utils {
 	 * 生成随机明文密码
 	 * @return
 	 */
-	public static String getTempPwd()
-	{
+	public static String getTempPwd() {
 		return RandomStringUtils.random(10, chars);
 	}
 	
@@ -48,8 +46,7 @@ public class MD5Utils {
 	 * @param salt
 	 * @return
 	 */
-	public static String encrypt(String str,String salt)
-	{
+	public static String encrypt(String str,String salt) {
 		MessageDigest messageDigest = null;     
 		str+=salt;
 		try {     
@@ -84,15 +81,8 @@ public class MD5Utils {
 	 * @param salt
 	 * @return
 	 */
-	public static String deciphering(String str,String salt){
+	public static String deciphering(String str,String salt) {
 		
 		return null;
-	}
-	
-	public static void main(String[] args) {
-		String salt = getTempPwd();
-		System.out.println(salt);
-		String pwd = encrypt(salt,null);
-		System.out.println(pwd);
 	}
 }

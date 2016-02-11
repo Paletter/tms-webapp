@@ -12,6 +12,10 @@ import java.util.Hashtable;
 
 import javax.imageio.ImageIO;
 
+import org.apache.poi.ss.usermodel.ClientAnchor;
+import org.apache.poi.ss.usermodel.Drawing;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
 import org.apache.poi.xssf.usermodel.XSSFDrawing;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -28,64 +32,39 @@ public class BarCodeUtils {
 	private static int FONTSIZE = 10;
 	private static String IMAGETYPE = "JPEG";
 	
-	public static void insertStockInLabelPiecesNoCode128Img(String code, int row, int rowHeight, int col, int colWidth, XSSFWorkbook wb, String path) throws Exception{
+	public static void insertStockInLabelPiecesNoCode128Img(String code, int row, int rowHeight, int col, int colWidth, Workbook wb, Sheet sheet, String path) throws Exception{
 		FONTSIZE = 0;
-		importExcelForCode(200, 42, row, rowHeight, col, colWidth, code, wb, wb.getSheetAt(0), path);
+		importExcelForCode(200, 42, row, rowHeight, col, colWidth, code, wb, sheet, path);
 	}
 	
-	public static void insertCDSurfaceCsmNoCode128Img(String code, int row, int rowHeight, int col, int colWidth, XSSFWorkbook wb, String path) throws Exception{
-		FONTSIZE = 13;
-		importExcelForCodeAndFont(250, 62, row, rowHeight, col, colWidth, code, wb, wb.getSheetAt(0), path);
-	}
-	
-	public static void insertClearanceNoCode128Img(String clearanceCode, int row, int rowHeight, int col, int colWidth, XSSFWorkbook wb, String path) throws Exception{
-		FONTSIZE = 10;
-		importExcelForCodeAndFont(197, 62, row, rowHeight, col, colWidth, clearanceCode, wb, wb.getSheetAt(0), path);
-	}
-	
-	public static void insertInStockNoCode128Img(String inStockNo, int row, int rowHeight, int col, int colWidth, XSSFWorkbook wb, String path) throws Exception{
-		FONTSIZE = 10;
-		importExcelForCodeAndFont(197, 64, row, rowHeight, col, colWidth, inStockNo, wb, wb.getSheetAt(0), path);
-	}
-	
-	public static void insertCsmNoCode128Img(String csmNo, int row, int rowHeight, int col, int colWidth, XSSFWorkbook wb, String path) throws Exception{
-		FONTSIZE = 10;
-		importExcelForCodeAndFont(166, 77, row, rowHeight, col, colWidth, csmNo, wb, wb.getSheetAt(0), path);
-	}
-	
-	public static void insertSTOrderNoCode128Img(String storderNo, int row, int rowHeight, int col, int colWidth, XSSFWorkbook wb, XSSFSheet sheet, String path) throws Exception{
-		FONTSIZE = 15;
-		importExcelForCodeAndFont(250, 64, row, rowHeight, col, colWidth, storderNo, wb, sheet, path);
-	}
-	
-	public static void insertZHYZOrderNoCode128Img(String storderNo, int row, int rowHeight, int col, int colWidth, XSSFWorkbook wb, XSSFSheet sheet, String path) throws Exception{
-		FONTSIZE = 20;
-		importExcelForCodeAndFont(400, 75, row, rowHeight, col, colWidth, storderNo, wb, sheet, path);
+	public static void insertUnitLabelCode128Img(String code, int row, int rowHeight, int col, int colWidth, Workbook wb, Sheet sheet, String path) throws Exception{
+		FONTSIZE = 0;
+		importExcelForCode(200, 42, row, rowHeight, col, colWidth, code, wb, sheet, path);
 	}
 
-	public static XSSFWorkbook importExcelForCode(int width
+	public static Workbook importExcelForCode(int width
 			                                     ,int height
 			                                     ,int row
 			                                     ,int rowHeight
 			                                     ,int col
 			                                     ,int colWidth
 			                                     ,String no
-			                                     ,XSSFWorkbook xssfWorkbook
-			                                     ,XSSFSheet sheet
+			                                     ,Workbook workbook
+			                                     ,Sheet sheet
 			                                     ,String path) throws Exception {
 		
 		createCodeImg(width, height, no, path);
 		
 		BufferedImage image = ImageIO.read(new File(path));
-		XSSFDrawing xssfDrawing = sheet.createDrawingPatriarch();
+		Drawing drawing = sheet.createDrawingPatriarch();
 		ByteArrayOutputStream bao = new ByteArrayOutputStream();
 		ImageIO.write(image, "jpg", bao);
-		XSSFClientAnchor anchor = new XSSFClientAnchor(0, 0, 0, 0, col, row, col + colWidth, row + rowHeight);
+		ClientAnchor anchor = new XSSFClientAnchor(0, 0, 0, 0, col, row, col + colWidth, row + rowHeight);
 		anchor.setAnchorType(0);
-		xssfDrawing.createPicture(anchor, xssfWorkbook.addPicture(bao.toByteArray(), XSSFWorkbook.PICTURE_TYPE_JPEG));
+		drawing.createPicture(anchor, workbook.addPicture(bao.toByteArray(), XSSFWorkbook.PICTURE_TYPE_JPEG));
 		
 		new File(path).delete();
-		return xssfWorkbook;
+		return workbook;
 	}
 	
 	public static XSSFWorkbook importExcelForCodeAndFont(int width

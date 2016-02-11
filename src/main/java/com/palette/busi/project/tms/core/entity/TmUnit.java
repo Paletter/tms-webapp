@@ -21,17 +21,14 @@ public class TmUnit extends BasePo {
     private String destPort;
     private Date etd;
     private Date eta;
-    private String sealNumber;
-    private String valueType;
+    private String mawbCode;
     private String sectorCode;
     private Integer tmSectorId;
     private Integer recordVersion;
     private String createUserCode;
     private Date createDateTime;
-    private String createTimeZone;
     private String updateUserCode;
     private Date updateDateTime;
-    private String updateTimeZone;
     
     public Integer getTmUnitId() {
         return tmUnitId;
@@ -97,20 +94,12 @@ public class TmUnit extends BasePo {
         this.eta = eta;
     }
         
-    public String getSealNumber() {
-        return sealNumber;
+    public String getMawbCode() {
+        return mawbCode;
     }
         
-    public void setSealNumber(String sealNumber) {
-        this.sealNumber = sealNumber;
-    }
-        
-    public String getValueType() {
-        return valueType;
-    }
-        
-    public void setValueType(String valueType) {
-        this.valueType = valueType;
+    public void setMawbCode(String mawbCode) {
+        this.mawbCode = mawbCode;
     }
         
     public String getSectorCode() {
@@ -153,14 +142,6 @@ public class TmUnit extends BasePo {
         this.createDateTime = createDateTime;
     }
         
-    public String getCreateTimeZone() {
-        return createTimeZone;
-    }
-        
-    public void setCreateTimeZone(String createTimeZone) {
-        this.createTimeZone = createTimeZone;
-    }
-        
     public String getUpdateUserCode() {
         return updateUserCode;
     }
@@ -175,14 +156,6 @@ public class TmUnit extends BasePo {
         
     public void setUpdateDateTime(Date updateDateTime) {
         this.updateDateTime = updateDateTime;
-    }
-        
-    public String getUpdateTimeZone() {
-        return updateTimeZone;
-    }
-        
-    public void setUpdateTimeZone(String updateTimeZone) {
-        this.updateTimeZone = updateTimeZone;
     }
         
 }

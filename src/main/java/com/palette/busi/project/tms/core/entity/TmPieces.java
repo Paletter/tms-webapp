@@ -33,9 +33,11 @@ public class TmPieces extends BasePo {
     private String serviceProductCode;
     private String unitNo;
     private Integer tmUnitId;
-    private String sectorNo;
+    private String sectorCode;
     private Integer tmSectorId;
-    private String deliveryVendorCode;
+    private String outBatchNo;
+    private Integer tmOutBatchId;
+    private String deliveryCode;
     private String deliveryNo;
     private String companyCode;
     private Integer recordVersion;
@@ -204,12 +206,12 @@ public class TmPieces extends BasePo {
         this.tmUnitId = tmUnitId;
     }
         
-    public String getSectorNo() {
-        return sectorNo;
+    public String getSectorCode() {
+        return sectorCode;
     }
         
-    public void setSectorNo(String sectorNo) {
-        this.sectorNo = sectorNo;
+    public void setSectorCode(String sectorCode) {
+        this.sectorCode = sectorCode;
     }
         
     public Integer getTmSectorId() {
@@ -220,12 +222,28 @@ public class TmPieces extends BasePo {
         this.tmSectorId = tmSectorId;
     }
         
-    public String getDeliveryVendorCode() {
-        return deliveryVendorCode;
+    public String getOutBatchNo() {
+        return outBatchNo;
     }
         
-    public void setDeliveryVendorCode(String deliveryVendorCode) {
-        this.deliveryVendorCode = deliveryVendorCode;
+    public void setOutBatchNo(String outBatchNo) {
+        this.outBatchNo = outBatchNo;
+    }
+        
+    public Integer getTmOutBatchId() {
+        return tmOutBatchId;
+    }
+        
+    public void setTmOutBatchId(Integer tmOutBatchId) {
+        this.tmOutBatchId = tmOutBatchId;
+    }
+        
+    public String getDeliveryCode() {
+        return deliveryCode;
+    }
+        
+    public void setDeliveryCode(String deliveryCode) {
+        this.deliveryCode = deliveryCode;
     }
         
     public String getDeliveryNo() {

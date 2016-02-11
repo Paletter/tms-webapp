@@ -31,7 +31,6 @@ public class BaseServiceImpl {
 	
 	// ============================================================
 	// Commonly used db method
-	
 	protected <T> List<T> selectList(String sql, Object param) {
 		return (List<T>) baseDao.selectList(sql, param);
 	}

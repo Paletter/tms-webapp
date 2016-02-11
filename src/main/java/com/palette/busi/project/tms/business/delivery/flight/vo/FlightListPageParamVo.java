@@ -14,6 +14,7 @@ public class FlightListPageParamVo extends BasePo {
     private String startEta;
     private String endEta;
     private String flyStatus;
+    private String companyCode;
 
 	public String getMawbCode() {
 		return mawbCode;
@@ -77,6 +78,14 @@ public class FlightListPageParamVo extends BasePo {
 
 	public void setWarehouseCode(String warehouseCode) {
 		this.warehouseCode = warehouseCode;
+	}
+
+	public String getCompanyCode() {
+		return companyCode;
+	}
+
+	public void setCompanyCode(String companyCode) {
+		this.companyCode = companyCode;
 	}
     
 }

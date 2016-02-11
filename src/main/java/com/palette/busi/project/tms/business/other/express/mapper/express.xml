@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.palette.busi.project.tms.business.other.express.mapper.express">
+	<!-- Define map -->
+	<!-- End define map -->
+	
+	<!-- Define sql -->
+	<update id="batchUpdatePiecesDeliveryInfo" parameterType="java.util.List">
+		<foreach collection="list" item="item" separator=";">
+			UPDATE tm_pieces SET DELIVERY_CODE = #{item.deliveryCode}, DELIVERY_NO = #{item.deliveryNo}
+			WHERE PIECES_NO = #{item.piecesNo} 
+		</foreach>
+	</update>
+	<!-- End define sql -->
+</mapper>

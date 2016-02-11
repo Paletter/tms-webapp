@@ -36,4 +36,10 @@ public interface CommonSeqNumberService {
 	 * @return
 	 */
 	public String generateDeliveryOrderNo() throws BusinessException;
+	
+	/**
+	 * 规则出库批次号
+	 * @return
+	 */
+	public String generateOutBatchNo() throws BusinessException;
 }

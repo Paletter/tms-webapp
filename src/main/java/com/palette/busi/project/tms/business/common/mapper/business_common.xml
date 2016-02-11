@@ -3,6 +3,7 @@
 
 <mapper namespace="com.palette.busi.project.tms.business.common.mapper.business_common">
 	<!-- Define map -->
+	<resultMap id="comUsablePiecesResultVo" type="com.palette.busi.project.tms.business.common.vo.ComUsablePiecesResultVo"></resultMap>
 	<!-- End define map -->
 	
 	<!-- Define sql -->
@@ -16,6 +17,11 @@
 	<delete id="deletePiecesNoLocationCurrent" parameterType="string">
 		DELETE FROM wm_location_current WHERE PIECES_NO = #{piecesNo}   
 	</delete>
+	
+	<!-- CommonPiecesService -->
+	<select id="callGetUsablePiecesSp" statementType="CALLABLE" parameterMap="common.hashMap" resultMap="comUsablePiecesResultVo">
+		{CALL sys_com_get_usable_pieces(#{piecesNo, mode=IN, jdbcType=VARCHAR}, #{warehouseCode, mode=IN, jdbcType=VARCHAR})}
+	</select>
 	<!-- End define sql -->
 	
 </mapper>

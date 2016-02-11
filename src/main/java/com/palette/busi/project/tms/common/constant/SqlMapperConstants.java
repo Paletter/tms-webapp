@@ -6,6 +6,7 @@ public class SqlMapperConstants {
 	public static final String BUSINESS_COMMON_NAMSPACE = "com.palette.busi.project.tms.business.common.mapper.business_common.";
 	public static final String BUSINESS_COMMON_QUERY_SEQ_NEXTVAL = BUSINESS_COMMON_NAMSPACE + "querySeqNextval";
 	public static final String BUSINESS_COMMON_DELETE_PIECES_NO_LOCATION_CURRENT = BUSINESS_COMMON_NAMSPACE + "deletePiecesNoLocationCurrent";
+	public static final String BUSINESS_COMMON_CALL_GET_USABLE_PIECES_SP = BUSINESS_COMMON_NAMSPACE + "callGetUsablePiecesSp";
 	
 	// Login
 	public static final String LOGIN_NAMESPACE = "com.palette.busi.project.tms.business.basic.login.mapper.login.";
@@ -33,4 +34,26 @@ public class SqlMapperConstants {
 	// Flight
 	public static final String FLIGHT_NAMESPACE = "com.palette.busi.project.tms.business.delivery.flight.mapper.flight.";
 	public static final String FLIGHT_QUERY_FLIGHT = FLIGHT_NAMESPACE + "queryFlightList";
+	public static final String FLIGHT_QUERY_VALIDATE_FLIGHT = FLIGHT_NAMESPACE + "queryValidateFlight";
+	public static final String FLIGHT_DELETE_TM_UNIT_BY_FLIGHT = FLIGHT_NAMESPACE + "deleteTmUnitByFlight";
+	public static final String FLIGHT_DELETE_SECTOR_CURRENT = FLIGHT_NAMESPACE + "deleteSectorCurrent";
+	public static final String FLIGHT_DELETE_SECTOR_HISTORY = FLIGHT_NAMESPACE + "deleteSectorHistory";
+	public static final String FLIGHT_QUERY_PRINT_UNIT_LIST = FLIGHT_NAMESPACE + "queryPrintUnitList";
+	
+	// Pack goods
+	public static final String PACK_GOODS_NAMESPACE = "com.palette.busi.project.tms.business.delivery.packGoods.mapper.pack_goods.";
+	public static final String PACK_GOODS_CALL_GET_UNIT_AND_CSM_SP = PACK_GOODS_NAMESPACE + "callGetUnitAndCsmSp";
+	public static final String PACK_GOODS_UPDATE_PIECES_UNIT_INFO = PACK_GOODS_NAMESPACE + "updatePiecesUnitInfo";
+	
+	// Express
+	public static final String EXPRESS_NAMESPACE = "com.palette.busi.project.tms.business.other.express.mapper.express.";
+	public static final String EXPRESS_BATCH_UPDATE_PIECES_DELIVERY_INFO = EXPRESS_NAMESPACE + "batchUpdatePiecesDeliveryInfo";
+	
+	// Out batch
+	public static final String OUT_BATCH_NAMESPACE = "com.palette.busi.project.tms.business.delivery.outBatch.mapper.out_batch.";
+	public static final String OUT_BATCH_QUERY_OUT_BATCH_LIST = OUT_BATCH_NAMESPACE + "queryOutBatchList";
+	
+	// Out batch deliver
+	public static final String OUT_BATCH_DELIVER_NAMESPACE = "com.palette.busi.project.tms.business.delivery.outBatchDeliver.mapper.out_batch_deliver.";
+	public static final String OUT_BATCH_DELIVER_BATCH_UPDATE_PIECES_BATCH_INFO = OUT_BATCH_DELIVER_NAMESPACE + "batchUpdatePiecesBatchInfo";
 }

@@ -14,6 +14,7 @@
 			orig_p.PORT_NAME AS origPortDesc,
 			dest_p.PORT_NAME AS destPortDesc,
 			tsa.ACTION_DESC,
+			tsa.USER_VIEW_NO,
 			tsc.ACTION_CODE
 		FROM
 			tm_sector ts
@@ -30,16 +31,16 @@
 				AND ts.WAREHOUSE_CODE = #{warehouseCode}
 			</if>
 			<if test="sectorLabel != null and sectorLabel != ''">
-				AND SECTOR_LABEL = #{sectorLabel} 
+				AND ts.SECTOR_LABEL = #{sectorLabel} 
 			</if>
 			<if test="mawbCode != null and mawbCode != ''">
-				AND MAWB_CODE = #{mawbCode}
+				AND ts.MAWB_CODE = #{mawbCode}
 			</if>
 			<if test="flyStatus == 'FLEW'">
-				AND tsc.ACTION_CODE in ('AL','UL','DL')
+				AND tsa.USER_VIEW_NO > 100
 			</if>
 			<if test="flyStatus == 'NOT_FLY'">
-				AND tsc.ACTION_CODE = 'CR'
+				AND tsa.USER_VIEW_NO = 100
 			</if>
 			<if test="startEtd != null and startEtd != ''">
 				AND ts.ETD >= DATE_FORMAT(#{startEtd},'%Y-%m-%d')
@@ -54,6 +55,31 @@
 				AND ts.ETA &lt;= DATE_FORMAT(#{endEta},'%Y-%m-%d')
 			</if>
 		ORDER BY ts.TM_SECTOR_ID DESC
+	</select>
+	
+	<select id="queryValidateFlight" parameterMap="common.hashMap" resultType="int">
+		select COUNT(0) FROM tm_sector ts 
+		WHERE
+			ts.TM_SECTOR_ID != #{tmSectorId}
+			AND ts.MAWB_CODE = #{mawbCode}
+	</select>
+	
+	<delete id="deleteTmUnitByFlight" parameterType="int">
+		DELETE FROM tm_unit WHERE TM_SECTOR_ID = #{tmSectorId};
+	</delete>
+	
+	<delete id="deleteSectorCurrent" parameterType="int">
+		DELETE FROM tm_sector_current WHERE TM_SECTOR_ID = #{tmSectorId};
+	</delete>
+	
+	<delete id="deleteSectorHistory" parameterType="int">
+		DELETE FROM tm_sector_history WHERE TM_SECTOR_ID = #{tmSectorId};
+	</delete>
+	
+	<select id="queryPrintUnitList" parameterMap="common.hashMap" resultMap="common.tmUnitEntity">
+		SELECT * FROM tm_unit WHERE TM_UNIT_ID IN (
+			<foreach collection="unitIdList" item="unitId" separator=",">#{unitId}</foreach>
+		)
 	</select>
 	<!-- End define sql -->
 </mapper>

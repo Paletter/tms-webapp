@@ -89,18 +89,18 @@ public class PiecesStockInServiceImpl extends BaseServiceImpl implements PiecesS
 	
 	private ComPiecesStatusUpdateVo createStockInUpdatePiecesStatusVo(TmPieces tmPieces, ServiceOptParamLinkerVo linkerVo) {
 		
-		ComPiecesStatusUpdateVo updatePiecesStatusVo = new ComPiecesStatusUpdateVo(linkerVo.getUserName(), PiecesStockInController.CONTROLLER_ID);
+		ComPiecesStatusUpdateVo updateVo = new ComPiecesStatusUpdateVo(linkerVo.getUserName(), PiecesStockInController.CONTROLLER_ID);
 		
-		updatePiecesStatusVo.setTmPiecesId(tmPieces.getTmPiecesId());
-		updatePiecesStatusVo.setPiecesNo(tmPieces.getPiecesNo());
-		updatePiecesStatusVo.setActionCode(CodeConstants.PIECES_ACTION.CI);
-		updatePiecesStatusVo.setActionDateTime(DateUtils.getCurrentGMTDate());
-		updatePiecesStatusVo.setActionUserName(linkerVo.getUserName());
+		updateVo.setTmPiecesId(tmPieces.getTmPiecesId());
+		updateVo.setPiecesNo(tmPieces.getPiecesNo());
+		updateVo.setActionCode(CodeConstants.PIECES_ACTION.CI);
+		updateVo.setActionDateTime(DateUtils.getCurrentGMTDate());
+		updateVo.setActionUserName(linkerVo.getUserName());
 		BigDecimal chargedWeight = servicePvd.commonPiecesService.getPiecesChargedWeight(tmPieces);
 		String memo = StringUtils.concat(linkerVo.getWarehouseDesc(), " 称重，计费重量", chargedWeight.toString(), linkerVo.getWeightUnit(), "， 打印标签");
-		updatePiecesStatusVo.setMemo(memo);
-		updatePiecesStatusVo.setUserName(linkerVo.getUserName());
+		updateVo.setMemo(memo);
+		updateVo.setUserName(linkerVo.getUserName());
 		
-		return updatePiecesStatusVo;
+		return updateVo;
 	}
 }

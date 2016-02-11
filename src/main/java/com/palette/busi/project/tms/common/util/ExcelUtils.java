@@ -11,12 +11,25 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellValue;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.palette.busi.project.tms.web.exception.BusinessException;
 
 public class ExcelUtils {
 
+	public static void validateImportExcel(MultipartFile file) {
+		ThrowExp.isTrue(file.isEmpty(), "操作失败。上传文件不存在");
+		
+		String fileName = file.getOriginalFilename();
+		String fileType = fileName.substring(fileName.lastIndexOf(".") + 1);
+		ThrowExp.isTrue(!fileType.equals("xls") && !fileType.equals("xlsx"), "操作失败。上传文件类型错误，只可上传xls和xlsx结尾的excel文件");
+	}
+	
 	public static void setCellStrValue(Cell cell, String str) {
 		cell.setCellValue(str == null ? "" : str);
 	}
@@ -112,5 +125,74 @@ public class ExcelUtils {
 		HSSFComment comment = patr.createComment(anchor);
 		comment.setString(new HSSFRichTextString(text));
 		return comment;
+	}
+	
+
+	public static String getCellStrValue(Workbook wb, Cell cell) {
+		try {
+			
+			FormulaEvaluator evaluator = wb.getCreationHelper().createFormulaEvaluator();
+			CellValue cellValue = evaluator.evaluate(cell);
+			if(cellValue.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+				Double value = cellValue.getNumberValue();
+				return String.valueOf(value);
+			} else if(cellValue.getCellType() == Cell.CELL_TYPE_STRING) {
+				return cellValue.getStringValue();
+			} else {
+				throw new BusinessException("操作失败。第" + (cell.getRowIndex() + 1) + "行，第" + (cell.getColumnIndex() + 1) + "列，数据解析错误");
+			}
+			
+		} catch (Exception e) {
+			throw new BusinessException("操作失败。数据解析错误");
+		}
+	}
+	
+	public static Integer getCellIntValue(Workbook wb, Cell cell) {
+		try {
+			
+			FormulaEvaluator evaluator = wb.getCreationHelper().createFormulaEvaluator();
+			CellValue cellValue = evaluator.evaluate(cell);
+			if(cellValue.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+				Double value = cellValue.getNumberValue();
+				return value.intValue();
+			} else if(cellValue.getCellType() == Cell.CELL_TYPE_STRING) {
+				return Integer.valueOf(cellValue.getStringValue());
+			} else {
+				throw new BusinessException("操作失败。第" + (cell.getRowIndex() + 1) + "行，第" + (cell.getColumnIndex() + 1) + "列，数据解析错误");
+			}
+
+		} catch (Exception e) {
+			throw new BusinessException("操作失败。数据解析错误");
+		}
+	}
+	
+	public static BigDecimal getCellBigDecimalValue(Workbook wb, Cell cell) {
+		try {
+			
+			FormulaEvaluator evaluator = wb.getCreationHelper().createFormulaEvaluator();
+			CellValue cellValue = evaluator.evaluate(cell);
+			if(cellValue.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+				Double value = cellValue.getNumberValue();
+				return BigDecimal.valueOf(value).setScale(2, BigDecimal.ROUND_HALF_UP);
+			} else if(cellValue.getCellType() == Cell.CELL_TYPE_STRING) {
+				return BigDecimal.valueOf(Double.valueOf(cellValue.getStringValue())).setScale(2, BigDecimal.ROUND_HALF_UP);
+			} else {
+				throw new BusinessException("操作失败。第" + (cell.getRowIndex() + 1) + "行，第" + (cell.getColumnIndex() + 1) + "列，数据解析错误");
+			}
+			
+		} catch (Exception e) {
+			throw new BusinessException("操作失败。数据解析错误");
+		}
+	}
+	
+	public static Integer getCellType(Workbook wb, Cell cell) {
+		try {
+			FormulaEvaluator evaluator = wb.getCreationHelper().createFormulaEvaluator();
+			CellValue cellValue = evaluator.evaluate(cell);
+			return cellValue.getCellType();
+			
+		} catch (Exception e) {
+			throw new BusinessException("操作失败。数据解析错误");
+		}
 	}
 }

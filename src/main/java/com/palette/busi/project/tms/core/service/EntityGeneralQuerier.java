@@ -59,6 +59,8 @@ import com.palette.busi.project.tms.core.dao.TmConsignmentItemDao;
 import com.palette.busi.project.tms.core.entity.TmConsignmentItem;
 import com.palette.busi.project.tms.core.dao.TmConsignmentVasRelationDao;
 import com.palette.busi.project.tms.core.entity.TmConsignmentVasRelation;
+import com.palette.busi.project.tms.core.dao.TmOutBatchDao;
+import com.palette.busi.project.tms.core.entity.TmOutBatch;
 import com.palette.busi.project.tms.core.dao.TmPiecesDao;
 import com.palette.busi.project.tms.core.entity.TmPieces;
 import com.palette.busi.project.tms.core.dao.TmPiecesActionDao;
@@ -128,6 +130,7 @@ public class EntityGeneralQuerier {
 	@Autowired private TmConsignmentCurrentDao TmConsignmentCurrentDao;
 	@Autowired private TmConsignmentItemDao TmConsignmentItemDao;
 	@Autowired private TmConsignmentVasRelationDao TmConsignmentVasRelationDao;
+	@Autowired private TmOutBatchDao TmOutBatchDao;
 	@Autowired private TmPiecesDao TmPiecesDao;
 	@Autowired private TmPiecesActionDao TmPiecesActionDao;
 	@Autowired private TmPiecesCurrentDao TmPiecesCurrentDao;
@@ -303,6 +306,12 @@ public class EntityGeneralQuerier {
 	public List<TmConsignmentVasRelation> selectTmConsignmentVasRelationAllByRecord(TmConsignmentVasRelation param) {return TmConsignmentVasRelationDao.selectAllByRecord(param);};
 	public TmConsignmentVasRelation selectTmConsignmentVasRelationOneByRecord(TmConsignmentVasRelation param) {return TmConsignmentVasRelationDao.selectOneByRecord(param);};
 	public PageInfo selectTmConsignmentVasRelationPageByRecord(TmConsignmentVasRelation param) {return TmConsignmentVasRelationDao.selectPageByRecord(param);};
+	
+	public TmOutBatch selectTmOutBatchById(Integer id) {return TmOutBatchDao.selectTmOutBatchById(id);}
+	public List<TmOutBatch> selectTmOutBatchAll() {return TmOutBatchDao.selectAllTmOutBatch();};
+	public List<TmOutBatch> selectTmOutBatchAllByRecord(TmOutBatch param) {return TmOutBatchDao.selectAllByRecord(param);};
+	public TmOutBatch selectTmOutBatchOneByRecord(TmOutBatch param) {return TmOutBatchDao.selectOneByRecord(param);};
+	public PageInfo selectTmOutBatchPageByRecord(TmOutBatch param) {return TmOutBatchDao.selectPageByRecord(param);};
 	
 	public TmPieces selectTmPiecesById(Integer id) {return TmPiecesDao.selectTmPiecesById(id);}
 	public List<TmPieces> selectTmPiecesAll() {return TmPiecesDao.selectAllTmPieces();};

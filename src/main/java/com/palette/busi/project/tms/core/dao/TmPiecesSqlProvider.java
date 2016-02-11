@@ -81,14 +81,20 @@ public class TmPiecesSqlProvider extends BaseSqlProvider {
         if (record.getTmUnitId() != null) {
             SET("TM_UNIT_ID = #{tmUnitId}");
         }
-        if (record.getSectorNo() != null) {
-            SET("SECTOR_NO = #{sectorNo}");
+        if (record.getSectorCode() != null) {
+            SET("SECTOR_CODE = #{sectorCode}");
         }
         if (record.getTmSectorId() != null) {
             SET("TM_SECTOR_ID = #{tmSectorId}");
         }
-        if (record.getDeliveryVendorCode() != null) {
-            SET("DELIVERY_VENDOR_CODE = #{deliveryVendorCode}");
+        if (record.getOutBatchNo() != null) {
+            SET("OUT_BATCH_NO = #{outBatchNo}");
+        }
+        if (record.getTmOutBatchId() != null) {
+            SET("TM_OUT_BATCH_ID = #{tmOutBatchId}");
+        }
+        if (record.getDeliveryCode() != null) {
+            SET("DELIVERY_CODE = #{deliveryCode}");
         }
         if (record.getDeliveryNo() != null) {
             SET("DELIVERY_NO = #{deliveryNo}");
@@ -183,14 +189,20 @@ public class TmPiecesSqlProvider extends BaseSqlProvider {
         if (record.getTmUnitId() != null) {
             stringBuffer.append(" AND TM_UNIT_ID = #{tmUnitId}");
         }
-        if (record.getSectorNo() != null) {
-            stringBuffer.append(" AND SECTOR_NO = #{sectorNo}");
+        if (record.getSectorCode() != null) {
+            stringBuffer.append(" AND SECTOR_CODE = #{sectorCode}");
         }
         if (record.getTmSectorId() != null) {
             stringBuffer.append(" AND TM_SECTOR_ID = #{tmSectorId}");
         }
-        if (record.getDeliveryVendorCode() != null) {
-            stringBuffer.append(" AND DELIVERY_VENDOR_CODE = #{deliveryVendorCode}");
+        if (record.getOutBatchNo() != null) {
+            stringBuffer.append(" AND OUT_BATCH_NO = #{outBatchNo}");
+        }
+        if (record.getTmOutBatchId() != null) {
+            stringBuffer.append(" AND TM_OUT_BATCH_ID = #{tmOutBatchId}");
+        }
+        if (record.getDeliveryCode() != null) {
+            stringBuffer.append(" AND DELIVERY_CODE = #{deliveryCode}");
         }
         if (record.getDeliveryNo() != null) {
             stringBuffer.append(" AND DELIVERY_NO = #{deliveryNo}");

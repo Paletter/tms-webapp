@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.palette.busi.project.tms.business.delivery.outBatch.mapper.out_batch">
+	<!-- Define map -->
+	<parameterMap id="outBatchListPageParamVo" type="com.palette.busi.project.tms.business.delivery.outBatch.vo.OutBatchListPageParamVo"></parameterMap>
+	<resultMap id="outBatchListResultVo" type="com.palette.busi.project.tms.business.delivery.outBatch.vo.OutBatchListResultVo"></resultMap>
+	<!-- End define map -->
+	
+	<!-- Define sql -->
+	<select id="queryOutBatchList" parameterMap="outBatchListPageParamVo" resultMap="outBatchListResultVo">
+		SELECT
+			tob.*
+		FROM
+			tm_out_batch tob
+		WHERE
+			1 = 1
+			<if test="outBatchNo != null and outBatchNo != ''">
+				AND tob.OUT_BATCH_NO = #{outBatchNo}
+			</if>
+			<if test="warehouseCode != null and warehouseCode != ''">
+				AND tob.WAREHOUSE_CODE = #{warehouseCode}
+			</if>
+			<if test="companyCode != null and companyCode != ''">
+				AND tob.COMPANY_CODE = #{companyCode}
+			</if>
+			<if test="status == 'INITIAL'">
+				AND tob.STATUS = 'INITIAL'
+			</if>
+			<if test="status == 'OUT'">
+				AND tob.STATUS = 'OUT'
+			</if>
+			<if test="startOutDate != null and startOutDate != ''">
+				AND tob.OUT_DATE >= DATE_FORMAT(#{startOutDate},'%Y-%m-%d')
+			</if>
+			<if test="endOutDate != null and endOutDate != ''">
+				AND tob.OUT_DATE &lt;= DATE_FORMAT(#{endOutDate},'%Y-%m-%d')
+			</if>
+		ORDER BY tob.TM_OUT_BATCH_ID DESC
+	</select>
+	<!-- End define sql -->
+</mapper>
