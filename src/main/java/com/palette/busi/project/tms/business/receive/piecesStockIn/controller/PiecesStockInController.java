@@ -62,7 +62,7 @@ public class PiecesStockInController extends BaseController {
 		piecesStockInService.formatPiecesStockInUpdateVo(reqDto);
 		
 		// Business
-		TmPieces updatePieces = piecesStockInService.updatePiecesInfoForStockIn(reqDto, getSessionServiceOptParamLinkerVo());
+		TmPieces updatePieces = piecesStockInService.updatePiecesInfoForStockIn(reqDto, getSessionLinkerVo());
 		
 		// Encapsulation result
 		PiecesStockInRespDto respDto = new PiecesStockInRespDto();
@@ -79,7 +79,7 @@ public class PiecesStockInController extends BaseController {
 		piecesStockInValidateService.validateNormalPiecesStockIn(reqDto);
 		
 		// Business
-		TmPieces updatePieces = piecesStockInService.updatePiecesInfoForStockIn(reqDto, getSessionServiceOptParamLinkerVo());
+		TmPieces updatePieces = piecesStockInService.updatePiecesInfoForStockIn(reqDto, getSessionLinkerVo());
 		
 		// Encapsulation result
 		PiecesStockInRespDto respDto = new PiecesStockInRespDto();
@@ -93,7 +93,7 @@ public class PiecesStockInController extends BaseController {
 		Integer tmPiecesId = Integer.valueOf(request.getParameter("tmPiecesId"));
 		TmPieces tmPieces = querier.selectTmPiecesById(tmPiecesId);
 		
-		XSSFWorkbook workbook = piecesStockInPrintService.createPiecesStorageLabel(getServletRealPath(), tmPieces, getSessionServiceOptParamLinkerVo());
+		XSSFWorkbook workbook = piecesStockInPrintService.createPiecesStorageLabel(getServletRealPath(), tmPieces, getSessionLinkerVo());
 		
 		PrintUtils.labelResponseOutput(response, workbook, new String(tmPieces.getPiecesNo() + "-StorageLable.xlsx"));
 	}

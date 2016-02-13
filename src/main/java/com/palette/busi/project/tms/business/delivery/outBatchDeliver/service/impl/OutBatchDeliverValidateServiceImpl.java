@@ -2,6 +2,7 @@ package com.palette.busi.project.tms.business.delivery.outBatchDeliver.service.i
 
 import org.springframework.stereotype.Service;
 
+import com.palette.busi.project.tms.business.common.vo.ComUsablePiecesQueryVo;
 import com.palette.busi.project.tms.business.common.vo.ComUsablePiecesResultVo;
 import com.palette.busi.project.tms.business.delivery.outBatchDeliver.dto.QueryDeliverPiecesReqDto;
 import com.palette.busi.project.tms.business.delivery.outBatchDeliver.service.OutBatchDeliverValidateService;
@@ -15,7 +16,9 @@ public class OutBatchDeliverValidateServiceImpl extends BaseServiceImpl implemen
 	@Override
 	public ComUsablePiecesResultVo validateQueryDeliverPieces(QueryDeliverPiecesReqDto reqDto, ServiceOptParamLinkerVo linkerVo) {
 		
-		ComUsablePiecesResultVo usablePieces = servicePvd.commonPiecesService.queryUsablePieces(reqDto.getQueryNo(), linkerVo);
+		ComUsablePiecesQueryVo usablePiecesQueryVo = new ComUsablePiecesQueryVo();
+		usablePiecesQueryVo.setPiecesNo(reqDto.getQueryNo());
+		ComUsablePiecesResultVo usablePieces = servicePvd.commonPiecesService.queryUsablePieces(usablePiecesQueryVo, linkerVo);
 		
 		ThrowExp.isNull(usablePieces, "操作失败。包裹不存在");
 		ThrowExp.isTrue(usablePieces.getPiecesUserViewNo() < 200, "操作失败。包裹未入库");

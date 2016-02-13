@@ -69,7 +69,7 @@ public class LoginController extends BaseController {
 		
 		// Validate login password and warehouse
 		String salt = judgeVo.getSalt();
-		String encodePwd = MD5Utils.encrypt(MD5Utils.encrypt(paramVo.getPwd(), salt), salt);
+		String encodePwd = MD5Utils.encrypt(paramVo.getPwd(), salt);
 		
 		if(!judgeVo.getPwd().equals(encodePwd)) {
 			throw new BusinessException("密码错误");
@@ -136,7 +136,7 @@ public class LoginController extends BaseController {
 		
 		// Validate login password
 		String salt = judgeVo.getSalt();
-		String encodePwd = MD5Utils.encrypt(MD5Utils.encrypt(loginParamVo.getPwd(), salt), salt);
+		String encodePwd = MD5Utils.encrypt(loginParamVo.getPwd(), salt);
 		
 		if(!judgeVo.getPwd().equals(encodePwd)) {
 			throw new BusinessException("密码错误");

@@ -53,7 +53,7 @@ public class CheckWeightController extends BaseController {
 		checkWeightValidateService.validateCheckWeight(reqDto);
 		
 		// Business
-		checkWeightService.updatePiecesInfoForCkeckWeight(reqDto, getSessionServiceOptParamLinkerVo());
+		checkWeightService.updatePiecesInfoForCkeckWeight(reqDto, getSessionLinkerVo());
 		
 		return true;
 	}

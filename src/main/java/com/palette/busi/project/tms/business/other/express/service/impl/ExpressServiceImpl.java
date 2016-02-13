@@ -23,9 +23,9 @@ import com.palette.busi.project.tms.business.other.express.vo.ExpressImportVo;
 import com.palette.busi.project.tms.common.base.BaseServiceImpl;
 import com.palette.busi.project.tms.common.constant.SqlMapperConstants;
 import com.palette.busi.project.tms.common.util.ExcelUtils;
+import com.palette.busi.project.tms.common.util.StringUtils;
 import com.palette.busi.project.tms.common.util.ThrowExp;
 import com.palette.busi.project.tms.core.entity.CdDelivery;
-import com.palette.busi.project.tms.core.entity.TmPieces;
 
 @Service
 @Transactional
@@ -63,20 +63,27 @@ public class ExpressServiceImpl extends BaseServiceImpl implements ExpressServic
         		Row row = sheet.getRow(i);
         		ThrowExp.isNull(row, "操作失败。第" + rowIndex + "行信息异常");
             	
-        		// Pieces no
-            	Cell piecesNoCell = row.getCell(0);
-            	String piecesNo = ExcelUtils.getCellStrValue(workBook, piecesNoCell);
-            	ThrowExp.isNull(piecesNo, "操作失败。第" + rowIndex + "行包裹号信息异常");
-            	importVo.setPiecesNo(piecesNo);
-            	
+        		// Reference no
+            	Cell referenceNoCell = row.getCell(0);
+            	if(ExcelUtils.isFullCell(evaluator, referenceNoCell)) {
+            		String referenceNo = ExcelUtils.getCellStrValue(workBook, referenceNoCell);
+                	importVo.setReferenceNo(referenceNo);
+            	}
+            	// Pieces no
+            	Cell piecesNoCell = row.getCell(1);
+            	if(ExcelUtils.isFullCell(evaluator, piecesNoCell)) {
+            		String piecesNo = ExcelUtils.getCellStrValue(workBook, piecesNoCell);
+            		importVo.setPiecesNo(piecesNo);
+            	}
+            	ThrowExp.isTrue(StringUtils.isNullOrEmpty(importVo.getReferenceNo()) && StringUtils.isNullOrEmpty(importVo.getPiecesNo())
+            			       ,"操作失败。第" + rowIndex + "行，关联号和包裹号至少填写一个");
             	// Delivery name
-            	Cell deliveryNameCell = row.getCell(1);
+            	Cell deliveryNameCell = row.getCell(2);
         		String deliveryName = ExcelUtils.getCellStrValue(workBook, deliveryNameCell);
         		ThrowExp.isNull(deliveryName, "操作失败。第" + rowIndex + "行快递公司信息异常");
         		importVo.setDeliveryName(deliveryName);
-        		
         		// Delivery no
-        		Cell deliveryNoCell = row.getCell(2);
+        		Cell deliveryNoCell = row.getCell(3);
         		String deliveryNo = ExcelUtils.getCellStrValue(workBook, deliveryNoCell);
         		ThrowExp.isNull(deliveryNo, "操作失败。第" + rowIndex + "行快递单号信息异常");
         		importVo.setDeliveryNo(deliveryNo);
@@ -102,6 +109,7 @@ public class ExpressServiceImpl extends BaseServiceImpl implements ExpressServic
 			updateParam.setDeliveryCode(cdDelivery.getDeliveryCode());
 			updateParam.setDeliveryNo(importVo.getDeliveryNo());
 			updateParam.setPiecesNo(importVo.getPiecesNo());
+			updateParam.setLogisticsNo(importVo.getReferenceNo());
 			updateParamList.add(updateParam);
 		}
 		

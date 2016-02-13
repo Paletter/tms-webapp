@@ -86,8 +86,7 @@ public class CheckWeightServiceImpl extends BaseServiceImpl implements CheckWeig
 		updatePiecesStatusVo.setActionCode(CodeConstants.PIECES_ACTION.KW);
 		updatePiecesStatusVo.setActionDateTime(DateUtils.getCurrentGMTDate());
 		updatePiecesStatusVo.setActionUserName(linkerVo.getUserName());
-		BigDecimal chargedWeight = servicePvd.commonPiecesService.getPiecesChargedWeight(tmPieces);
-		String memo = StringUtils.concat(linkerVo.getWarehouseDesc(), " 核重包裹，计费重量", chargedWeight.toString(), linkerVo.getWeightUnit());
+		String memo = StringUtils.concat(linkerVo.getWarehouseDesc(), " 核重包裹，实重", tmPieces.getActualWeight().toString(), linkerVo.getWeightUnit());
 		updatePiecesStatusVo.setMemo(memo);
 		updatePiecesStatusVo.setUserName(linkerVo.getUserName());
 		

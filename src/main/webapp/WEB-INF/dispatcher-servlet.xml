@@ -59,6 +59,7 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/Server/**"/>
 			<mvc:exclude-mapping path="/LoginController/*"/>
 			
 			<bean class="com.palette.busi.project.tms.web.interceptor.LoginInterceptor"></bean>

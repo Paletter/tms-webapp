@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.palette.busi.project.tms.business.common.service.CommonPiecesService;
 import com.palette.busi.project.tms.business.common.vo.ComPiecesRefUpdateVo;
 import com.palette.busi.project.tms.business.common.vo.ComPiecesStatusUpdateVo;
+import com.palette.busi.project.tms.business.common.vo.ComUsablePiecesQueryVo;
 import com.palette.busi.project.tms.business.common.vo.ComUsablePiecesResultVo;
 import com.palette.busi.project.tms.business.receive.piecesStockIn.controller.PiecesStockInController;
 import com.palette.busi.project.tms.common.base.BaseServiceImpl;
@@ -129,11 +130,13 @@ public class CommonPiecesServiceImpl extends BaseServiceImpl implements CommonPi
 	}
 	
 	@Override
-	public ComUsablePiecesResultVo queryUsablePieces(String piecesNo, ServiceOptParamLinkerVo linkerVo) {
+	public ComUsablePiecesResultVo queryUsablePieces(ComUsablePiecesQueryVo queryVo, ServiceOptParamLinkerVo linkerVo) {
 		
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("piecesNo", piecesNo);
-		params.put("warehouseCode", linkerVo.getWarehouseCode());
+		params.put("piecesNo", StringUtils.getValue(queryVo.getPiecesNo()));
+		params.put("logisticsNo", StringUtils.getValue(queryVo.getLogisticsNo()));
+		params.put("consignmentNo", StringUtils.getValue(queryVo.getConsignmentNo()));
+		params.put("warehouseCode", StringUtils.getValue(linkerVo.getWarehouseCode()));
 		ComUsablePiecesResultVo resultVo = selectOne(SqlMapperConstants.BUSINESS_COMMON_CALL_GET_USABLE_PIECES_SP, params);
 		return resultVo;
 	}

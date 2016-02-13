@@ -77,6 +77,7 @@ public class PiecesStockInServiceImpl extends BaseServiceImpl implements PiecesS
 		updatePieces.setWarehouseCode(linkerVo.getWarehouseCode());
 		updatePieces.setMemo(reqDto.getMemo());
 		if(updatePieces.getCheckDate() == null) updatePieces.setCheckDate(DateUtils.getCurrentGMTDate());
+		updatePieces.setCompanyCode(linkerVo.getCompanyCode());
 		
 		updatePieces = tmPiecesDao.saveTmPieces(updatePieces, linkerVo.getUserName(), PiecesStockInController.CONTROLLER_ID);
 		
@@ -96,8 +97,7 @@ public class PiecesStockInServiceImpl extends BaseServiceImpl implements PiecesS
 		updateVo.setActionCode(CodeConstants.PIECES_ACTION.CI);
 		updateVo.setActionDateTime(DateUtils.getCurrentGMTDate());
 		updateVo.setActionUserName(linkerVo.getUserName());
-		BigDecimal chargedWeight = servicePvd.commonPiecesService.getPiecesChargedWeight(tmPieces);
-		String memo = StringUtils.concat(linkerVo.getWarehouseDesc(), " 称重，计费重量", chargedWeight.toString(), linkerVo.getWeightUnit(), "， 打印标签");
+		String memo = StringUtils.concat(linkerVo.getWarehouseDesc(), " 入库 实重", tmPieces.getActualWeight().toString(), linkerVo.getWeightUnit());
 		updateVo.setMemo(memo);
 		updateVo.setUserName(linkerVo.getUserName());
 		

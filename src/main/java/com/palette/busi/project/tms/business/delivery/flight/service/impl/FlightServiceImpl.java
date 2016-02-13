@@ -23,6 +23,7 @@ import com.palette.busi.project.tms.common.constant.SqlMapperConstants;
 import com.palette.busi.project.tms.common.util.BeanUtilsExt;
 import com.palette.busi.project.tms.common.util.DateUtils;
 import com.palette.busi.project.tms.common.vo.ServiceOptParamLinkerVo;
+import com.palette.busi.project.tms.core.dao.TmPiecesDao;
 import com.palette.busi.project.tms.core.dao.TmSectorDao;
 import com.palette.busi.project.tms.core.dao.TmUnitDao;
 import com.palette.busi.project.tms.core.entity.TmPieces;
@@ -37,6 +38,8 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 	private TmSectorDao tmSectorDao;
 	@Autowired
 	private TmUnitDao tmUnitDao;
+	@Autowired
+	private TmPiecesDao tmPiecesDao;
 	
 	@Override
 	public TmSector createSectorInfo(AddFlightReqDto reqDto, ServiceOptParamLinkerVo linkerVo) {
@@ -139,13 +142,16 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 	@Override
 	public void updatePiecesStatusForShipping(UpdateFlightStatusReqDto reqDto, ServiceOptParamLinkerVo linkerVo) {
 		
-		// Update pieces current and history
 		TmPieces tmPiecesQuery = new TmPieces();
 		tmPiecesQuery.setTmSectorId(reqDto.getTmSectorId());
 		List<TmPieces> tmPiecesList = querier.selectTmPiecesAllByRecord(tmPiecesQuery);
-		
 		for(TmPieces tmPieces : tmPiecesList) {
 			
+			// Update pieces
+			tmPieces.setDeliveryDate(DateUtils.getCurrentGMTDate());
+			tmPiecesDao.updateTmPieces(tmPieces, linkerVo.getUserName(), FlightController.CONTROLLER_ID);
+			
+			// Update pieces current and history
 			ComPiecesStatusUpdateVo updateVo = servicePvd.commonPiecesService.createPiecesStatusUpdateVo(tmPieces.getTmPiecesId()
 																										,tmPieces.getPiecesNo()
 																										,CodeConstants.PIECES_ACTION.CO

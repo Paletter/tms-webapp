@@ -74,7 +74,7 @@ public class PiecesPutUpController extends BaseController {
 		comPiecesPutUpUpdateVo.setWmLocation(reqDto.getWmLocation());
 		comPiecesPutUpUpdateVo.setMemo(CodeConstants.LOCATION_HITORY_MEMO_TEMPLATE.NORMAL);
 		comPiecesPutUpUpdateVo.setUserName(getSessionUserName());
-		servicePvd.commonLocationService.putPiecesUpToLocation(comPiecesPutUpUpdateVo, getSessionServiceOptParamLinkerVo());
+		servicePvd.commonLocationService.putPiecesUpToLocation(comPiecesPutUpUpdateVo, getSessionLinkerVo());
 		
 		return true;
 	}

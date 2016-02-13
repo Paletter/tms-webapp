@@ -181,7 +181,7 @@ public class BaseController {
 		return baseManageOptVo;
 	}
 	
-	public ServiceOptParamLinkerVo getSessionServiceOptParamLinkerVo() {
+	public ServiceOptParamLinkerVo getSessionLinkerVo() {
 		serviceOptParamLinkerVo.setUserName(getSessionUserName());
 		serviceOptParamLinkerVo.setWeightUnit(getSessionWeightUnit());
 		serviceOptParamLinkerVo.setVolumnUnit(getSessionVolumeUnit());

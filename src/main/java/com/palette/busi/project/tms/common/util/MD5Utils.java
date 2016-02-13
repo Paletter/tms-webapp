@@ -25,8 +25,7 @@ public class MD5Utils {
 	public static String getSalt() {
 		Random random = new Random();
 		StringBuilder sb = new StringBuilder("");
-		for(int i=0; i<6; i++)
-		{
+		for(int i=0; i<6; i++) {
 			sb.append(SALEARR[random.nextInt(26)]);
 		}
 		return sb.toString();

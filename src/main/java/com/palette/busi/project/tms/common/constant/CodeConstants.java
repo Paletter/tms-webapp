@@ -147,6 +147,7 @@ public class CodeConstants {
 		public static String SYNC_TARGET_NO = "SYNC_TARGET_NO";
 		public static String DELIVERY_ORDER_NO = "DELIVERY_ORDER_NO";
 		public static String OUT_BATCH_NO = "OUT_BATCH_NO";
+		public static String CONSIGNMENT_NO = "CONSIGNMENT_NO";
 	}
 	
 	public static class OUT_BATCH_STATUS {

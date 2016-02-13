@@ -9,7 +9,14 @@
 	<update id="batchUpdatePiecesDeliveryInfo" parameterType="java.util.List">
 		<foreach collection="list" item="item" separator=";">
 			UPDATE tm_pieces SET DELIVERY_CODE = #{item.deliveryCode}, DELIVERY_NO = #{item.deliveryNo}
-			WHERE PIECES_NO = #{item.piecesNo} 
+			WHERE 
+				1 = 1
+				<if test="item.piecesNo != null and item.piecesNo != ''">
+					AND PIECES_NO = #{item.piecesNo} 
+				</if>
+				<if test="item.logisticsNo != null and item.logisticsNo != ''">
+					AND LOGISTICS_NO = #{item.logisticsNo} 
+				</if>
 		</foreach>
 	</update>
 	<!-- End define sql -->

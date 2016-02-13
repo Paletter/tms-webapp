@@ -20,7 +20,11 @@
 	
 	<!-- CommonPiecesService -->
 	<select id="callGetUsablePiecesSp" statementType="CALLABLE" parameterMap="common.hashMap" resultMap="comUsablePiecesResultVo">
-		{CALL sys_com_get_usable_pieces(#{piecesNo, mode=IN, jdbcType=VARCHAR}, #{warehouseCode, mode=IN, jdbcType=VARCHAR})}
+		{CALL sys_com_get_usable_pieces(
+			#{piecesNo, mode=IN, jdbcType=VARCHAR}, 
+			#{logisticsNo, mode=IN, jdbcType=VARCHAR}, 
+			#{consignmentNo, mode=IN, jdbcType=VARCHAR}, 
+			#{warehouseCode, mode=IN, jdbcType=VARCHAR})}
 	</select>
 	<!-- End define sql -->
 	

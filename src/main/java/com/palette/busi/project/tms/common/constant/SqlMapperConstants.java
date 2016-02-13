@@ -56,4 +56,14 @@ public class SqlMapperConstants {
 	// Out batch deliver
 	public static final String OUT_BATCH_DELIVER_NAMESPACE = "com.palette.busi.project.tms.business.delivery.outBatchDeliver.mapper.out_batch_deliver.";
 	public static final String OUT_BATCH_DELIVER_BATCH_UPDATE_PIECES_BATCH_INFO = OUT_BATCH_DELIVER_NAMESPACE + "batchUpdatePiecesBatchInfo";
+	
+	// User
+	public static final String USER_NAMESPACE = "com.palette.busi.project.tms.business.basic.user.mapper.user.";
+	public static final String USER_QUERY_USER_LIST = USER_NAMESPACE + "queryUserList";
+	public static final String USER_QUERY_USER_AUTH_WARE = USER_NAMESPACE + "queryUserAuthWare";
+	public static final String USER_QUERY_USER_AUTH_ROLE = USER_NAMESPACE + "queryUserAuthRole";
+	
+	// Role
+	public static final String ROLE_NAMESPACE = "com.palette.busi.project.tms.business.basic.role.mapper.role.";
+	public static final String ROLE_QUERY_ROLE_RESOURCE = ROLE_NAMESPACE + "queryRoleResource";
 }

@@ -30,7 +30,7 @@ public class OutBatchDeliverController extends BaseController {
 	public QueryBatchPiecesRespDto queryBatchPieces(@RequestBody QueryBatchPiecesReqDto reqDto) {
 		
 		// Business
-		List<DeliverPiecesRowVo> deliverPiecesVoList = outBatchDeliverService.queryBatchPieces(reqDto, getSessionServiceOptParamLinkerVo());
+		List<DeliverPiecesRowVo> deliverPiecesVoList = outBatchDeliverService.queryBatchPieces(reqDto, getSessionLinkerVo());
 		
 		// Encapsulation result
 		QueryBatchPiecesRespDto respDto = new QueryBatchPiecesRespDto();
@@ -43,7 +43,7 @@ public class OutBatchDeliverController extends BaseController {
 	public QueryDeliverPiecesRespDto queryDeliverPieces(@RequestBody QueryDeliverPiecesReqDto reqDto) {
 		
 		// Validate
-		ComUsablePiecesResultVo usablePieces = outBatchDeliverValidateService.validateQueryDeliverPieces(reqDto, getSessionServiceOptParamLinkerVo());
+		ComUsablePiecesResultVo usablePieces = outBatchDeliverValidateService.validateQueryDeliverPieces(reqDto, getSessionLinkerVo());
 		
 		// Encapsulation result
 		QueryDeliverPiecesRespDto respDto = new QueryDeliverPiecesRespDto();
@@ -62,7 +62,7 @@ public class OutBatchDeliverController extends BaseController {
 	public boolean packPiecesInOutBatch(@RequestBody PackPiecesInOutBatchReqDto reqDto) {
 		
 		// Business
-		outBatchDeliverService.updatePiecesInOutBatch(reqDto, getSessionServiceOptParamLinkerVo());
+		outBatchDeliverService.updatePiecesInOutBatch(reqDto, getSessionLinkerVo());
 		
 		return true;
 	}

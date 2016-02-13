@@ -13,12 +13,12 @@ public class PiecesStockInValidateServiceImpl implements PiecesStockInValidateSe
 	public void validateNormalPiecesStockIn(PiecesStockInReqDto reqDto) {
 		
 		ThrowExp.isNull(reqDto.getTmPiecesId(), "操作失败。运单信息为空");
-		ThrowExp.isNull(reqDto.getActualWeight(), "操作失败。必须输入包裹毛重");
+		ThrowExp.isNull(reqDto.getActualWeight(), "操作失败。必须输入包裹实重");
 	}
 	
 	@Override
 	public void validateUnconsignedPiecesStockIn(PiecesStockInReqDto reqDto) {
 		
-		ThrowExp.isNull(reqDto.getActualWeight(), "操作失败。必须输入包裹毛重");
+		ThrowExp.isNull(reqDto.getActualWeight(), "操作失败。必须输入包裹实重");
 	}
 }

@@ -68,10 +68,10 @@ public class FlightController extends BaseController {
 	public AddFlightRespDto addFlight(@RequestBody AddFlightReqDto reqDto) {
 		
 		// Validate
-		flightValidateService.validateAddSector(reqDto, getSessionServiceOptParamLinkerVo());
+		flightValidateService.validateAddSector(reqDto, getSessionLinkerVo());
 		
 		// Business
-		TmSector tmSector = flightService.createSectorInfo(reqDto, getSessionServiceOptParamLinkerVo());
+		TmSector tmSector = flightService.createSectorInfo(reqDto, getSessionLinkerVo());
 		
 		// Encapsulation result
 		AddFlightRespDto respDto = new AddFlightRespDto();
@@ -84,10 +84,10 @@ public class FlightController extends BaseController {
 	public UpdateFlightRespDto updateFlight(@RequestBody UpdateFlightReqDto reqDto) {
 		
 		// Validate
-		flightValidateService.validateUpdateSector(reqDto, getSessionServiceOptParamLinkerVo());
+		flightValidateService.validateUpdateSector(reqDto, getSessionLinkerVo());
 		
 		// Business
-		TmSector tmSector = flightService.updateSector(reqDto, getSessionServiceOptParamLinkerVo());
+		TmSector tmSector = flightService.updateSector(reqDto, getSessionLinkerVo());
 		
 		// Encapsulation result
 		UpdateFlightRespDto respDto = new UpdateFlightRespDto();
@@ -133,7 +133,7 @@ public class FlightController extends BaseController {
 		AddUnitParamVo paramVo = new AddUnitParamVo();
 		BeanUtilsExt.copyProperties(reqDto, paramVo);
 		
-		TmUnit tmUnit = flightService.addUnitInfo(paramVo, getSessionServiceOptParamLinkerVo());
+		TmUnit tmUnit = flightService.addUnitInfo(paramVo, getSessionLinkerVo());
 		
 		return tmUnit;
 	}
@@ -148,7 +148,7 @@ public class FlightController extends BaseController {
 		BeanUtilsExt.copyProperties(reqDto, paramVo);
 		paramVo.setUnitLabel(unitLabel);
 		
-		TmUnit tmUnit = flightService.addUnitInfo(paramVo, getSessionServiceOptParamLinkerVo());
+		TmUnit tmUnit = flightService.addUnitInfo(paramVo, getSessionLinkerVo());
 		
 		return tmUnit;
 	}
@@ -181,7 +181,7 @@ public class FlightController extends BaseController {
 	public boolean shippingFlight(@RequestBody UpdateFlightStatusReqDto reqDto) {
 		
 		// Business
-		flightService.updateSectorStatusForShipping(reqDto, getSessionServiceOptParamLinkerVo());
+		flightService.updateSectorStatusForShipping(reqDto, getSessionLinkerVo());
 		
 		return true;
 	}
@@ -190,7 +190,7 @@ public class FlightController extends BaseController {
 	public boolean updatePiecesToShippingOfFlight(@RequestBody UpdateFlightStatusReqDto reqDto) {
 		
 		// Business
-		flightService.updatePiecesStatusForShipping(reqDto, getSessionServiceOptParamLinkerVo());
+		flightService.updatePiecesStatusForShipping(reqDto, getSessionLinkerVo());
 		
 		return true;
 	}
@@ -199,7 +199,7 @@ public class FlightController extends BaseController {
 	public boolean upperFlight(@RequestBody UpdateFlightStatusReqDto reqDto) {
 		
 		// Business
-		flightService.updateSectorStatusForUpper(reqDto, getSessionServiceOptParamLinkerVo());
+		flightService.updateSectorStatusForUpper(reqDto, getSessionLinkerVo());
 		
 		return true;
 	}
@@ -208,7 +208,7 @@ public class FlightController extends BaseController {
 	public boolean updatePiecesToUpperOfFlight(@RequestBody UpdateFlightStatusReqDto reqDto) {
 		
 		// Business
-		flightService.updatePiecesStatusForUpper(reqDto, getSessionServiceOptParamLinkerVo());
+		flightService.updatePiecesStatusForUpper(reqDto, getSessionLinkerVo());
 		
 		return true;
 	}
@@ -217,7 +217,7 @@ public class FlightController extends BaseController {
 	public boolean arriveFlight(@RequestBody UpdateFlightStatusReqDto reqDto) {
 		
 		// Business
-		flightService.updateSectorStatusForArrive(reqDto, getSessionServiceOptParamLinkerVo());
+		flightService.updateSectorStatusForArrive(reqDto, getSessionLinkerVo());
 		
 		return true;
 	}
@@ -226,7 +226,7 @@ public class FlightController extends BaseController {
 	public boolean updatePiecesToArriveOfFlight(@RequestBody UpdateFlightStatusReqDto reqDto) {
 		
 		// Business
-		flightService.updatePiecesStatusForArrive(reqDto, getSessionServiceOptParamLinkerVo());
+		flightService.updatePiecesStatusForArrive(reqDto, getSessionLinkerVo());
 		
 		return true;
 	}

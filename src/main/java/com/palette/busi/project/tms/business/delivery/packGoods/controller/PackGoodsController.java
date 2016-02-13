@@ -57,10 +57,10 @@ public class PackGoodsController extends BaseController {
 	public PackPiecesInUnitRespDto packCsmInUnit(@RequestBody PackPiecesInUnitReqDto reqDto) throws BusinessException {
 		
 		// Validate
-		packGoodsValidateService.validatePackCsmInUnit(reqDto, getSessionServiceOptParamLinkerVo());
+		packGoodsValidateService.validatePackCsmInUnit(reqDto, getSessionLinkerVo());
 		
 		// Business
-		TmPieces tmPieces = packGoodsService.updatePiecesInfoForPackIn(reqDto, getSessionServiceOptParamLinkerVo());
+		TmPieces tmPieces = packGoodsService.updatePiecesInfoForPackIn(reqDto, getSessionLinkerVo());
 		
 		// Encapsulation result
 		PackPiecesInUnitRespDto respDto = new PackPiecesInUnitRespDto();
@@ -74,10 +74,10 @@ public class PackGoodsController extends BaseController {
 	public PackPiecesOutUnitRespDto packCsmOutUnit(@RequestBody PackPiecesOutUnitReqDto reqDto) {
 		
 		// Validate
-		packGoodsValidateService.validatePackCsmOutUnit(reqDto, getSessionServiceOptParamLinkerVo());
+		packGoodsValidateService.validatePackCsmOutUnit(reqDto, getSessionLinkerVo());
 		
 		// Business
-		TmPieces tmPieces = packGoodsService.updatePiecesInfoForPackOut(reqDto, getSessionServiceOptParamLinkerVo());
+		TmPieces tmPieces = packGoodsService.updatePiecesInfoForPackOut(reqDto, getSessionLinkerVo());
 		
 		// Encapsulation result
 		PackPiecesOutUnitRespDto respDto = new PackPiecesOutUnitRespDto();

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.palette.busi.project.tms.server.mapper.server">
+	<!-- Define map -->
+	<resultMap id="piecesHistoryResultVo" type="com.palette.busi.project.tms.server.vo.PiecesHistoryResultVo"></resultMap>
+	<!-- End define map -->
+	
+	<!-- Define sql -->
+	<select id="queryPiecesHistory" parameterType="int" resultMap="piecesHistoryResultVo">
+		SELECT
+			DATE_ADD(tph.ACTION_DATE_TIME,INTERVAL -5 HOUR) AS actionDateTime,
+			tph.MEMO
+		FROM
+			tm_pieces_history tph
+		WHERE
+			tph.TM_PIECES_ID = #{tmPiecesId};
+	</select>
+	<!-- End define sql -->
+</mapper>

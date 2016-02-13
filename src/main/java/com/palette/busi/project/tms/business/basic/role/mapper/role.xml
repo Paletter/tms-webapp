@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.palette.busi.project.tms.business.basic.role.mapper.role">
+	<!-- Define map -->
+	<!-- End define map -->
+	
+	<!-- Define sql -->
+	<select id="queryRoleResource" parameterType="int" resultMap="common.cdResourceEntity">
+		SELECT
+			crs.*
+		FROM
+			cd_role cr
+			JOIN cd_res_role crr ON crr.CD_ROLE_ID = cr.CD_ROLE_ID
+			JOIN cd_resource crs ON crs.CD_RESOURCE_ID = crr.CD_RESOURCE_ID
+		WHERE
+			cr.CD_ROLE_ID = #{cdRoleId}
+		GROUP BY crs.CD_RESOURCE_ID
+	</select>
+	<!-- End define sql -->
+	
+</mapper>

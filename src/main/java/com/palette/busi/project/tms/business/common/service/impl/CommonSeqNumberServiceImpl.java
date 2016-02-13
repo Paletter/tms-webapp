@@ -44,4 +44,9 @@ public class CommonSeqNumberServiceImpl extends BaseServiceImpl implements Commo
 	public String generateOutBatchNo() throws BusinessException {
 		return baseDao.getSqlSessionTemplate().selectOne(SqlMapperConstants.BUSINESS_COMMON_QUERY_SEQ_NEXTVAL, CodeConstants.SEQUENCE_NUMBER_TYPE.OUT_BATCH_NO);
 	}
+	
+	@Override
+	public String generateCsmNo() throws BusinessException {
+		return baseDao.getSqlSessionTemplate().selectOne(SqlMapperConstants.BUSINESS_COMMON_QUERY_SEQ_NEXTVAL, CodeConstants.SEQUENCE_NUMBER_TYPE.CONSIGNMENT_NO);
+	}
 }

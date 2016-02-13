@@ -16,6 +16,7 @@ import com.palette.busi.project.tms.common.constant.CodeConstants;
 import com.palette.busi.project.tms.common.util.DateUtils;
 import com.palette.busi.project.tms.common.vo.ServiceOptParamLinkerVo;
 import com.palette.busi.project.tms.core.dao.TmOutBatchDao;
+import com.palette.busi.project.tms.core.dao.TmPiecesDao;
 import com.palette.busi.project.tms.core.entity.TmOutBatch;
 import com.palette.busi.project.tms.core.entity.TmPieces;
 
@@ -25,6 +26,8 @@ public class OutBatchServiceImpl extends BaseServiceImpl implements OutBatchServ
 
 	@Autowired
 	private TmOutBatchDao tmOutBatchDao;
+	@Autowired
+	private TmPiecesDao tmPiecesDao;
 	
 	@Override
 	public TmOutBatch createOutBatch(ServiceOptParamLinkerVo linkerVo) {
@@ -57,6 +60,9 @@ public class OutBatchServiceImpl extends BaseServiceImpl implements OutBatchServ
 		tmPiecesQuery.setTmOutBatchId(reqDto.getTmOutBatchId());
 		List<TmPieces> tmPiecesList = querier.selectTmPiecesAllByRecord(tmPiecesQuery);
 		for(TmPieces tmPieces : tmPiecesList) {
+			
+			tmPieces.setDeliveryDate(DateUtils.getCurrentGMTDate());
+			tmPiecesDao.updateTmPieces(tmPieces, linkerVo.getUserName(), OutBatchController.CONTROLLER_ID);
 			
 			ComPiecesStatusUpdateVo updateVo = servicePvd.commonPiecesService.createPiecesStatusUpdateVo(tmPieces.getTmPiecesId()
 					 																					,tmPieces.getPiecesNo()

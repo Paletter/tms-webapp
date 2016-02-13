@@ -42,7 +42,7 @@ public class OutBatchController extends BaseController {
 	public TmOutBatch addOutBatch() {
 		
 		// Business
-		TmOutBatch tmOutBatch = outBatchService.createOutBatch(getSessionServiceOptParamLinkerVo());
+		TmOutBatch tmOutBatch = outBatchService.createOutBatch(getSessionLinkerVo());
 		
 		return tmOutBatch;
 	}
@@ -51,7 +51,7 @@ public class OutBatchController extends BaseController {
 	public boolean deliverOutBatch(@RequestBody DeliverOutBatchReqDto reqDto) {
 		
 		// Business
-		outBatchService.deliverOutBatch(reqDto, getSessionServiceOptParamLinkerVo());
+		outBatchService.deliverOutBatch(reqDto, getSessionLinkerVo());
 		
 		return true;
 	}
@@ -60,7 +60,7 @@ public class OutBatchController extends BaseController {
 	public boolean deliverPieces(@RequestBody DeliverOutBatchReqDto reqDto) {
 		
 		// Business
-		outBatchService.deliverPieces(reqDto, getSessionServiceOptParamLinkerVo());
+		outBatchService.deliverPieces(reqDto, getSessionLinkerVo());
 		
 		return true;
 	}

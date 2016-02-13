@@ -127,7 +127,6 @@ public class ExcelUtils {
 		return comment;
 	}
 	
-
 	public static String getCellStrValue(Workbook wb, Cell cell) {
 		try {
 			
@@ -185,6 +184,63 @@ public class ExcelUtils {
 		}
 	}
 	
+	public static String getCellStrValue(Workbook wb, Cell cell, Integer rowIndex, Integer cellIndex) {
+		try {
+			
+			FormulaEvaluator evaluator = wb.getCreationHelper().createFormulaEvaluator();
+			CellValue cellValue = evaluator.evaluate(cell);
+			if(cellValue.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+				Double value = cellValue.getNumberValue();
+				return String.valueOf(value);
+			} else if(cellValue.getCellType() == Cell.CELL_TYPE_STRING) {
+				return cellValue.getStringValue();
+			} else {
+				throw new BusinessException("操作失败。第" + rowIndex + "行，第" + cellIndex + "列，数据解析错误");
+			}
+			
+		} catch (Exception e) {
+			throw new BusinessException("操作失败。第" + rowIndex + "行，第" + cellIndex + "列，数据解析错误");
+		}
+	}
+	
+	public static Integer getCellIntValue(Workbook wb, Cell cell, Integer rowIndex, Integer cellIndex) {
+		try {
+			
+			FormulaEvaluator evaluator = wb.getCreationHelper().createFormulaEvaluator();
+			CellValue cellValue = evaluator.evaluate(cell);
+			if(cellValue.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+				Double value = cellValue.getNumberValue();
+				return value.intValue();
+			} else if(cellValue.getCellType() == Cell.CELL_TYPE_STRING) {
+				return Integer.valueOf(cellValue.getStringValue());
+			} else {
+				throw new BusinessException("操作失败。第" + (cell.getRowIndex() + 1) + "行，第" + (cell.getColumnIndex() + 1) + "列，数据解析错误");
+			}
+			
+		} catch (Exception e) {
+			throw new BusinessException("操作失败。第" + rowIndex + "行，第" + cellIndex + "列，数据解析错误");
+		}
+	}
+	
+	public static BigDecimal getCellBigDecimalValue(Workbook wb, Cell cell, Integer rowIndex, Integer cellIndex) {
+		try {
+			
+			FormulaEvaluator evaluator = wb.getCreationHelper().createFormulaEvaluator();
+			CellValue cellValue = evaluator.evaluate(cell);
+			if(cellValue.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+				Double value = cellValue.getNumberValue();
+				return BigDecimal.valueOf(value).setScale(2, BigDecimal.ROUND_HALF_UP);
+			} else if(cellValue.getCellType() == Cell.CELL_TYPE_STRING) {
+				return BigDecimal.valueOf(Double.valueOf(cellValue.getStringValue())).setScale(2, BigDecimal.ROUND_HALF_UP);
+			} else {
+				throw new BusinessException("操作失败。第" + (cell.getRowIndex() + 1) + "行，第" + (cell.getColumnIndex() + 1) + "列，数据解析错误");
+			}
+			
+		} catch (Exception e) {
+			throw new BusinessException("操作失败。第" + rowIndex + "行，第" + cellIndex + "列，数据解析错误");
+		}
+	}
+	
 	public static Integer getCellType(Workbook wb, Cell cell) {
 		try {
 			FormulaEvaluator evaluator = wb.getCreationHelper().createFormulaEvaluator();
@@ -194,5 +250,9 @@ public class ExcelUtils {
 		} catch (Exception e) {
 			throw new BusinessException("操作失败。数据解析错误");
 		}
+	}
+	
+	public static boolean isFullCell(FormulaEvaluator evaluator, Cell cell) {
+		return cell != null && evaluator.evaluate(cell) != null;
 	}
 }

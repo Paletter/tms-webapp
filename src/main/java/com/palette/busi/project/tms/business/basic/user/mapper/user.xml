@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.palette.busi.project.tms.business.basic.user.mapper.user">
+	<!-- Define map -->
+	<parameterMap id="queryUserPageParamVo" type="com.palette.busi.project.tms.business.basic.user.vo.QueryUserPageParamVo"></parameterMap>
+	<resultMap id="queryUserResultVo" type="com.palette.busi.project.tms.business.basic.user.vo.QueryUserResultVo"></resultMap>
+	<!-- End define map -->
+	
+	<!-- Define sql -->
+	<select id="queryUserList" parameterMap="queryUserPageParamVo" resultMap="queryUserResultVo">
+		SELECT
+			cu.*,
+			cc.COMPANY_NAME
+		FROM
+			cd_user cu
+			LEFT JOIN cd_company cc ON cu.COMPANY_CODE = cc.COMPANY_CODE
+		WHERE
+			1 = 1
+			<if test="userName != null and userName != ''">
+				AND cu.USER_NAME = #{userName}
+			</if>
+			<if test="fullName != null and fullName != ''">
+				AND cu.FULL_NAME = #{fullName}
+			</if>
+			<if test="companyCode != null and companyCode != ''">
+				AND cu.COMPANY_CODE = #{companyCode}
+			</if>
+	</select>
+	
+	<select id="queryUserAuthRole" parameterType="int" resultMap="common.cdRoleEntity">
+		SELECT
+			cr.*
+		FROM
+			cd_user cu
+			JOIN cd_user_role cur ON cur.CD_USER_ID = cu.CD_USER_ID
+			JOIN cd_role cr ON cr.CD_ROLE_ID = cur.CD_ROLE_ID
+		WHERE
+			cu.CD_USER_ID = #{cdUserId}
+		GROUP BY cr.CD_ROLE_ID
+	</select>
+	<!-- End define sql -->
+	
+</mapper>

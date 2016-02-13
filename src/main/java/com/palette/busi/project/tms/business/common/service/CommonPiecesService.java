@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import com.palette.busi.project.tms.business.common.vo.ComPiecesRefUpdateVo;
 import com.palette.busi.project.tms.business.common.vo.ComPiecesStatusUpdateVo;
+import com.palette.busi.project.tms.business.common.vo.ComUsablePiecesQueryVo;
 import com.palette.busi.project.tms.business.common.vo.ComUsablePiecesResultVo;
 import com.palette.busi.project.tms.common.vo.ServiceOptParamLinkerVo;
 import com.palette.busi.project.tms.core.entity.TmPieces;
@@ -26,5 +27,5 @@ public interface CommonPiecesService {
 	public void updatePiecesRefInfo(ComPiecesRefUpdateVo updateVo);
 	public void updatePiecesStatus(ComPiecesStatusUpdateVo updateVo);
 	public BigDecimal getPiecesChargedWeight(TmPieces tmPieces);
-	public ComUsablePiecesResultVo queryUsablePieces(String piecesNo, ServiceOptParamLinkerVo linkerVo);
+	public ComUsablePiecesResultVo queryUsablePieces(ComUsablePiecesQueryVo queryVo, ServiceOptParamLinkerVo linkerVo);
 }

@@ -35,7 +35,7 @@ public class PiecesPutDownController extends BaseController {
 		ComPutPiecesDownUpdateVo comPutPiecesDownUpdateVo = new ComPutPiecesDownUpdateVo(getSessionUserName(), PiecesPutDownController.CONTROLLER_ID);
 		comPutPiecesDownUpdateVo.setTmPieces(tmPieces);
 		comPutPiecesDownUpdateVo.setMemo(CodeConstants.LOCATION_HITORY_MEMO_TEMPLATE.NORMAL);
-		servicePvd.commonLocationService.putPiecesDownFromLocation(comPutPiecesDownUpdateVo, getSessionServiceOptParamLinkerVo());
+		servicePvd.commonLocationService.putPiecesDownFromLocation(comPutPiecesDownUpdateVo, getSessionLinkerVo());
 		
 		return true;
 	}

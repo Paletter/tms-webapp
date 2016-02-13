@@ -5,6 +5,7 @@ public class PiecesDeliveryBatchUpdateParam {
 	private String deliveryCode;
 	private String deliveryNo;
 	private String piecesNo;
+	private String logisticsNo;
 
 	public String getDeliveryCode() {
 		return deliveryCode;
@@ -28,6 +29,14 @@ public class PiecesDeliveryBatchUpdateParam {
 
 	public void setPiecesNo(String piecesNo) {
 		this.piecesNo = piecesNo;
+	}
+
+	public String getLogisticsNo() {
+		return logisticsNo;
+	}
+
+	public void setLogisticsNo(String logisticsNo) {
+		this.logisticsNo = logisticsNo;
 	}
 	
 }
