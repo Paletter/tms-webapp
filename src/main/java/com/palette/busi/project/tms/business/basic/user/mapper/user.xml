@@ -28,6 +28,18 @@
 			</if>
 	</select>
 	
+	<select id="queryUserAuthWare" parameterType="int" resultMap="common.cdWarehouseEntity">
+		SELECT
+			cw.*
+		FROM
+			cd_user cu
+			JOIN cd_user_warehouse cuw ON cuw.CD_USER_ID = cu.CD_USER_ID
+			JOIN cd_warehouse cw ON cw.CD_WAREHOUSE_ID = cuw.CD_WAREHOUSE_ID
+		WHERE
+			cu.CD_USER_ID = #{cdUserId}
+		GROUP BY cw.CD_WAREHOUSE_ID
+	</select>
+	
 	<select id="queryUserAuthRole" parameterType="int" resultMap="common.cdRoleEntity">
 		SELECT
 			cr.*

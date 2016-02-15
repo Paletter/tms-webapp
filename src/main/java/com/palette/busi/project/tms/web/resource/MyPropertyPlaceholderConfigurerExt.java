@@ -33,7 +33,7 @@ public class MyPropertyPlaceholderConfigurerExt extends PropertyPlaceholderConfi
      * @return
      */
     private boolean isEncryptProp(String propertyName) {
-//    	if("jdbc.password".equals(propertyName)) return true;
+    	if("jdbc.password".equals(propertyName)) return true;
         return false;
     }
     
