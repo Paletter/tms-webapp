@@ -82,39 +82,39 @@ public class PiecesController extends BaseController {
 					respDto.setDeliveryName(cdDelivery.getDeliveryName());
 					
 					if(tmPieces.getDeliveryNo() != null) {
-						HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
-						CloseableHttpClient closeableHttpClient = httpClientBuilder.build();
-						String companyCode = cdDelivery.getDeliveryCode().trim();
-						String trackingNumber = tmPieces.getDeliveryNo().trim();
-						HttpGet get = new HttpGet("http://toolkit.udfexpress.com/exsearch/api/search_cn.php?companycode=" + companyCode + "&trackingnumber=" + trackingNumber);
-						try {
-							
-							HttpResponse httpResponse = closeableHttpClient.execute(get);
-							String content = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
-							DeliveryVo deliveryVo = JSONObject.parseObject(content, DeliveryVo.class);
-							
-							if(null != deliveryVo && "OK".equals(deliveryVo.getStatus())){
-								List<DetailDelivery> result = deliveryVo.getData();
-								for (DetailDelivery detailDelivery : result) {
-									if(detailDelivery.getTime() != null && StringUtils.isNotNullOrEmpty(detailDelivery.getEvent())) {
-										PiecesHistoryResultVo piecesHistoryResultVo = new PiecesHistoryResultVo();
-										Date date = new Date(detailDelivery.getTime().getTime() - 1000 * 60 * 60 * 13);
-										piecesHistoryResultVo.setActionDateTime(DateUtils.parse(date, DateUtils.dateTimeFormat));
-										piecesHistoryResultVo.setMemo(detailDelivery.getEvent());
-										deliveryPiecesHistoryResultVoList.add(piecesHistoryResultVo);
-									}
-								}
-							}
-							
-						} catch (Exception e) {
-							log.error(e.getMessage());
-						} finally{
-							try {
-								closeableHttpClient.close();
-							} catch (IOException e) {
-								log.error("释放快递公司接口请求发生异常", e);
-							}
-						}
+//						HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
+//						CloseableHttpClient closeableHttpClient = httpClientBuilder.build();
+//						String companyCode = cdDelivery.getDeliveryCode().trim();
+//						String trackingNumber = tmPieces.getDeliveryNo().trim();
+//						HttpGet get = new HttpGet("http://toolkit.udfexpress.com/exsearch/api/search_cn.php?companycode=" + companyCode + "&trackingnumber=" + trackingNumber);
+//						try {
+//							
+//							HttpResponse httpResponse = closeableHttpClient.execute(get);
+//							String content = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
+//							DeliveryVo deliveryVo = JSONObject.parseObject(content, DeliveryVo.class);
+//							
+//							if(null != deliveryVo && "OK".equals(deliveryVo.getStatus())){
+//								List<DetailDelivery> result = deliveryVo.getData();
+//								for (DetailDelivery detailDelivery : result) {
+//									if(detailDelivery.getTime() != null && StringUtils.isNotNullOrEmpty(detailDelivery.getEvent())) {
+//										PiecesHistoryResultVo piecesHistoryResultVo = new PiecesHistoryResultVo();
+//										Date date = new Date(detailDelivery.getTime().getTime() - 1000 * 60 * 60 * 13);
+//										piecesHistoryResultVo.setActionDateTime(DateUtils.parse(date, DateUtils.dateTimeFormat));
+//										piecesHistoryResultVo.setMemo(detailDelivery.getEvent());
+//										deliveryPiecesHistoryResultVoList.add(piecesHistoryResultVo);
+//									}
+//								}
+//							}
+//							
+//						} catch (Exception e) {
+//							log.error(e.getMessage());
+//						} finally{
+//							try {
+//								closeableHttpClient.close();
+//							} catch (IOException e) {
+//								log.error("释放快递公司接口请求发生异常", e);
+//							}
+//						}
 					}
 				}
 			}
