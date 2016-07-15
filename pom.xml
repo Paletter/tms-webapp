@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
  	<modelVersion>4.0.0</modelVersion>
- 	<groupId>com.fangbo</groupId>
+ 	<groupId>com.palette</groupId>
  	<artifactId>tms-webapp</artifactId>
  	<version>0.0.1-SNAPSHOT</version>
  	<name>tms-webapp</name>
@@ -12,7 +12,7 @@
 			<id>public</id>
 			<name>Public Repositories</name>
 			<layout>default</layout>
-			<url>http://192.168.8.200:8082/nexus/content/groups/public</url>
+			<url>http://139.196.219.132:8081/repository/maven-public/</url>
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
@@ -27,7 +27,7 @@
 		<pluginRepository>
 			<id>public</id>
 			<name>Public Repositories</name>
-			<url>http://192.168.8.200:8082/nexus/content/groups/public</url>
+			<url>http://139.196.219.132:8081/repository/maven-public/</url>
 			<layout>default</layout>
 			<snapshots>
 				<enabled>true</enabled>
@@ -39,17 +39,16 @@
 		</pluginRepository>
 	</pluginRepositories>
 
-	<!-- 分布配置管理 -->
 	<distributionManagement>
 		<repository>
-			<id>udf-releases</id>
-			<name>UDF Releases</name>
-			<url>http://192.168.8.200:8082/nexus/content/repositories/udf-releases/</url>
+			<id>palette-releases</id>
+			<name>palette-releases</name>
+			<url>http://139.196.219.132:8081/repository/palette-release/</url>
 		</repository>
 		<snapshotRepository>
-			<id>udf-snapshots</id>
-			<name>UDF Snapshots</name>
-			<url>http://192.168.8.200:8082/nexus/content/repositories/udf-snapshots/</url>
+			<id>palette-snapshots</id>
+			<name>palette-snapshots</name>
+			<url>http://139.196.219.132:8081/repository/palette-snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 	
