@@ -313,9 +313,9 @@
 		</dependency>
 		<!-- tms -->
 		<dependency>
-		    <groupId>com.fangbo</groupId>
+		    <groupId>com.palette.tms</groupId>
 		    <artifactId>tms-core</artifactId>
-		    <version>0.0.1-SNAPSHOT</version>
+		    <version>1.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	
