@@ -7,8 +7,17 @@ import com.palette.busi.project.tms.core.entity.CdWarehouse;
 
 public class UserCountryAuthResultVo {
 
+	private String companyCode;
 	private List<CdWarehouse> cdWarehouseList;
 	private List<CdCountry> cdCountryList;
+
+	public String getCompanyCode() {
+		return companyCode;
+	}
+
+	public void setCompanyCode(String companyCode) {
+		this.companyCode = companyCode;
+	}
 
 	public List<CdWarehouse> getCdWarehouseList() {
 		return cdWarehouseList;

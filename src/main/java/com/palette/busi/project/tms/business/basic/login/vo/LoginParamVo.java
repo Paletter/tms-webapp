@@ -4,8 +4,17 @@ public class LoginParamVo {
 
 	private String userName;
 	private String pwd;
+	private String companyCode;
 	private String countryCode;
 	private String warehouseCode;
+
+	public String getCompanyCode() {
+		return companyCode;
+	}
+
+	public void setCompanyCode(String companyCode) {
+		this.companyCode = companyCode;
+	}
 
 	public String getUserName() {
 		return userName;

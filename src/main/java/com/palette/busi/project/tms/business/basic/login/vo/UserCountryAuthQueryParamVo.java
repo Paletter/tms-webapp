@@ -3,6 +3,7 @@ package com.palette.busi.project.tms.business.basic.login.vo;
 public class UserCountryAuthQueryParamVo {
 
 	private String userName;
+	private String companyCode;
 	private String pwd;
 
 	public String getUserName() {
@@ -19,6 +20,14 @@ public class UserCountryAuthQueryParamVo {
 
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
+	}
+
+	public String getCompanyCode() {
+		return companyCode;
+	}
+
+	public void setCompanyCode(String companyCode) {
+		this.companyCode = companyCode;
 	}
 	
 }

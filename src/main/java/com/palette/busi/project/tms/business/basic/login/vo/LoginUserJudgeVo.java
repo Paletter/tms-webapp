@@ -12,6 +12,7 @@ public class LoginUserJudgeVo {
 	private String userName;
 	private String salt;
 	private String pwd;
+	private String companyCode;
 	private List<CdRole> cdRoleList;
 	private List<CdWarehouse> cdWarehouseList;
 	private List<CdCountry> cdCountryList;
@@ -70,6 +71,14 @@ public class LoginUserJudgeVo {
 
 	public void setCdCountryList(List<CdCountry> cdCountryList) {
 		this.cdCountryList = cdCountryList;
+	}
+
+	public String getCompanyCode() {
+		return companyCode;
+	}
+
+	public void setCompanyCode(String companyCode) {
+		this.companyCode = companyCode;
 	}
 	
 }

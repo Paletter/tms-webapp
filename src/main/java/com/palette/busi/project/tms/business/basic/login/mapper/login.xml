@@ -6,11 +6,12 @@
 	<resultMap id="loginUserJudgeVo" type="com.palette.busi.project.tms.business.basic.login.vo.LoginUserJudgeVo">
 		<result column="CD_USER_ID" property="cdUserId"/>
 		<result column="USER_NAME" property="userName"/>
+		<result column="COMPANY_CODE" property="companyCode"/>
 		<result column="SALT" property="salt"/>
 		<result column="PWD" property="pwd"/>
-		<association column="CD_USER_ID" property="cdRoleList" select="queryUserRoleInfo"></association>
-		<association column="CD_USER_ID" property="cdWarehouseList" select="queryUserWarehouseInfo"></association>
-		<association column="CD_USER_ID" property="cdCountryList" select="queryUserCountryInfo"></association>
+		<association column="{cdUserId=CD_USER_ID, companyCode=COMPANY_CODE}" property="cdRoleList" select="queryUserRoleInfo"></association>
+		<association column="{cdUserId=CD_USER_ID, companyCode=COMPANY_CODE}" property="cdWarehouseList" select="queryUserWarehouseInfo"></association>
+		<association column="{cdUserId=CD_USER_ID, companyCode=COMPANY_CODE}" property="cdCountryList" select="queryUserCountryInfo"></association>
 	</resultMap>
 	<resultMap id="menuResultVo" type="com.palette.busi.project.tms.business.basic.login.vo.MenuResultVo">
 		<result column="MENU_CATE" property="menuCate"/>
@@ -21,19 +22,21 @@
 	<!-- End define map -->
 	
 	<!-- Define sql -->
-	<select id="queryLoadUserDetailsInfo" parameterType="string" resultMap="loginUserJudgeVo">
+	<select id="queryLoadUserDetailsInfo" parameterMap="common.hashMap" resultMap="loginUserJudgeVo">
 		SELECT
 			cu.CD_USER_ID,
 			cu.USER_NAME,
+			cu.COMPANY_CODE,
 			cup.SALT,
 			cup.PWD
 		FROM
 			cd_user cu
 			LEFT JOIN cd_user_pwd cup ON cup.CD_USER_ID = cu.CD_USER_ID
 		WHERE
-			cu.USER_NAME = #{userName};
+			cu.USER_NAME = #{userName}
+			AND cu.COMPANY_CODE = #{companyCode};
 	</select>
-	<select id="queryUserRoleInfo" parameterType="int" resultMap="common.cdRoleEntity">
+	<select id="queryUserRoleInfo" parameterMap="common.hashMap" resultMap="common.cdRoleEntity">
 		SELECT
 			cr.*
 		FROM
@@ -41,8 +44,9 @@
 			LEFT JOIN cd_role cr ON cr.cd_role_ID = cur.cd_role_ID
 		WHERE
 			cur.CD_USER_ID = #{cdUserId}
+			AND cur.COMPANY_CODE = #{companyCode}
 	</select>
-	<select id="queryUserWarehouseInfo" parameterType="int" resultMap="common.cdWarehouseEntity">
+	<select id="queryUserWarehouseInfo" parameterMap="common.hashMap" resultMap="common.cdWarehouseEntity">
 		SELECT
 			cw.*
 		FROM
@@ -51,9 +55,10 @@
 			LEFT JOIN cd_warehouse cw ON cw.CD_WAREHOUSE_ID = cuw.CD_WAREHOUSE_ID
 		WHERE
 			cu.CD_USER_ID = #{cdUserId}
+			AND cw.COMPANY_CODE = #{companyCode}
 			AND cw.IS_ACTIVE = 1
 	</select>
-	<select id="queryUserCountryInfo" parameterType="int" resultMap="common.cdCountryEntity">
+	<select id="queryUserCountryInfo" parameterMap="common.hashMap" resultMap="common.cdCountryEntity">
 		SELECT
 			cc.*
 		FROM
@@ -63,6 +68,7 @@
 			LEFT JOIN cd_country cc ON cc.COUNTRY_CODE = cw.COUNTRY_CODE
 		WHERE
 			cu.CD_USER_ID = #{cdUserId}
+			AND cu.COMPANY_CODE = #{companyCode}
 		GROUP BY cc.COUNTRY_CODE
 	</select>
 	<select id="queryUserMenu" parameterType="string" resultMap="menuResultVo">

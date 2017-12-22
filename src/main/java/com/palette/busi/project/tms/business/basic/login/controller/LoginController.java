@@ -1,8 +1,9 @@
 package com.palette.busi.project.tms.business.basic.login.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,10 +20,7 @@ import com.palette.busi.project.tms.common.constant.SqlMapperConstants;
 import com.palette.busi.project.tms.common.util.MD5Utils;
 import com.palette.busi.project.tms.common.util.SessionUtils;
 import com.palette.busi.project.tms.common.util.StringUtils;
-import com.palette.busi.project.tms.core.dao.CdCountryDao;
-import com.palette.busi.project.tms.core.dao.CdCountryRefDao;
-import com.palette.busi.project.tms.core.dao.CdUserDao;
-import com.palette.busi.project.tms.core.dao.CdWarehouseDao;
+import com.palette.busi.project.tms.core.entity.CdCompany;
 import com.palette.busi.project.tms.core.entity.CdCountry;
 import com.palette.busi.project.tms.core.entity.CdCountryRef;
 import com.palette.busi.project.tms.core.entity.CdRole;
@@ -32,15 +30,6 @@ import com.palette.busi.project.tms.web.exception.BusinessException;
 
 @RestController
 public class LoginController extends BaseController {
-	
-	@Autowired
-	private CdUserDao cdUserDao;
-	@Autowired
-	private CdWarehouseDao cdWarehouseDao;
-	@Autowired
-	private CdCountryDao cdCountryDao;
-	@Autowired
-	private CdCountryRefDao cdCountryRefDao;
 	
 	@RequestMapping(value="/LoginController/getLoginUserCountryAuth")
 	public UserCountryAuthResultVo getLoginUserCountryAuth(@RequestBody UserCountryAuthQueryParamVo paramVo) throws Exception {
@@ -55,7 +44,10 @@ public class LoginController extends BaseController {
 		}
 		
 		// Query user info
-		List<LoginUserJudgeVo> resultList = selectList(SqlMapperConstants.LOGIN_QUERY_LOAD_USER_DETAILS_INFO, paramVo.getUserName());
+		Map<String, Object> queryUserParam = new HashMap<String, Object>();
+		queryUserParam.put("userName", paramVo.getUserName());
+		queryUserParam.put("companyCode", paramVo.getCompanyCode());
+		List<LoginUserJudgeVo> resultList = selectList(SqlMapperConstants.LOGIN_QUERY_LOAD_USER_DETAILS_INFO, queryUserParam);
 		
 		if(resultList == null || resultList.size() == 0) {
 			throw new BusinessException("用户名不存在");
@@ -88,12 +80,13 @@ public class LoginController extends BaseController {
 		}
 		
 		if(isRoot) {
-			List<CdCountry> allCountryList = cdCountryDao.selectAllCdCountry();
-			List<CdWarehouse> allWarehouseList = cdWarehouseDao.selectAllCdWarehouse();
+			List<CdCountry> allCountryList = querier.selectCdCountryAll();
+			List<CdWarehouse> allWarehouseList = querier.selectCdWarehouseAll();
 
 			userCountryAuthResultVo.setCdCountryList(allCountryList);
 			userCountryAuthResultVo.setCdWarehouseList(allWarehouseList);
 		} else {
+			userCountryAuthResultVo.setCompanyCode(judgeVo.getCompanyCode());
 			userCountryAuthResultVo.setCdCountryList(judgeVo.getCdCountryList());
 			userCountryAuthResultVo.setCdWarehouseList(judgeVo.getCdWarehouseList());
 		}
@@ -122,7 +115,10 @@ public class LoginController extends BaseController {
 		}
 		
 		// Query user info
-		List<LoginUserJudgeVo> resultList = selectList(SqlMapperConstants.LOGIN_QUERY_LOAD_USER_DETAILS_INFO, loginParamVo.getUserName());
+		Map<String, Object> queryUserParam = new HashMap<String, Object>();
+		queryUserParam.put("userName", loginParamVo.getUserName());
+		queryUserParam.put("companyCode", loginParamVo.getCompanyCode());
+		List<LoginUserJudgeVo> resultList = selectList(SqlMapperConstants.LOGIN_QUERY_LOAD_USER_DETAILS_INFO, queryUserParam);
 		
 		if(resultList == null || resultList.size() == 0) {
 			throw new BusinessException("用户名错误");
@@ -174,20 +170,24 @@ public class LoginController extends BaseController {
 			
 			CdUser cuQueryParam = new CdUser();
 			cuQueryParam.setUserName(loginParamVo.getUserName());
-			CdUser cdUser = cdUserDao.selectOneByRecord(cuQueryParam);
+			CdUser cdUser = querier.selectCdUserOneByRecord(cuQueryParam);
 			
 			CdWarehouse cwQueryParam = new CdWarehouse();
 			cwQueryParam.setWarehouseCode(loginParamVo.getWarehouseCode());
 			cwQueryParam.setCountryCode(loginParamVo.getCountryCode());
-			CdWarehouse cdWarehouse = cdWarehouseDao.selectOneByRecord(cwQueryParam);
+			CdWarehouse cdWarehouse = querier.selectCdWarehouseOneByRecord(cwQueryParam);
 			
 			CdCountry ccQueryParam = new CdCountry();
 			ccQueryParam.setCountryCode(loginParamVo.getCountryCode());
-			CdCountry cdCountry = cdCountryDao.selectOneByRecord(ccQueryParam);
+			CdCountry cdCountry = querier.selectCdCountryOneByRecord(ccQueryParam);
 			
 			CdCountryRef ccrQueryParam = new CdCountryRef();
 			ccrQueryParam.setCountryCode(loginParamVo.getCountryCode());
-			CdCountryRef cdCountryRef = cdCountryRefDao.selectOneByRecord(ccrQueryParam);
+			CdCountryRef cdCountryRef = querier.selectCdCountryRefOneByRecord(ccrQueryParam);
+			
+			CdCompany cpQueryParam = new CdCompany();
+			cpQueryParam.setCompanyCode(loginParamVo.getCompanyCode());
+			CdCompany cdCompany = querier.selectCdCompanyOneByRecord(cpQueryParam);
 			
 			List<MenuResultVo> menuVoList = selectList(SqlMapperConstants.LOGIN_QUERY_USER_MENU, loginParamVo.getUserName());
 			
@@ -199,6 +199,7 @@ public class LoginController extends BaseController {
 			userVo.setSessionId(request.getSession().getId());
 			userVo.setCdRoleList(judgeVo.getCdRoleList());
 			userVo.setIsRoot(isRoot);
+			userVo.setCdCompany(cdCompany);
 			
 			SessionUtils.saveSession(request.getSession().getId(), userVo);
 			
